@@ -1,0 +1,15 @@
+[
+	{
+		"name": "bang",
+		"howMuch": 2,
+		"actions": [
+			{
+				"action": "shoot",
+				"to": "self",
+				"when": "once",
+				"params": {
+				}
+			}
+		]
+	}
+]
