@@ -1,13 +1,21 @@
 package model;
 
+import states.State;
+
 public class GameStateMachine {
-    ObservableElement<State> currentState = new ObservableElement<>();
     
-    void go() {
+    private ObservableElement<State> currentState = new ObservableElement<>();
+    private Table table;
+    
+    public GameStateMachine(final Table table) {
+        this.table = table;
+    }
+    
+    public void go() {
         this.currentState.setNotEqual(currentState.get().handle());
     }
     
-    void setStartState(State state, boolean notify) {
+    public void setStartState(final State state, final boolean notify) {
         if(notify) {
             this.currentState.set(state);
         }
@@ -16,11 +24,19 @@ public class GameStateMachine {
         }
     }
 
-    void addStateChangeObserver(IObserver observer) {
+    public void addStateChangeObserver(final IObserver observer) {
         this.currentState.addObserver(observer);
     }
     
-    State getCurrenState() {
+    public State getCurrentState() {
         return this.currentState.get();
+    }
+    
+    public void setCurrentState(final State state) {
+        this.currentState.set(state);
+    }
+    
+    public Table getTable() {
+        return this.table;
     }
 }
