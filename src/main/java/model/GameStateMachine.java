@@ -1,6 +1,6 @@
 package model;
 
-import states.State;
+import model.states.State;
 
 public class GameStateMachine {
     
