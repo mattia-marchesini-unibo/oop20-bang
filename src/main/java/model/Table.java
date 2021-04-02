@@ -1,13 +1,15 @@
 package model;
 
 import java.util.Set;
+import libs.CircularList;
+import model.deck.IDeck;
 
 public interface Table {
     
     /**
      * @return deck
      */
-    Deck getDeck();
+    IDeck getDeck();
     
     /**
      * @return a CircularList containing alive players

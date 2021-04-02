@@ -1,5 +1,7 @@
 package model;
 
+import libs.oberve.IObserver;
+import libs.oberve.ObservableElement;
 import model.states.State;
 
 public class GameStateMachine {
@@ -12,7 +14,7 @@ public class GameStateMachine {
     }
     
     public void go() {
-        this.currentState.setNotEqual(currentState.get().handle());
+        currentState.get().handle();
     }
     
     public void setStartState(final State state, final boolean notify) {
@@ -33,7 +35,7 @@ public class GameStateMachine {
     }
     
     public void setCurrentState(final State state) {
-        this.currentState.set(state);
+        this.currentState.setNotEqual(state);
     }
     
     public Table getTable() {

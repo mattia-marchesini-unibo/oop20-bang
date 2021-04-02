@@ -1,17 +1,18 @@
 package model;
 
 import java.util.Set;
-import model.deck.Deck;
+import model.deck.IDeck;
+import libs.CircularList;
 
 public class SimpleTable implements Table{
     
-    private Deck deck;
+    private IDeck deck;
     private CircularList<Player> players;
     private Player currentPlayer;
     private boolean sheriffIsDead = false;
     private int countOutlaws;
     
-    public public SimpleTable(final Deck deck, final CircularList<Player> players, final Player currentPlayer, final int countOutlaws) {
+    public SimpleTable(final IDeck deck, final CircularList<Player> players, final Player currentPlayer, final int countOutlaws) {
         this.deck = deck;
         this.players = players;
         this.currentPlayer = currentPlayer;
@@ -19,7 +20,7 @@ public class SimpleTable implements Table{
     }
 
     @Override
-    public Deck getDeck() {
+    public IDeck getDeck() {
         return this.deck;
     }
 
@@ -64,6 +65,30 @@ public class SimpleTable implements Table{
     @Override
     public boolean isOver() {
         return this.sheriffIsDead || this.countOutlaws == 0;
+    }
+
+    @Override
+    public Player getCurrentPlayer() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Player getNextPlayer() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Player getCurrentPlayer() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Player getNextPlayer() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

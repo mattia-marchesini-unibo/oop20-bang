@@ -10,7 +10,7 @@ import java.nio.file.Files;
 
 public class Resources {
 
-    public URL getURL(String path) throws ResourceNotFoundException {
+    public static URL getURL(String path) throws ResourceNotFoundException {
         URL url = ClassLoader.getSystemResource(path);
         if(url == null) {
             throw new ResourceNotFoundException(path);
@@ -20,9 +20,9 @@ public class Resources {
         }
     }
 
-    public URI getURI(String path) {
+    public static URI getURI(String path) {
         try {
-            return this.getURL(path).toURI();
+            return Resources.getURL(path).toURI();
         } catch (URISyntaxException e) {
             e.printStackTrace();
         } catch (ResourceNotFoundException e) {
@@ -31,13 +31,13 @@ public class Resources {
         return null;
     }
 
-    public File getFile(String path) {
-        return new File(this.getURI(path));
+    public static File getFile(String path) {
+        return new File(Resources.getURI(path));
     }
 
-    public String readFile(String path) {
+    public static String readFile(String path) {
         try {
-            String read = Files.readString(this.getFile(path).toPath());
+            String read = Files.readString(Resources.getFile(path).toPath());
 //            System.out.println(read);
             return read;
         } catch (IOException e) {
