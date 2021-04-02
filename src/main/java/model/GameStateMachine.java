@@ -1,7 +1,7 @@
 package model;
 
-import libs.oberve.IObserver;
-import libs.oberve.ObservableElement;
+import libs.observe.IObserver;
+import libs.observe.ObservableElement;
 import model.states.State;
 
 public class GameStateMachine {

@@ -1,4 +1,4 @@
-package libs.oberve;
+package libs.observe;
 
 import java.util.List;
 
@@ -15,14 +15,14 @@ public class ObservableElement<E> implements IObservable {
 		this.notifyObservers();
 	}
 
-    public void setNotEqual (E element) {
+    public void setNotEqual(E element) {
         this.element = element;
     	if(!element.equals(element)) {
     	    this.notifyObservers();
     	}
     }
 
-    public void setNoNotify (E element) {
+    public void setNoNotify(E element) {
     	this.element = element;
     }
     

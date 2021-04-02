@@ -1,4 +1,4 @@
-package libs.oberve;
+package libs.observe;
 
 public interface IObserver {
     void update();
