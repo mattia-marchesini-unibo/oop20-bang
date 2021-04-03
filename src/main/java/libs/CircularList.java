@@ -18,11 +18,21 @@ public class CircularList<X> extends ArrayList<X> {
     
     public X getNext() {
         if(this.currentIndex == this.size() - 1) {
-            currentElement = this.get(0);
+            currentIndex = 0;
         } else {
             currentIndex++;
-            currentElement = this.get(this.currentIndex);
         }
+        currentElement = this.get(this.currentIndex);
+        return this.currentElement;
+    }
+    
+    public X getPrev() {
+        if(this.currentIndex == 0) {
+            currentIndex = this.size() - 1;
+        } else {
+            currentIndex--;
+        }
+        currentElement = this.get(this.currentIndex);
         return this.currentElement;
     }
 }
