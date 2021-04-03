@@ -1,0 +1,11 @@
+[
+	{
+		"name": "bang",
+		"howMany": 2,
+		"actionObj": {
+			"action": "shoot",
+			"to": "someone",
+			"when": "once"
+		}
+	}
+]
