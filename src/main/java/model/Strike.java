@@ -4,7 +4,7 @@ public class Strike implements Effects {
 
 
 	@Override
-	public void setEffects() {
+	public void useEffects(Player player) {
 		// TODO Auto-generated method stub
 		
 	}

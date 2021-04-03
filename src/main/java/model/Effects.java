@@ -2,5 +2,5 @@ package model;
 
 public interface Effects {
 
-	void setEffects();
+	void useEffects(SimplePlayer player);
 }
