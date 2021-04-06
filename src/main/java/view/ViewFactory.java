@@ -1,7 +1,5 @@
 package view;
 
-import model.deck.IDeck;
-
 public interface ViewFactory {
     
     /**
@@ -15,10 +13,9 @@ public interface ViewFactory {
     View getRulesView();
     
     /**
-     * @param playerNum
-     * @param deck
+     * @param playerNum the number of players
      * @return the main game view
      */
-    View getGameView(final int playerNum, final IDeck deck);
+    View getGameView(final int playerNum);
 
 }
