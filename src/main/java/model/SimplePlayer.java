@@ -51,7 +51,7 @@ public class SimplePlayer implements Player {
 	}
 	
 	public void addCard(Card card) {
-		hand.add(card);
+		this.hand.add(card);
 	}
 	
 	public void playCard(Card card) {
@@ -65,11 +65,16 @@ public class SimplePlayer implements Player {
 		}
 	}
 	
-	private void removeCard(Card card) {
+	public void removeCard(Card card) {
 		this.hand.forEach(i -> {
 			if(i.equals(card)) {
 				//allora rimuovo quella specifica carta
 			}
 		});
+	}
+
+	@Override
+	public Role getRole() {
+		return this.role;
 	}
 }

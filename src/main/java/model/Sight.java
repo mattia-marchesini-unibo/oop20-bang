@@ -16,7 +16,6 @@ public class Sight implements Effects {
 	@Override
 	public void useEffects(SimplePlayer player) {
 		player.setRange(this.sight);
-		
 	}
 
 

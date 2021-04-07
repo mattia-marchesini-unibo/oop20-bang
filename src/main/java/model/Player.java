@@ -27,6 +27,11 @@ public interface Player {
 	public int getIndex();
 	
 	/**
+	 * @return the role of the player
+	 */
+	public Role getRole();
+	
+	/**
 	 * @return the hand of card of the player
 	 */
 	public List<Card> getCard();
@@ -42,6 +47,12 @@ public interface Player {
 	 * @param card
 	 */
 	public void playCard(Card card);
+	
+	/**
+	 * this method is use to remove a card to the hand of the gamer
+	 * @param card
+	 */
+	public void removeCard(Card card);
 	
 	
 }
