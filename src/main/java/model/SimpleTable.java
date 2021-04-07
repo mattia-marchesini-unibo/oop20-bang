@@ -10,13 +10,17 @@ public class SimpleTable implements Table{
     private CircularList<Player> players;
     private Player currentPlayer;
     private boolean sheriffIsDead = false;
-    private int countOutlaws;
+    private int countOutlaws = 0;
     
-    public SimpleTable(final IDeck deck, final CircularList<Player> players, final Player currentPlayer, final int countOutlaws) {
+    public SimpleTable(final IDeck deck, final CircularList<Player> players) {
         this.deck = deck;
         this.players = players;
-        this.currentPlayer = currentPlayer;
-        this.countOutlaws = countOutlaws;
+        this.currentPlayer = players.getCurrentElement();
+        this.players.foreach(p -> {
+            if(p.role.equals(Roles.OUTLAW) || p.role.equals(Roles.RENEGADE)) {
+                this.countOutlaws++;
+            }
+        });
     }
 
     @Override
@@ -58,37 +62,12 @@ public class SimpleTable implements Table{
 
     @Override
     public Player getNextPlayer() {
-        // TODO Auto-generated method stub
-        return null;
+        return players.getNext();
     }
 
     @Override
     public boolean isOver() {
         return this.sheriffIsDead || this.countOutlaws == 0;
-    }
-
-    @Override
-    public Player getCurrentPlayer() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Player getNextPlayer() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Player getCurrentPlayer() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Player getNextPlayer() {
-        // TODO Auto-generated method stub
-        return null;
     }
 
 }
