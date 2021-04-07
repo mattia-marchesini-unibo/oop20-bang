@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * this the class of cards witch allow you to see other players 
+ */
 
 public class Sight implements Effects {
 	
@@ -10,12 +13,12 @@ public class Sight implements Effects {
 		this.sight = sight;
 	}
 
-
 	@Override
-	public void setEffects() {
-		//vado a modificare 
-				//l'attributo del player riferito  alla vista		
+	public void useEffects(SimplePlayer player) {
+		player.setRange(this.sight);
+		
 	}
-	
+
+
 
 }

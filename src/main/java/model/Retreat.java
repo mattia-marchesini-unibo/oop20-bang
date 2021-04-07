@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * this is the class of cards witch allows you "change" your position in the table
+ */
 public class Retreat implements Effects {
 
 	private int retreat;
@@ -8,10 +11,10 @@ public class Retreat implements Effects {
 		super();
 		this.retreat = retreat;
 	}
-	
+
 	@Override
-	public void setEffects() {
-		//vado a modificare l'attributo 
-				//del player riferito alla posizione del giocatore
+	public void useEffects(SimplePlayer player) {
+		player.setIndex(retreat);
+		
 	}		
 }
