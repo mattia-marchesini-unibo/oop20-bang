@@ -6,13 +6,13 @@ public class Card {
 	
 	private String name;
 	private int cardId;
-	private LifeTime lft;
+	private Color color;
 	private List<Effects> effects;
 	
-	public Card(final int cardId,final LifeTime lft,final String name, List<Effects> effects ) {
+	public Card(final int cardId, final Color color, final String name, List<Effects> effects ) {
 		this.cardId = cardId;
 		this.name = name;
-		this.lft = lft;
+		this.color = color;
 		this.effects = effects;
 	}
 	
@@ -21,7 +21,7 @@ public class Card {
 	}
 
 	
-	public LifeTime getLifeTime() {
-		return this.lft;
+	public Color getColor() {
+		return this.color;
 	}
 }

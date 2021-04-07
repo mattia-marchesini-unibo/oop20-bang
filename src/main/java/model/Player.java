@@ -43,10 +43,11 @@ public interface Player {
 	public void addCard(Card card);
 	
 	/**
-	 * this method is use to use a card
+	 * this method is use to use the effects of a card from the hand 
 	 * @param card
+	 * @param player
 	 */
-	public void playCard(Card card);
+	public void playCard(Card card, SimplePlayer player);
 	
 	/**
 	 * this method is use to remove a card to the hand of the gamer

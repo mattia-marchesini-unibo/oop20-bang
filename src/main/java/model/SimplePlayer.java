@@ -1,6 +1,7 @@
 package model;
 
 import java.util.List;
+import java.util.Random;
 
 public class SimplePlayer implements Player {
 
@@ -42,8 +43,7 @@ public class SimplePlayer implements Player {
 	}
 	
 	private void drawRole() {
-		// TODO Auto-generated method stub
-		
+		this.role = Role.values()[new Random().nextInt(Role.values().length)];
 	}
 
 	public List<Card> getCard(){
@@ -54,21 +54,21 @@ public class SimplePlayer implements Player {
 		this.hand.add(card);
 	}
 	
-	public void playCard(Card card) {
-		if(card.getLifeTime() == LifeTime.DEADLY) {
-			//chiamo l'effetto della carta
+	public void playCard(Card card, SimplePlayer player) {
+		if(card.getColor() == Color.BROWN) {
+			card.getEffects().forEach( e -> e.useEffects(player));
 			this.removeCard(card); 
 			
-		} else {//if the cart is deadness i only have to call the effects
-			//chiamo l'effetto della carta
-			
+		} else {
+			//if the cart is deadness i only have to call the effects
+			card.getEffects().forEach( e -> e.useEffects(player));			
 		}
 	}
 	
 	public void removeCard(Card card) {
 		this.hand.forEach(i -> {
 			if(i.equals(card)) {
-				//allora rimuovo quella specifica carta
+				this.hand.remove(i);
 			}
 		});
 	}
