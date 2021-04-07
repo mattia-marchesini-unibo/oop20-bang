@@ -16,8 +16,8 @@ public class SimpleTable implements Table{
         this.deck = deck;
         this.players = players;
         this.currentPlayer = players.getCurrentElement();
-        this.players.foreach(p -> {
-            if(p.role.equals(Roles.OUTLAW) || p.role.equals(Roles.RENEGADE)) {
+        this.players.forEach(p -> {
+            if(p.getRole.equals(Role.OUTLAW) || p.getRole.equals(Role.RENEGADE)) {
                 this.countOutlaws++;
             }
         });
@@ -55,7 +55,7 @@ public class SimpleTable implements Table{
     }
 
     @Override
-    public void action(Action action, Set<Player> targets) {
+    public void action(Effects effects, Set<Player> targets) {
         // TODO Auto-generated method stub
         
     }
