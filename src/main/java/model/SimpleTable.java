@@ -17,7 +17,7 @@ public class SimpleTable implements Table{
         this.players = players;
         this.currentPlayer = players.getCurrentElement();
         this.players.forEach(p -> {
-            if(p.getRole.equals(Role.OUTLAW) || p.getRole.equals(Role.RENEGADE)) {
+            if(p.getRole().equals(Role.OUTLAW) || p.getRole().equals(Role.RENEGADE)) {
                 this.countOutlaws++;
             }
         });
