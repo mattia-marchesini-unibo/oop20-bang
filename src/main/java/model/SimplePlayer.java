@@ -77,4 +77,5 @@ public class SimplePlayer implements Player {
 	public Role getRole() {
 		return this.role;
 	}
+
 }
