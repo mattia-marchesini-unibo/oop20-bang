@@ -30,16 +30,24 @@ public abstract class AbstractView implements View {
         this.show();
     }
     
-    //@Override
+    @Override
     public ObservableElement<String> getChangeScreenObservable(){
         return this.getChangeScreenObservable();
     }
+    
+    @Override
+    public void changeView(final String s) {
+        changeScreenObservable.set(s);
+    }
 
-    //@Override
+    @Override
     public void show() {
         this.frame.setVisible(true);
     }
     
+    /**
+     * Initialize view properties and components
+     */
     abstract public void initView();
 
 }

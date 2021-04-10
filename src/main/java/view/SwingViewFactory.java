@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.GridBagLayout;
 import java.util.List;
+import java.util.Optional;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -14,15 +15,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 
+import libs.observe.ObservableElement;
 import libs.resources.Resources;
 //import model.Player;
+import view.components.SubView;
 
 public class SwingViewFactory implements ViewFactory {
     
     private JFrame frame = new JFrame("BANG!");
     
     @Override
-    public View getMenuView() {
+    public View getMenuView(final ObservableElement<Integer> obs) {
         return new AbstractView(frame) {
             
             @Override
@@ -36,12 +39,15 @@ public class SwingViewFactory implements ViewFactory {
                 
                 play.addActionListener(e -> {
                     List<Integer> possibilities = List.of(4, 5, 6, 7);
-                    int  playerNum = (Integer) JOptionPane.showInputDialog(frame, "Insert the number of players:",
-                                                                            "Choose players", JOptionPane.PLAIN_MESSAGE, null,
-                                                                            possibilities.toArray(), possibilities.get(0));
-                    getGameView(playerNum);
+                    Optional<Integer> playerNum = Optional.ofNullable((Integer) JOptionPane.showInputDialog(frame, "Insert the number of players:",
+                                                                                                "Choose players", JOptionPane.PLAIN_MESSAGE, null,
+                                                                                                possibilities.toArray(), possibilities.get(0)));
+                    if(playerNum.isPresent()) {
+                        obs.set(playerNum.get());
+                    }
+                    changeView("GameView");
                 });
-                howToPlay.addActionListener(e -> getRulesView());
+                howToPlay.addActionListener(e -> changeView("RulesView"));
                 quit.addActionListener(e -> System.exit(0));
                 
                 jp.add(play);
@@ -92,7 +98,7 @@ public class SwingViewFactory implements ViewFactory {
                     showBrown.setEnabled(true);
                     showBlue.setEnabled(false);
                 });
-                back.addActionListener(e -> getMenuView());
+                back.addActionListener(e -> changeView("MenuView"));
                 
                 showRoles.setEnabled(false);
                 text.setText(Resources.readFile(ROLES_FILENAME));
@@ -108,7 +114,7 @@ public class SwingViewFactory implements ViewFactory {
     }
 
     @Override
-    public View getGameView(int playerNum) {
+    public View getGameView(final SubView currentPlayer, final SubView players) {
         return new AbstractView(frame) {
             
             private JPanel playersPanel;
@@ -154,12 +160,9 @@ public class SwingViewFactory implements ViewFactory {
         };
     }
     
-    /*
-     * Just for testing the view
-     */
     public static void main(String[] args) {
-        ViewFactory f = new SwingViewFactory();
-        f.getMenuView();
+        SwingViewFactory f = new SwingViewFactory();
+        f.getMenuView(null);
     }
 
 }
