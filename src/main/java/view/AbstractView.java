@@ -12,7 +12,7 @@ public abstract class AbstractView implements View {
     
     private static final double PROPORTION = 1.5;
     
-    protected JFrame frame;
+    private JFrame frame;
     protected JPanel panel = new JPanel();
     private ObservableElement<String> changeScreenObservable;
     

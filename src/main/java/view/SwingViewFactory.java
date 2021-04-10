@@ -3,14 +3,19 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.GridBagLayout;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 
 import libs.resources.Resources;
+//import model.Player;
 
 public class SwingViewFactory implements ViewFactory {
     
@@ -29,7 +34,13 @@ public class SwingViewFactory implements ViewFactory {
                 JButton howToPlay = new JButton("How to play");
                 JButton quit = new JButton("Quit");
                 
-                play.addActionListener(e -> {});
+                play.addActionListener(e -> {
+                    List<Integer> possibilities = List.of(4, 5, 6, 7);
+                    int  playerNum = (Integer) JOptionPane.showInputDialog(frame, "Insert the number of players:",
+                                                                            "Choose players", JOptionPane.PLAIN_MESSAGE, null,
+                                                                            possibilities.toArray(), possibilities.get(0));
+                    getGameView(playerNum);
+                });
                 howToPlay.addActionListener(e -> getRulesView());
                 quit.addActionListener(e -> System.exit(0));
                 
@@ -98,9 +109,54 @@ public class SwingViewFactory implements ViewFactory {
 
     @Override
     public View getGameView(int playerNum) {
-        return null;
+        return new AbstractView(frame) {
+            
+            private JPanel playersPanel;
+            private JPanel currentPlayerPanel;
+            private JPanel cards;
+            
+            @Override
+            public void initView() {
+                panel.setLayout(new BorderLayout());
+                playersPanel = new JPanel();
+                currentPlayerPanel = new JPanel();
+                currentPlayerPanel.setLayout(new BoxLayout(currentPlayerPanel, BoxLayout.Y_AXIS));
+                
+                cards = new JPanel();
+                JScrollPane scrollPane = new JScrollPane(cards);
+                scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+                scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+                
+                currentPlayerPanel.add(scrollPane);
+                panel.add(playersPanel, BorderLayout.NORTH);
+                panel.add(currentPlayerPanel, BorderLayout.SOUTH);
+            }
+            /*
+            public void updateView(final Player currentPlayer, final List<Player> players) {
+                players.forEach(p -> {
+                    JTextArea playerStat = new JTextArea();
+                    playerStat.setEditable(false);
+                    playerStat.append(p.getName());
+                    playerStat.append("\nHP: " + p.getLifePoints());
+                    if(p.equals(currentPlayer)) {
+                        currentPlayerPanel.add(playerStat);
+                    } else {
+                        playersPanel.add(playerStat);
+                    }
+                });
+                
+                currentPlayer.getCards().forEach(c -> {
+                    JButton button = new JButton();
+                    // add image to button
+                    button.addActionListener(e -> c.getEffects());
+                });
+            }*/
+        };
     }
     
+    /*
+     * Just for testing the view
+     */
     public static void main(String[] args) {
         ViewFactory f = new SwingViewFactory();
         f.getMenuView();
