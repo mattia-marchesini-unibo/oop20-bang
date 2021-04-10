@@ -55,5 +55,16 @@ public interface Player {
 	 */
 	public void removeCard(Card card);
 	
+	/**
+	 * this method is use to see the remaining life point of the player
+	 * @return lifePoints
+	 */
+	public int getLifePoints();
+	
+	/**
+	 * this method is use to add or remove lifePoints of the player
+	 */
+	public void modifyLifePoints(int points);
+	
 	
 }
