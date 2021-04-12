@@ -6,13 +6,13 @@ public class Card {
 	
 	private String name;
 	private int cardId;
-	private Death death;
+	private Color color;
 	private List<Effects> effects;
 	
-	public Card(final int cardId,final Death death,final String name, List<Effects> effects ) {
+	public Card(final int cardId, final Color color, final String name, List<Effects> effects ) {
 		this.cardId = cardId;
 		this.name = name;
-		this.death = death;
+		this.color = color;
 		this.effects = effects;
 	}
 	
@@ -21,7 +21,7 @@ public class Card {
 	}
 
 	
-	public Death getDead() {
-		return this.death;
+	public Color getColor() {
+		return this.color;
 	}
 }

@@ -48,7 +48,7 @@ public interface Table {
      * @param action the action to be executed
      * @param targets the targets of the action
      */
-    void action(Action action, Set<Player> targets);
+    void action(Effects effetcs, Set<Player> targets);
     
     /**
      * @return next player
