@@ -8,6 +8,7 @@ import com.google.gson.reflect.TypeToken;
 
 import libs.resources.Resources;
 import model.Card;
+import model.Color;
 
 class JSONDeckReader implements IDeckReader {
 
@@ -15,26 +16,16 @@ class JSONDeckReader implements IDeckReader {
     private final static String DECK_FILE = "deck.json";
     
     private class JSONCard {
-        String name;
+        String localName;
+        String realName;
+        Color color;
         int howMany;
-        List<JSONCardAction> actions;
         
-        public JSONCard(String name, int howMany, List<JSONCardAction> actions) {
-            this.name = name;
+        public JSONCard(String localName, String realName, String color, int howMany) {
+            this.localName = localName;
+            this.realName = realName;
+            this.color = Color.valueOf(color.toUpperCase());
             this.howMany = howMany;
-            this.actions = actions;
-        }
-    }
-    
-    private class JSONCardAction {
-        String action;
-        String to;
-        String when;
-        
-        public JSONCardAction(String action, String to, String when) {
-            this.action = action;
-            this.to = to;
-            this.when = when;
         }
     }
 
@@ -47,7 +38,12 @@ class JSONDeckReader implements IDeckReader {
             List<JSONCard> c = gson.fromJson(json, new TypeToken<List<Card>>() {}.getType());
             c.forEach(crd -> {
                 for(int i = 0; i < crd.howMany; i++) {
-                    this.cards.add(new Card(crd.name + String.valueOf(i), crd.name, crd.actions));
+                    this.cards.add(new Card(
+                        crd.realName + String.valueOf(i),
+                        crd.color,
+                        crd.localName,
+                        crd.realName
+                    ));
                 }
             });
         }

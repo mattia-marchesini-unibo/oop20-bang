@@ -1,15 +1,8 @@
 [
 	{
-		"name": "bang",
-		"howMuch": 2,
-		"actions": [
-			{
-				"action": "shoot",
-				"to": "self",
-				"when": "once",
-				"params": {
-				}
-			}
-		]
+		"localName": "bang",
+		"realName": "bang",
+		"color": "blue",
+		"howMuch": 2
 	}
 ]
