@@ -1,4 +1,6 @@
-package model;
+package model.effects;
+
+import model.SimplePlayer;
 
 /**
  * this the class of cards witch allow you to see other players 

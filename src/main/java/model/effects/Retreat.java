@@ -1,4 +1,6 @@
-package model;
+package model.effects;
+
+import model.SimplePlayer;
 
 /**
  * this is the class of cards witch allows you "change" your position in the table

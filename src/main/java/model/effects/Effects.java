@@ -1,4 +1,6 @@
-package model;
+package model.effects;
+
+import model.SimplePlayer;
 
 public interface Effects {
 

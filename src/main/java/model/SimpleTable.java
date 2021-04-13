@@ -2,6 +2,7 @@ package model;
 
 import java.util.Set;
 import model.deck.IDeck;
+import model.effects.Effects;
 import libs.CircularList;
 
 public class SimpleTable implements Table{

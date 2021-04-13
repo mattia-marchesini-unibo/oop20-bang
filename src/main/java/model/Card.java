@@ -3,13 +3,16 @@ package model;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import model.effects.*;
+
 import static java.util.Map.entry;
 
 public class Card {
-	 
+
 	//da aggiungere volcanic prigione riparo
 	//da modificare emporio,panico,schiavat
-	private HashMap cardMap = new HashMap<>(Map.ofEntries(
+	private static HashMap cardMap = new HashMap<>(Map.ofEntries(
 			entry("mancato",new Protection()),
 			entry("bang",new Strike()),
 			entry("schofield",new Sight(2)),
@@ -28,25 +31,39 @@ public class Card {
 			entry("diligenza",new DrawCard(2)),
 			entry("saloon", new Protection()),
 			entry("gatling",new Strike())
-			)); 
-	private String name;
-	private int cardId;
+			));
+
+	private String localName;
+	private String realName;
+	private String cardId;
 	private Color color;
 	private List<Effects> effects;
-	
-	public Card(final int cardId, final Color color, final String name, List<Effects> effects ) {
+
+	public Card(final String cardId, final Color color, final String localName, final String realName) {
 		this.cardId = cardId;
-		this.name = name;
+		this.localName = localName;
+		this.realName = realName;
 		this.color = color;
 		this.effects = effects;
 	}
-	
+
+	public String getId() {
+	    return this.cardId;
+	}
+
 	public List<Effects> getEffects() {
 		return this.effects;
 	}
 
-	
 	public Color getColor() {
 		return this.color;
+	}
+
+	public String getRealName() {
+	    return this.realName;
+	}
+
+	public String getLocalName() {
+	    return this.localName;
 	}
 }

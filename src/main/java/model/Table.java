@@ -3,6 +3,7 @@ package model;
 import java.util.Set;
 import libs.CircularList;
 import model.deck.IDeck;
+import model.effects.Effects;
 
 public interface Table {
     
