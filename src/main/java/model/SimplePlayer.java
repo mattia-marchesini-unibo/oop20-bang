@@ -3,6 +3,9 @@ package model;
 import java.util.List;
 import java.util.Random;
 
+import model.card.Card;
+import model.card.Color;
+
 public class SimplePlayer implements Player {
 
 	private static final int BASICAL_SIGHT = 1;
@@ -46,32 +49,6 @@ public class SimplePlayer implements Player {
 	public List<Card> getCard(){
 		return this.hand;
 	}
-	
-	@Override
-	public void addCard(Card card) {
-		this.hand.add(card);
-	}
-	
-	@Override
-	public void playCard(Card card, SimplePlayer player) {
-		if(card.getColor() == Color.BROWN) {
-			card.getEffects().forEach( e -> e.useEffects(player));
-			this.removeCard(card); 
-			
-		} else {
-			//if the cart is deadness i only have to call the effects
-			card.getEffects().forEach( e -> e.useEffects(player));			
-		}
-	}
-	
-	@Override
-	public void removeCard(Card card) {
-		this.hand.forEach(i -> {
-			if(i.equals(card)) {
-				this.hand.remove(i);
-			}
-		});
-	}
 
 	@Override
 	public Role getRole() {
@@ -93,6 +70,32 @@ public class SimplePlayer implements Player {
 			this.lifePoints = newLifePoints;
 		}
 		
+	}
+
+	@Override
+	public void addCard(Card card) {
+		this.hand.add(card);		
+	}
+
+	@Override
+	public void playCard(Card card, SimplePlayer player) {
+		if(card.getColor() == Color.BROWN) {
+			card.getEffects().forEach( e -> e.useEffects(player));
+			this.removeCard(card); 
+			
+		} else {
+			//if the cart is deadness i only have to call the effects
+			card.getEffects().forEach( e -> e.useEffects(player));			
+		}		
+	}
+
+	@Override
+	public void removeCard(Card card) {
+		this.hand.forEach(i -> {
+			if(i.equals(card)) {
+				this.hand.remove(i);
+			}
+		});		
 	}
 
 }

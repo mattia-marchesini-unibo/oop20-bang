@@ -1,4 +1,6 @@
-package model;
+package model.card;
+
+import model.SimplePlayer;
 
 /**
  * this the class of cards witch allow you to see other players 
@@ -15,7 +17,7 @@ public class Sight implements Effects {
 
 	@Override
 	public void useEffects(SimplePlayer player) {
-		player.setRange(this.sight);
+		player.setRange(this.sight);		
 	}
 
 
