@@ -17,7 +17,6 @@ import javax.swing.ScrollPaneConstants;
 
 import libs.observe.ObservableElement;
 import libs.resources.Resources;
-import view.components.SubView;
 
 public class SwingViewFactory implements ViewFactory {
     
@@ -119,6 +118,8 @@ public class SwingViewFactory implements ViewFactory {
             private JPanel playersPanel;
             private JPanel currentPlayerPanel;
             private JPanel cards;
+            private JPanel blueCards;
+            private GameViewObservables observables;
             
             @Override
             public void initView() {
@@ -126,8 +127,8 @@ public class SwingViewFactory implements ViewFactory {
                 playersPanel = new JPanel();
                 currentPlayerPanel = new JPanel();
                 currentPlayerPanel.setLayout(new BoxLayout(currentPlayerPanel, BoxLayout.Y_AXIS));
+                blueCards = new JPanel();
                 
-                cards = new JPanel();
                 JScrollPane scrollPane = new JScrollPane(cards);
                 scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
                 scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
@@ -136,26 +137,43 @@ public class SwingViewFactory implements ViewFactory {
                 panel.add(playersPanel, BorderLayout.NORTH);
                 panel.add(currentPlayerPanel, BorderLayout.SOUTH);
             }
-            /*
-            public void updateView(final Player currentPlayer, final List<Player> players) {
-                players.forEach(p -> {
-                    JTextArea playerStat = new JTextArea();
-                    playerStat.setEditable(false);
-                    playerStat.append(p.getName());
-                    playerStat.append("\nHP: " + p.getLifePoints());
-                    if(p.equals(currentPlayer)) {
-                        currentPlayerPanel.add(playerStat);
-                    } else {
-                        playersPanel.add(playerStat);
-                    }
+            
+            public void updateView() {
+                /*
+                 * Add information about current player
+                 */
+                currentPlayerPanel.removeAll();
+                cards.removeAll();
+                JTextArea currentText = new JTextArea();
+                currentText.setEditable(false);
+                currentText.append("Name: " + observables.getCharacter().get());
+                currentText.append("\nHP: " + observables.getLifePoints().get());
+                currentText.append("\nRole: " + observables.getRole().get());
+                currentPlayerPanel.add(currentText);
+                observables.getBlueCards().get().forEach(c -> {
+                    // aggiunta carte blu giocatore corrente
                 });
-                
-                currentPlayer.getCards().forEach(c -> {
-                    JButton button = new JButton();
-                    // add image to button
-                    button.addActionListener(e -> c.getEffects());
+                observables.getHand().get().forEach(c -> {
+                    // aggiunta carte giocatore corrente
                 });
-            }*/
+                /*
+                 * Add information about other players
+                 */
+                for(int i = 0; i < observables.getOtherPlayers().get().size(); i++) {
+                    playersPanel.removeAll();
+                    JPanel jp = new JPanel();
+                    jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
+                    JTextArea text = new JTextArea();
+                    text.setEditable(false);
+                    text.append("Name: " + observables.getOtherPlayers().get().get(i));
+                    text.append("\nHP: " + observables.getOtherLifePoints().get());
+                    jp.add(text);
+                    observables.getOtherBlueCards().get().forEach(c -> {
+                        // crea bottoni, carica l'immagine, aggiunge l'actionListener e li aggiunge
+                    });
+                    playersPanel.add(jp);
+                }
+            }
         };
     }
     
@@ -163,5 +181,4 @@ public class SwingViewFactory implements ViewFactory {
         SwingViewFactory f = new SwingViewFactory();
         f.getMenuView(null);
     }
-
 }

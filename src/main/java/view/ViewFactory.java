@@ -1,7 +1,6 @@
 package view;
 
 import libs.observe.ObservableElement;
-import view.components.SubView;
 
 public interface ViewFactory {
     
