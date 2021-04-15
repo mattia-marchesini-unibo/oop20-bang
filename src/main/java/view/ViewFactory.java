@@ -19,6 +19,6 @@ public interface ViewFactory {
      * @param playerNum the number of players
      * @return the main game view
      */
-    View getGameView(final SubView currentPlayer, final SubView players);
+    View getGameView(final GameViewObservables observables);
 
 }

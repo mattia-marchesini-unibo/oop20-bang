@@ -17,7 +17,6 @@ import javax.swing.ScrollPaneConstants;
 
 import libs.observe.ObservableElement;
 import libs.resources.Resources;
-//import model.Player;
 import view.components.SubView;
 
 public class SwingViewFactory implements ViewFactory {
@@ -44,8 +43,8 @@ public class SwingViewFactory implements ViewFactory {
                                                                                                 possibilities.toArray(), possibilities.get(0)));
                     if(playerNum.isPresent()) {
                         obs.set(playerNum.get());
+                        changeView("GameView");
                     }
-                    changeView("GameView");
                 });
                 howToPlay.addActionListener(e -> changeView("RulesView"));
                 quit.addActionListener(e -> System.exit(0));
@@ -114,7 +113,7 @@ public class SwingViewFactory implements ViewFactory {
     }
 
     @Override
-    public View getGameView(final SubView currentPlayer, final SubView players) {
+    public View getGameView(final GameViewObservables observables) {
         return new AbstractView(frame) {
             
             private JPanel playersPanel;

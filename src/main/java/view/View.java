@@ -10,8 +10,8 @@ public interface View {
     ObservableElement<String> getChangeScreenObservable();
     
     /**
-     * Changes the displayed view
-     * @param s
+     * Shows the specified view
+     * @param s the identifier of the view to show 
      */
     void changeView(final String s);
 
