@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -119,6 +121,7 @@ public class SwingViewFactory implements ViewFactory {
             private JPanel currentPlayerPanel;
             private JPanel cards;
             private JPanel blueCards;
+            private JScrollPane cardsScrollPane;
             private GameViewObservables observables;
             
             @Override
@@ -129,33 +132,42 @@ public class SwingViewFactory implements ViewFactory {
                 currentPlayerPanel.setLayout(new BoxLayout(currentPlayerPanel, BoxLayout.Y_AXIS));
                 blueCards = new JPanel();
                 
-                JScrollPane scrollPane = new JScrollPane(cards);
-                scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-                scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+                cardsScrollPane = new JScrollPane(cards);
+                cardsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+                cardsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
                 
-                currentPlayerPanel.add(scrollPane);
                 panel.add(playersPanel, BorderLayout.NORTH);
                 panel.add(currentPlayerPanel, BorderLayout.SOUTH);
             }
             
             public void updateView() {
-                /*
-                 * Add information about current player
-                 */
                 currentPlayerPanel.removeAll();
                 cards.removeAll();
+                /*
+                 * Add current player stats
+                 */
                 JTextArea currentText = new JTextArea();
                 currentText.setEditable(false);
                 currentText.append("Name: " + observables.getCharacter().get());
                 currentText.append("\nHP: " + observables.getLifePoints().get());
                 currentText.append("\nRole: " + observables.getRole().get());
                 currentPlayerPanel.add(currentText);
+                /*
+                 * Add current player's cards in play and in hand
+                 */
                 observables.getBlueCards().get().forEach(c -> {
-                    // aggiunta carte blu giocatore corrente
+                    JButton jb = new JButton(new ImageIcon(ClassLoader.getSystemResource("images/" + c + ".png")));
+                    blueCards.add(jb);
                 });
                 observables.getHand().get().forEach(c -> {
-                    // aggiunta carte giocatore corrente
+                    JButton jb = new JButton(new ImageIcon(ClassLoader.getSystemResource("images/" + c + ".png")));
+                    cards.add(jb);
                 });
+                currentPlayerPanel.add(currentText);
+                currentPlayerPanel.add(new JLabel("Cards in play:"));
+                currentPlayerPanel.add(blueCards);
+                currentPlayerPanel.add(new JLabel("Cards in hand:"));
+                currentPlayerPanel.add(cardsScrollPane);
                 /*
                  * Add information about other players
                  */
@@ -163,13 +175,20 @@ public class SwingViewFactory implements ViewFactory {
                     playersPanel.removeAll();
                     JPanel jp = new JPanel();
                     jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
+                    /*
+                     * Add other players stats
+                     */
                     JTextArea text = new JTextArea();
                     text.setEditable(false);
                     text.append("Name: " + observables.getOtherPlayers().get().get(i));
                     text.append("\nHP: " + observables.getOtherLifePoints().get());
                     jp.add(text);
-                    observables.getOtherBlueCards().get().forEach(c -> {
-                        // crea bottoni, carica l'immagine, aggiunge l'actionListener e li aggiunge
+                    /*
+                     * Add other players' cards in play
+                     */
+                    observables.getOtherBlueCards().get().get(i).forEach(c -> {
+                        JButton jb = new JButton(c);
+                        jp.add(jb);
                     });
                     playersPanel.add(jp);
                 }

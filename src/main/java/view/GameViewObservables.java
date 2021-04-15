@@ -9,11 +9,11 @@ public class GameViewObservables {
     private ObservableElement<String> character;
     private ObservableElement<String> role;
     private ObservableElement<Integer> lifePoints;
-    private ObservableElement<List<Integer>> hand;
-    private ObservableElement<List<Integer>> blueCards;
+    private ObservableElement<List<String>> hand;
+    private ObservableElement<List<String>> blueCards;
     private ObservableElement<List<String>> otherPlayers;
     private ObservableElement<List<Integer>> otherLifePoints;
-    private ObservableElement<List<List<Integer>>> otherBlueCards;
+    private ObservableElement<List<List<String>>> otherBlueCards;
 	
     public ObservableElement<String> getCharacter() {
         return character;
@@ -39,19 +39,19 @@ public class GameViewObservables {
         this.lifePoints = lifePoints;
     }
     
-    public ObservableElement<List<Integer>> getHand() {
+    public ObservableElement<List<String>> getHand() {
         return hand;
     }
     
-    public void setHand(final ObservableElement<List<Integer>> hand) {
+    public void setHand(final ObservableElement<List<String>> hand) {
         this.hand = hand;
     }
     
-    public ObservableElement<List<Integer>> getBlueCards() {
+    public ObservableElement<List<String>> getBlueCards() {
         return blueCards;
     }
     
-    public void setBlueCards(final ObservableElement<List<Integer>> blueCards) {
+    public void setBlueCards(final ObservableElement<List<String>> blueCards) {
         this.blueCards = blueCards;
     }
     
@@ -71,11 +71,11 @@ public class GameViewObservables {
         this.otherLifePoints = otherLifePoints;
     }
     
-    public ObservableElement<List<List<Integer>>> getOtherBlueCards() {
+    public ObservableElement<List<List<String>>> getOtherBlueCards() {
         return otherBlueCards;
     }
     
-    public void setOtherBlueCards(final ObservableElement<List<List<Integer>>> otherBlueCards) {
+    public void setOtherBlueCards(final ObservableElement<List<List<String>>> otherBlueCards) {
         this.otherBlueCards = otherBlueCards;
     }
 	
