@@ -14,6 +14,7 @@ public class GameViewObservables {
     private ObservableElement<List<String>> otherPlayers;
     private ObservableElement<List<Integer>> otherLifePoints;
     private ObservableElement<List<List<String>>> otherBlueCards;
+    private ObservableElement<Integer> turn;
 	
     public ObservableElement<String> getCharacter() {
         return character;
@@ -79,5 +80,12 @@ public class GameViewObservables {
         this.otherBlueCards = otherBlueCards;
     }
 	
+    public ObservableElement<Integer> getTurn() {
+        return this.turn;
+    }
+    
+    public void setTurn(final ObservableElement<Integer> turn) {
+        this.turn = turn;
+    }
 		
 }
