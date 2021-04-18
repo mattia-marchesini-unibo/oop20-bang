@@ -1,7 +1,7 @@
 package model;
-
 import java.util.Set;
 import libs.CircularList;
+import model.card.Effects;
 import model.deck.IDeck;
 
 public interface Table {

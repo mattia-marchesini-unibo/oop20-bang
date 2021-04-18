@@ -1,6 +1,8 @@
-package model;
+package model.card;
 
-public class Strike implements Effects {
+import model.SimplePlayer;
+
+public class Strike implements Effects{
 
 	@Override
 	public void useEffects(SimplePlayer player) {
