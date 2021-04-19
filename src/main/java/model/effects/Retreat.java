@@ -1,22 +1,20 @@
 package model.effects;
 
-import model.SimplePlayer;
+import model.Table;
 
 /**
  * this is the class of cards witch allows you "change" your position in the table
  */
-public class Retreat implements Effects {
+public class Retreat implements Effect {
 
 	private int retreat;
 	
 	public Retreat(int retreat) {
-		super();
 		this.retreat = retreat;
 	}
 
 	@Override
-	public void useEffects(SimplePlayer player) {
-		player.setIndex(retreat);
-		
+	public void useEffect(Table table) {
+		table.getCurrentPlayer().addRetreat(this.retreat);
 	}		
 }
