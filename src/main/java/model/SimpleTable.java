@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import model.card.Card;
 import model.deck.IDeck;
 import model.effects.Effect;
 import libs.CircularList;
@@ -108,9 +110,9 @@ public class SimpleTable implements Table{
     public void playerUsedCard(String cardName) {
         this.usedCards.add(cardName);
     }
-    
+
     @Override
-    public List<String> getPlayerUsedCard(String cardName) {
+    public List<String> getPlayerUsedCards() {
         return this.usedCards;
     }
 }

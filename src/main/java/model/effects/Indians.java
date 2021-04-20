@@ -3,9 +3,9 @@ package model.effects;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Card;
 import model.Player;
 import model.Table;
+import model.card.Card;
 
 public class Indians implements Effect {
 

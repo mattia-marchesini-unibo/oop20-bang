@@ -4,10 +4,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import model.Card;
 import model.Player;
 import model.Table;
 import model.TurnObservable;
+import model.card.Card;
 
 public class Panic implements Effect {
 

@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import libs.CircularList;
-import model.Card;
 import model.Player;
 import model.Table;
 import model.TurnObservable;
+import model.card.Card;
 import model.deck.IDeck;
 
 public class GeneralStore implements Effect {

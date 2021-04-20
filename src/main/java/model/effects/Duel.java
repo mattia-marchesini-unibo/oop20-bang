@@ -3,12 +3,10 @@ package model.effects;
 import java.util.Arrays;
 import java.util.List;
 
-import model.Card;
 import model.Player;
 import model.Table;
 import model.TurnObservable;
-import model.effects.requirement.RequirementNotSettedException;
-import model.effects.requirement.RequirementsEnum;
+import model.card.Card;
 
 public class Duel implements Effect {
 

@@ -1,5 +1,5 @@
 package model;
-
+import model.card.*;
 import java.util.List;
 
 public class Character {

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import model.Card;
+import model.card.Card;
 
 abstract class AbstractDeck implements IDeck {
 

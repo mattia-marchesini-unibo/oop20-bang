@@ -1,8 +1,10 @@
 package model;
 
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
+
+import model.card.Card;
+import model.card.Color;
 
 public class SimplePlayer implements Player {
 

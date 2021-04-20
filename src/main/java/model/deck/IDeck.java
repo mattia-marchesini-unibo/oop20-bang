@@ -2,7 +2,7 @@ package model.deck;
 
 import java.util.List;
 
-import model.Card;
+import model.card.Card;
 
 public interface IDeck {
 

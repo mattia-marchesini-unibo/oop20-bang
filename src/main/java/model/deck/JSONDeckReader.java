@@ -7,8 +7,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import libs.resources.Resources;
-import model.Card;
-import model.Color;
+import model.card.Color;
+import model.card.Card;
 
 class JSONDeckReader implements IDeckReader {
 

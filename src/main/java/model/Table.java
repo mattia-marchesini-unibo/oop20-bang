@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import libs.CircularList;
+import model.card.Card;
 import model.deck.IDeck;
 import model.effects.Effect;
 
@@ -75,5 +76,5 @@ public interface Table {
     
     void playerUsedCard(String cardName);
 
-    List<String> getPlayerUsedCard(String cardName);
+    List<String> getPlayerUsedCards();
 }
