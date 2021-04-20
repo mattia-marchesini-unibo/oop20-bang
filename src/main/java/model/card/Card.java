@@ -13,14 +13,14 @@ public class Card {
 	//da aggiungere volcanic prigione riparo
 	//da modificare emporio,panico,schiavat
     private static Map<String, Effect> cardEffectsMap = new HashMap<>(Map.ofEntries(
-        entry("mancato",new AddProtection()),
-        entry("bang",new Bang()),
-        entry("schofield",new ModifySight(2)),
+        entry("mancato", new AddProtection()),
+        entry("bang", new Bang()),
+        entry("schofield", new ModifySight(2)),
         entry("remington", new ModifySight(3)),
         entry("rev Carabine", new ModifySight(4)),
-        entry("winchester",new ModifySight(5)),
+        entry("winchester", new ModifySight(5)),
         entry("mirino",new ModifySight(1)),
-        entry("mustang", new Retreat(1)),
+        entry("mustang", new ModifyRetreat(1)),
         entry("emporio", new GeneralStore()),
         entry("panico", new Panic()),
         entry("birra", new ModifyLifePoints(1)),
