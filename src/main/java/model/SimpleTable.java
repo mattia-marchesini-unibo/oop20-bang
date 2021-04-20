@@ -60,14 +60,12 @@ public class SimpleTable implements Table{
 
     @Override
     public void drawCards(int nCards) {
-        // TODO Auto-generated method stub
         
     }
 
     @Override
     public void action(Effect effects, Set<Player> targets) {
         // TODO Auto-generated method stub
-        
     }
 
     @Override
@@ -95,12 +93,12 @@ public class SimpleTable implements Table{
     public void choosePlayers(int howMany) {
         // TODO Auto-generated method stub
     }
-    
+
     @Override
     public void choosePlayers(int howMany, int distance) {
         // TODO Auto-generated method stub
     }
-    
+
     @Override
     public void chooseCards(List<Card> cardsToChoose, List<Player> choosers, int howManyPerPlayer) {
         // TODO Auto-generated method stub

@@ -26,6 +26,7 @@ public class Bang implements Effect {
                 p.modifyLifePoints(-1);
             }
         });
+
         table.choosePlayers(1);
         table.playerUsedCard("bang");
     }
