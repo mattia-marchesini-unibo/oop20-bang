@@ -15,6 +15,7 @@ public class GameViewObservables {
     private ObservableElement<List<Integer>> otherLifePoints;
     private ObservableElement<List<List<String>>> otherBlueCards;
     private ObservableElement<Integer> turn;
+    private ObservableElement<String> action;
 	
     public ObservableElement<String> getCharacter() {
         return character;
@@ -86,6 +87,14 @@ public class GameViewObservables {
     
     public void setTurn(final ObservableElement<Integer> turn) {
         this.turn = turn;
+    }
+    
+    public ObservableElement<String> getAction(){
+        return this.action;
+    }
+    
+    public void setAction(final ObservableElement<String> action) {
+        this.action = action;
     }
 		
 }

@@ -39,10 +39,10 @@ public class SwingViewFactory implements ViewFactory {
                 JButton quit = new JButton("Quit");
                 
                 play.addActionListener(e -> {
-                    List<Integer> possibilities = List.of(4, 5, 6, 7);
+                    List<Integer> options = List.of(4, 5, 6, 7);
                     Optional<Integer> playerNum = Optional.ofNullable((Integer) JOptionPane.showInputDialog(frame, "Insert the number of players:",
                                                                                                 "Choose players", JOptionPane.PLAIN_MESSAGE, null,
-                                                                                                possibilities.toArray(), possibilities.get(0)));
+                                                                                                options.toArray(), options.get(0)));
                     if(playerNum.isPresent()) {
                         obs.set(playerNum.get());
                         changeView("GameView");
@@ -187,7 +187,19 @@ public class SwingViewFactory implements ViewFactory {
                     cardsPanel.removeAll();
                     observables.getHand().get().forEach(c -> {
                         JButton jb = new JButton(new ImageIcon(ClassLoader.getSystemResource("images/" + c + ".png")));
-                        jb.addActionListener(e -> observables.getHand().notifyObservers());
+                        jb.addActionListener(e -> {
+                            List<String> options = List.of("Play", "Discard", "Cancel");
+                            int choice = JOptionPane.showOptionDialog(frame, "Do you want to play or discard this card?", "Choose",
+                                                                      JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                                                                      options.toArray(), options.get(0));
+                            if (choice == 0) {
+                                observables.getAction().set("Play");
+                                observables.getHand().notifyObservers();
+                            } else if (choice == 1) {
+                                observables.getAction().set("Discard");
+                                observables.getHand().notifyObservers();
+                            }
+                        });
                         cardsPanel.add(jb);
                     });
                 });
