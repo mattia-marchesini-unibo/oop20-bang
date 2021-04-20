@@ -2,6 +2,7 @@ package model.effects;
 
 import model.Player;
 import model.Table;
+import model.TurnObservable;
 
 import java.util.List;
 
@@ -26,6 +27,6 @@ public class Bang implements Effect {
             }
         });
         table.choosePlayers(1);
-        table.playerUsed("bang");
+        table.playerUsedCard("bang");
     }
 }

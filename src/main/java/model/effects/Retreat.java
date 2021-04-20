@@ -15,6 +15,6 @@ public class Retreat implements Effect {
 
 	@Override
 	public void useEffect(Table table) {
-		table.getCurrentPlayer().addRetreat(this.retreat);
+		table.getCurrentPlayer().modifyRetreat(this.retreat);
 	}		
 }

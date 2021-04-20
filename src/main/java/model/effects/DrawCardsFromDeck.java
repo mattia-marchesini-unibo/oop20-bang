@@ -4,15 +4,15 @@ import model.Table;
 
 public class DrawCardsFromDeck implements Effect {
 
-    private int howMuch;
-    
-    public DrawCardsFromDeck(int howMuch) {
-        this.howMuch = howMuch;
+    private int howMany;
+
+    public DrawCardsFromDeck(int howMany) {
+        this.howMany = howMany;
     }
-    
+
     @Override
     public void useEffect(Table table) {
-        table.getDeck().nextCards(this.howMuch);
+        table.getDeck().nextCards(this.howMany);
     }
 
 }

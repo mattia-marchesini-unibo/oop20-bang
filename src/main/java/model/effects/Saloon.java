@@ -4,16 +4,16 @@ import model.Table;
 
 public class Saloon implements Effect {
 
-    int howMuch;
+    int howMany;
     
-    public Saloon(int howMuch) {
-        this.howMuch = howMuch;
+    public Saloon(int howMany) {
+        this.howMany = howMany;
     }
 
     @Override
     public void useEffect(Table table) {
         table.getPlayers().forEach(p -> {
-            p.modifyLifePoints(howMuch);
+            p.modifyLifePoints(howMany);
         });
     }
 

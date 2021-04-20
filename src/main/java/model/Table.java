@@ -1,9 +1,11 @@
 package model;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import libs.CircularList;
 import model.deck.IDeck;
-import model.effects.Effects;
+import model.effects.Effect;
 
 public interface Table {
     
@@ -49,7 +51,7 @@ public interface Table {
      * @param action the action to be executed
      * @param targets the targets of the action
      */
-    void action(Effects effetcs, Set<Player> targets);
+    void action(Effect effect, Set<Player> targets);
     
     /**
      * @return next player
@@ -60,5 +62,18 @@ public interface Table {
      * Checks if the game is over
      */
     boolean isOver();
+
+    TurnObservable<List<Player>> getChoosePlayersObservable();
     
+    TurnObservable<Map<Card, Player>> getChooseCardsObservable();
+
+    void choosePlayers(int howMany);
+    
+    void choosePlayers(int howMany, int distance);
+    
+    void chooseCards(List<Card> cardsToChoose, List<Player> choosers, int howManyPerPlayer);
+    
+    void playerUsedCard(String cardName);
+
+    List<String> getPlayerUsedCard(String cardName);
 }

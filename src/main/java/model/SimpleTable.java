@@ -1,8 +1,11 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import model.deck.IDeck;
-import model.effects.Effects;
+import model.effects.Effect;
 import libs.CircularList;
 
 public class SimpleTable implements Table{
@@ -12,6 +15,10 @@ public class SimpleTable implements Table{
     private Player currentPlayer;
     private boolean sheriffIsDead = false;
     private int countOutlaws = 0;
+    private List<String> usedCards = new ArrayList<>();
+    
+    private TurnObservable<List<Player>> choosePlayersObservable = new TurnObservable<>();
+    private TurnObservable<Map<Card, Player>> chooseCardsObservable = new TurnObservable<>();
     
     public SimpleTable(final IDeck deck, final CircularList<Player> players) {
         this.deck = deck;
@@ -56,13 +63,14 @@ public class SimpleTable implements Table{
     }
 
     @Override
-    public void action(Effects effects, Set<Player> targets) {
+    public void action(Effect effects, Set<Player> targets) {
         // TODO Auto-generated method stub
         
     }
 
     @Override
     public Player getNextPlayer() {
+        this.usedCards.clear();
         return players.getNext();
     }
 
@@ -71,4 +79,38 @@ public class SimpleTable implements Table{
         return this.sheriffIsDead || this.countOutlaws == 0;
     }
 
+    @Override
+    public TurnObservable<List<Player>> getChoosePlayersObservable() {
+        return this.choosePlayersObservable;
+    }
+
+    @Override
+    public TurnObservable<Map<Card, Player>> getChooseCardsObservable() {
+        return this.chooseCardsObservable;
+    }
+
+    @Override
+    public void choosePlayers(int howMany) {
+        // TODO Auto-generated method stub
+    }
+    
+    @Override
+    public void choosePlayers(int howMany, int distance) {
+        // TODO Auto-generated method stub
+    }
+    
+    @Override
+    public void chooseCards(List<Card> cardsToChoose, List<Player> choosers, int howManyPerPlayer) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void playerUsedCard(String cardName) {
+        this.usedCards.add(cardName);
+    }
+    
+    @Override
+    public List<String> getPlayerUsedCard(String cardName) {
+        return this.usedCards;
+    }
 }

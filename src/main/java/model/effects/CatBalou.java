@@ -8,6 +8,7 @@ import java.util.Map;
 import model.Card;
 import model.Player;
 import model.Table;
+import model.TurnObservable;
 
 public class CatBalou implements Effect {
 
@@ -19,7 +20,7 @@ public class CatBalou implements Effect {
         
         TurnObservable<Map<Card, Player>> cardOb = table.getChooseCardsObservable();
         cardOb.addObserver(() -> {
-            Card card = ob.get().keySet().toArray()[0];
+            Card card = cardOb.get().keySet().iterator().next();
             opponent.removeCard(card);
         });
         

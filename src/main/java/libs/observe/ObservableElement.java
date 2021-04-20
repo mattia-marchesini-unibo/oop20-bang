@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ObservableElement<E> implements IObservable {
+
 	private E element = null;
 	private List<IObserver> observers = new ArrayList<>();
     
@@ -45,6 +46,11 @@ public class ObservableElement<E> implements IObservable {
     @Override
     public void removeObserver(IObserver observer) {
         this.observers.remove(observer);
+    }
+    
+    @Override
+    public void removeAllObservers() {
+        this.observers.clear();
     }
     
 	@Override 
