@@ -11,6 +11,10 @@ import model.effects.Effect;
 import libs.CircularList;
 import libs.observe.IObservable;
 
+enum Message{
+	 CHOOSE_PLAYER, CHOOSE_PLAYER_WITH_DISTANCE, CHOOSE_CARD
+}
+
 public class SimpleTable implements Table{
     
     private IDeck deck;
@@ -22,6 +26,12 @@ public class SimpleTable implements Table{
     
     private TurnObservable<List<Player>> choosePlayersObservable = new TurnObservable<>();
     private TurnObservable<Map<Card, Player>> chooseCardsObservable = new TurnObservable<>();
+	private int howMany;
+	private Message message;
+	private int distance;
+	private List<Card> cardsToChoose;
+	private List<Player> choosers;
+	private int howManyPerPlayer;
     
     public SimpleTable(final IDeck deck, final CircularList<Player> players) {
         this.deck = deck;
@@ -92,17 +102,23 @@ public class SimpleTable implements Table{
 
     @Override
     public void choosePlayers(int howMany) {
-        // TODO Auto-generated method stub
+    	this.howMany = howMany;
+    	this.message = Message.CHOOSE_PLAYER;
     }
 
     @Override
     public void choosePlayers(int howMany, int distance) {
-        // TODO Auto-generated method stub
+    	this.howMany = howMany;
+    	this.distance = distance;
+    	this.message = Message.CHOOSE_PLAYER_WITH_DISTANCE;
     }
 
     @Override
     public void chooseCards(List<Card> cardsToChoose, List<Player> choosers, int howManyPerPlayer) {
-        // TODO Auto-generated method stub
+    	this.cardsToChoose = cardsToChoose;
+    	this.choosers = choosers;
+    	this.howManyPerPlayer = howManyPerPlayer;
+    	this.message = Message.CHOOSE_CARD;
     }
 
     @Override
