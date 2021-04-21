@@ -194,10 +194,8 @@ public class SwingViewFactory implements ViewFactory {
                                                                       options.toArray(), options.get(0));
                             if (choice == 0) {
                                 observables.getAction().set("Play");
-                                observables.getHand().notifyObservers();
                             } else if (choice == 1) {
                                 observables.getAction().set("Discard");
-                                observables.getHand().notifyObservers();
                             }
                         });
                         cardsPanel.add(jb);
@@ -214,7 +212,6 @@ public class SwingViewFactory implements ViewFactory {
                 observables.getOtherLifePoints().addObserver(playersObs);
                 observables.getOtherBlueCards().addObserver(playersObs);
                 
-                
                 currentPlayerPanel.add(new JLabel("Your cards in play:"));
                 currentPlayerPanel.add(blueCardsPanel);
                 currentPlayerPanel.add(new JLabel("Your cards in hand:"));
@@ -225,6 +222,41 @@ public class SwingViewFactory implements ViewFactory {
             }
             
         };
+    }
+
+    @Override
+    public View getEndGameView(ObservableElement<List<String>> winners) {
+        return new AbstractView(frame) {
+            
+            @Override
+            public void initView() {
+                panel.setLayout(new GridBagLayout());
+                JPanel jp = new JPanel();
+                jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
+                JLabel gameOverLabel = new JLabel("GAME OVER!");
+                StringBuilder builder = new StringBuilder("Player" + (winners.get().size() > 1 ? "s " : " "));
+                
+                winners.get().forEach(w -> {
+                    if(winners.get().indexOf(w) != 0) {
+                        builder.append(", ");
+                    }
+                    builder.append(w);
+                });
+                builder.append(" won the game!");
+                JLabel winnersLabel = new JLabel(builder.toString());
+                
+                gameOverLabel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
+                winnersLabel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
+                jp.add(gameOverLabel);
+                jp.add(winnersLabel);
+                panel.add(jp);
+            }
+        };
+    }
+    
+    public static void main(String[] args) {
+        var factory = new SwingViewFactory();
+        factory.getEndGameView(new ObservableElement<List<String>>(List.of("Player1", "Player2")));
     }
     
 }

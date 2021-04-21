@@ -1,5 +1,7 @@
 package view;
 
+import java.util.List;
+
 import libs.observe.ObservableElement;
 
 public interface ViewFactory {
@@ -19,5 +21,11 @@ public interface ViewFactory {
      * @return the main game view
      */
     View getGameView(final GameViewObservables observables);
+    
+    /**
+     * @param the names of players who won the game
+     * @return a view containing the names of the winners
+     */
+    View getEndGameView(final ObservableElement<List<String>> winners);
 
 }
