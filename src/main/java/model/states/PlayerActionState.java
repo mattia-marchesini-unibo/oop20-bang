@@ -14,11 +14,11 @@ public class PlayerActionState implements State{
 
     @Override
     public void handle(final GameStateMachine gsMachine) {
-        gsMachine.getTable();
+        Table table = gsMachine.getTable();
         
         table.chooseCards(null, null, 0);
         table.getCurrentPlayer().playCard(null, null);
-        gsMachine.setCurrentState(new EndTurnState(this.gameState));
+        gsMachine.setCurrentState(new ArePlayersDeadState());
     }
     
 }
