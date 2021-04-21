@@ -1,7 +1,8 @@
 package model.states;
 
+import model.GameStateMachine;
+
 public interface State {
     
-    void handle();
-
+    void handle(final GameStateMachine gsMachine);
 }

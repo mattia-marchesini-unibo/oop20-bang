@@ -9,6 +9,7 @@ import model.card.Card;
 import model.deck.IDeck;
 import model.effects.Effect;
 import libs.CircularList;
+import libs.observe.IObservable;
 
 public class SimpleTable implements Table{
     

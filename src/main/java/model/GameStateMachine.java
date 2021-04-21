@@ -1,41 +1,36 @@
 package model;
 
-import libs.observe.IObserver;
 import libs.observe.ObservableElement;
 import model.states.State;
 
 public class GameStateMachine {
     
-    private ObservableElement<State> currentState = new ObservableElement<>();
+    private State currentState;
     private Table table;
+    private ObservableElement<String> messageObs = new ObservableElement<>();
     
     public GameStateMachine(final Table table) {
         this.table = table;
     }
     
     public void go() {
-        currentState.get().handle();
+        currentState.handle(this);
     }
     
-    public void setStartState(final State state, final boolean notify) {
-        if(notify) {
-            this.currentState.set(state);
-        }
-        else {
-            this.currentState.setNoNotify(state);
-        }
+    public void setStartState(final State state) {
+            this.currentState = state;
     }
 
-    public void addStateChangeObserver(final IObserver observer) {
-        this.currentState.addObserver(observer);
+    public ObservableElement<String> getMessageObservable() {
+        return this.messageObs;
     }
     
     public State getCurrentState() {
-        return this.currentState.get();
+        return this.currentState;
     }
     
     public void setCurrentState(final State state) {
-        this.currentState.setNotEqual(state);
+        this.currentState = state;
     }
     
     public Table getTable() {
