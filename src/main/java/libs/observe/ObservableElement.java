@@ -1,10 +1,15 @@
 package libs.observe;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ObservableElement<E> implements IObservable {
 	private E element = null;
-	private List<IObserver> observers ;
+	private List<IObserver> observers = new ArrayList<>();
+	
+	public ObservableElement(final E element){
+	    this.element = element;
+	}
     
 	public E get() {
 		return element;
