@@ -115,7 +115,7 @@ public class SwingViewFactory implements ViewFactory {
     }
 
     @Override
-    public View getGameView(final GameViewObservables observables) {
+    public View getGameView(GameViewObservables observables) {
         return new AbstractView(frame) {
             
             private JPanel playersPanel;
@@ -123,16 +123,19 @@ public class SwingViewFactory implements ViewFactory {
             private JPanel cardsPanel;
             private JPanel blueCardsPanel;
             private JButton endTurn;
-            private GameViewObservables observables;
             private JTextArea currentPlayerStats;
             
             @Override
             public void initView() {
+                /*
+                 * Set general view properties
+                 */
                 panel.setLayout(new BorderLayout());
                 playersPanel = new JPanel();
                 currentPlayerPanel = new JPanel();
                 currentPlayerPanel.setLayout(new BoxLayout(currentPlayerPanel, BoxLayout.Y_AXIS));
-                blueCardsPanel = new JPanel();
+                cardsPanel = new JPanel();
+                blueCardsPanel = new JPanel(); 
                 
                 JScrollPane cardsScrollPane = new JScrollPane(cardsPanel);
                 cardsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -151,8 +154,9 @@ public class SwingViewFactory implements ViewFactory {
                         observables.getTurn().notifyObservers();
                     }
                 });
+                
                 /*
-                 * Observers
+                 * Add observers
                  */
                 IObserver currentPlayerObs = () -> {
                     currentPlayerStats.setText("Name: " + observables.getCharacter().get());
@@ -212,10 +216,13 @@ public class SwingViewFactory implements ViewFactory {
                 observables.getOtherLifePoints().addObserver(playersObs);
                 observables.getOtherBlueCards().addObserver(playersObs);
                 
+                /*
+                 * Compose view
+                 */
                 currentPlayerPanel.add(new JLabel("Your cards in play:"));
                 currentPlayerPanel.add(blueCardsPanel);
                 currentPlayerPanel.add(new JLabel("Your cards in hand:"));
-                currentPlayerPanel.add(cardsPanel);
+                currentPlayerPanel.add(cardsScrollPane);
                 currentPlayerPanel.add(endTurn);
                 panel.add(playersPanel, BorderLayout.NORTH);
                 panel.add(currentPlayerPanel, BorderLayout.SOUTH);
@@ -256,7 +263,14 @@ public class SwingViewFactory implements ViewFactory {
     
     public static void main(String[] args) {
         var factory = new SwingViewFactory();
-        factory.getEndGameView(new ObservableElement<List<String>>(List.of("Player1", "Player2")));
+        factory.getMenuView(new ObservableElement<Integer>(1));
+        // factory.getRulesView();
+        /*factory.getGameView(new GameViewObservables(new ObservableElement<String>("Char"), new ObservableElement<String>("Role"),
+                                                    new ObservableElement<Integer>(4), new ObservableElement<List<String>>(List.of("Card")),
+                                                    new ObservableElement<List<String>>(List.of("Blue")), new ObservableElement<List<String>>(List.of("Boh")),
+                                                    new ObservableElement<List<Integer>>(List.of(1)), new ObservableElement<List<List<String>>>(List.of(List.of("Card"))),
+                                                    new ObservableElement<Integer>(5), new ObservableElement<String>("Azione")));*/
+        // factory.getEndGameView(new ObservableElement<List<String>>(List.of("Player1", "Player2")));
     }
     
 }
