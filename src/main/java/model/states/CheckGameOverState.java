@@ -2,7 +2,7 @@ package model.states;
 
 import model.GameStateMachine;
 
-public class ArePlayersDeadState implements State {
+public class CheckGameOverState  implements State {
 
     @Override
     public void handle(GameStateMachine gsMachine) {

@@ -2,12 +2,12 @@ package model.states;
 
 import model.GameStateMachine;
 
-public class PlayerStartTurnState implements State {
+public class ChoosePlayerCardState implements State {
 
     @Override
     public void handle(GameStateMachine gsMachine) {
         // TODO Auto-generated method stub
-        // faccio un observable con observer che controlla l'azione
+        // chiami chooseCards e mandi messaggio
     }
 
 }

@@ -16,9 +16,6 @@ public class PlayerActionState implements State{
     public void handle(final GameStateMachine gsMachine) {
         gsMachine.getTable();
         
-        table.chooseCards(null, null, 0);
-        table.getCurrentPlayer().playCard(null, null);
-        gsMachine.setCurrentState(new EndTurnState(this.gameState));
     }
     
 }
