@@ -55,14 +55,9 @@ public interface Table {
     void action(Effect effect, Set<Player> targets);
     
     /**
-     * @return next player
+     * Sets next player
      */
-    Player getNextPlayer();
-    
-    /**
-     * Checks if the game is over
-     */
-    boolean isOver();
+    void nextPlayer();
 
     TurnObservable<List<Player>> getChoosePlayersObservable();
     
