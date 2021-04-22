@@ -7,8 +7,8 @@ public class ObservableElement<E> implements IObservable {
 
 	private E element = null;
 	private List<IObserver> observers = new ArrayList<>();
-    
-	public ObservableElement(E element) {
+	
+	public ObservableElement(final E element){
 	    this.element = element;
 	}
 	
