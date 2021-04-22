@@ -5,16 +5,19 @@ import model.GameStateMachine;
 
 public class ChooseActionState implements State {
 
-    private ObservableElement<String> observable;
+    private ObservableElement<String> action;
     
-    public ChooseActionState(final ObservableElement<String> observable) {
-        this.observable = observable;
+    public ChooseActionState(final ObservableElement<String> action) {
+        this.action = action;
     }
     
     @Override
     public void handle(GameStateMachine gsMachine) {
-        // TODO Auto-generated method stub
-        // serve observable<String>
+        if (action.get().equals("PlayCard")) {
+            gsMachine.setCurrentState(new ChoosePlayerCardState());
+        } else if (action.get().equals("EndTurn")){
+            gsMachine.setCurrentState(new EndTurnState());
+        }
     }
 
 }
