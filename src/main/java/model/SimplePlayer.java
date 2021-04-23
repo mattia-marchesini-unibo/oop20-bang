@@ -84,11 +84,15 @@ public class SimplePlayer implements Player {
 
     @Override
     public void modifyLifePoints(int points) {
-        int newLifePoints;
-        newLifePoints = this.lifePoints + points;
+        int newLifePoints = this.lifePoints + points;
+
         if (newLifePoints >= this.character.getLifePoints()) {
             this.lifePoints = this.character.getLifePoints();
-        } else {
+        }
+        else if(newLifePoints < 0) {
+            this.lifePoints = 0;
+        }
+        else {
             this.lifePoints = newLifePoints;
         }
     }

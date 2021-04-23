@@ -1,11 +1,18 @@
 package libs;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CircularList<X> extends ArrayList<X> {
     
     private static final long serialVersionUID = 7770028322718010907L;
     private int currentIndex = 0;
+    
+    public CircularList() { }
+    
+    public CircularList(List<X> list) {
+        super(list);
+    }
     
     /**
      * @return index of current element

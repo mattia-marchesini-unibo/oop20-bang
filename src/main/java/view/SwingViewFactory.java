@@ -115,7 +115,7 @@ public class SwingViewFactory implements ViewFactory {
     }
 
     @Override
-    public View getGameView(GameViewObservables observables) {
+    public View getGameView(final GameViewObservables observables) {
         return new AbstractView(frame) {
             
             private JPanel playersPanel;
@@ -232,7 +232,7 @@ public class SwingViewFactory implements ViewFactory {
     }
 
     @Override
-    public View getEndGameView(ObservableElement<List<String>> winners) {
+    public View getEndGameView(final List<String> winners) {
         return new AbstractView(frame) {
             
             @Override
@@ -241,10 +241,10 @@ public class SwingViewFactory implements ViewFactory {
                 JPanel jp = new JPanel();
                 jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
                 JLabel gameOverLabel = new JLabel("GAME OVER!");
-                StringBuilder builder = new StringBuilder("Player" + (winners.get().size() > 1 ? "s " : " "));
+                StringBuilder builder = new StringBuilder("Player" + (winners.size() > 1 ? "s " : " "));
                 
-                winners.get().forEach(w -> {
-                    if(winners.get().indexOf(w) != 0) {
+                winners.forEach(w -> {
+                    if(winners.indexOf(w) != 0) {
                         builder.append(", ");
                     }
                     builder.append(w);

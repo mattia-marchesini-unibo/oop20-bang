@@ -62,17 +62,8 @@ public class SimpleTable implements Table{
     }
 
     @Override
-    public void drawCards(int nCards) {
-        
-    }
-
-    @Override
-    public void action(Effect effects, Set<Player> targets) {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
     public void nextPlayer() {
+        this.usedCards.clear();
         this.setCurrentPlayer(players.getNext());
     }
 

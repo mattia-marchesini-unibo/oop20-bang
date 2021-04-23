@@ -38,22 +38,7 @@ public interface Table {
      * @param player
      */
     void setCurrentPlayer(Player player);
-    
-    /**
-     * Current player draws cards
-     * 
-     * @param nCards the number of cards to draw
-     */
-    void drawCards(int nCards);
-    
-    /**
-     * Performs an action on a target player
-     * 
-     * @param action the action to be executed
-     * @param targets the targets of the action
-     */
-    void action(Effect effect, Set<Player> targets);
-    
+
     /**
      * Sets next player
      */

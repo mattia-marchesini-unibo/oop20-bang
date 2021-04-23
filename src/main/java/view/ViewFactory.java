@@ -26,6 +26,6 @@ public interface ViewFactory {
      * @param the names of players who won the game
      * @return a view containing the names of the winners
      */
-    View getEndGameView(final ObservableElement<List<String>> winners);
+    View getEndGameView(final List<String> winners);
 
 }

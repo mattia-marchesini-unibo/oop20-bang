@@ -6,11 +6,14 @@ public class ChooseActionState implements State {
 
     @Override
     public void handle(GameStateMachine gsMachine) {
-        if (gsMachine.getMessageObservable().get().equals("PlayCard")) {
-            gsMachine.setCurrentState(new ChoosePlayerCardState());
-        } else if (gsMachine.getMessageObservable().get().equals("EndTurn")){
-            gsMachine.setCurrentState(new EndTurnState());
-        }
+        var msgObs = gsMachine.getMessageObservable();
+        msgObs.addObserver(() -> {
+            if (msgObs.get().equals("playCard")) {
+                gsMachine.setCurrentState(new ChoosePlayerCardState());
+            } else if (msgObs.get().equals("endTurn")){
+                gsMachine.setCurrentState(new EndTurnState());
+            }
+        });
     }
 
 }
