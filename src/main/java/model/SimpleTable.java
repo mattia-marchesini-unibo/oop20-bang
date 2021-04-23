@@ -9,7 +9,6 @@ import model.card.Card;
 import model.deck.IDeck;
 import model.effects.Effect;
 import libs.CircularList;
-import libs.observe.IObservable;
 
 enum Message{
 	 CHOOSE_PLAYER, CHOOSE_PLAYER_WITH_DISTANCE, CHOOSE_CARD
@@ -20,8 +19,6 @@ public class SimpleTable implements Table{
     private IDeck deck;
     private CircularList<Player> players;
     private Player currentPlayer;
-    private boolean sheriffIsDead = false;
-    private int countOutlaws = 0;
     private List<String> usedCards = new ArrayList<>();
     
     private TurnObservable<List<Player>> choosePlayersObservable = new TurnObservable<>();
@@ -37,11 +34,6 @@ public class SimpleTable implements Table{
         this.deck = deck;
         this.players = players;
         this.currentPlayer = players.getCurrentElement();
-        this.players.forEach(p -> {
-            if(p.getRole().equals(Role.OUTLAW) || p.getRole().equals(Role.RENEGADE)) {
-                this.countOutlaws++;
-            }
-        });
     }
 
     @Override
@@ -80,14 +72,8 @@ public class SimpleTable implements Table{
     }
 
     @Override
-    public Player getNextPlayer() {
-        this.usedCards.clear();
-        return players.getNext();
-    }
-
-    @Override
-    public boolean isOver() {
-        return this.sheriffIsDead || this.countOutlaws == 0;
+    public void nextPlayer() {
+        this.setCurrentPlayer(players.getNext());
     }
 
     @Override

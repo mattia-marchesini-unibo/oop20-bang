@@ -1,37 +1,35 @@
 package controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import static java.util.Map.entry;
 
 import libs.observe.ObservableElement;
 import model.GameStateMachine;
+import model.Player;
+import view.View;
+import view.ViewFactory;
 
 public class Controller {
 
-    private IViewFactory factory;
-
-    private static Map<String, IViewController> controllers = new HashMap<>(Map.ofEntries(
-        entry("start", (fct) -> {
-            IView v = fct.getStartView();
-            v.show();
-        }),
-        entry("newGame", (fct) -> {
-            IView v = fct.getNewGameView();
-            v.show();
-        }),
-        entry("game", (fct) -> {
-            IView v = fct.getGameView(players);
-//            GameStateMachine machine = new GameStateMachine(new Table());
-            v.show();
-        })
-    ));;
-
+    private ViewFactory factory;
+    private int numberOfPlayers;
     ObservableElement<String> changeSceneObs = new ObservableElement<>();
 
-//    private ObservableElement<Integer> players = new ObservableElement<>();
+    private Map<String, IViewController> controllers = new HashMap<>(Map.ofEntries(
+        entry("start", (fct) -> {
+//            View v = fct.getStartView();
+//            v.show();
+        }),
+        entry("newGame", (fct) -> {
+//            View v = fct.getNewGameView();
+//            v.show();
+        }),
+        entry("game", (IViewController)new GameController(numberOfPlayers))
+    ));
 
-    public Controller(IViewFactory factory) {
+    public Controller(ViewFactory factory) {
         this.factory = factory;
         this.factory.setChangeSceneObservable(this.changeSceneObs);
 
