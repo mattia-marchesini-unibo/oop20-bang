@@ -19,7 +19,7 @@ public class CheckDeadPlayersState implements State {
         if(!dead.isEmpty()) {
             gsMachine.setCurrentState(new CheckGameOverState());
         }
-        gsMachine.setCurrentState(new ChooseActionState(null)); // what about the observable in the builder??
+        gsMachine.setCurrentState(new ChooseActionState());
         
     }
 

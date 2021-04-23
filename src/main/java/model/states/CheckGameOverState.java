@@ -10,7 +10,7 @@ public class CheckGameOverState  implements State {
         if(this.isOver(gsMachine)) {
             gsMachine.setCurrentState(new EndGameState());
         } else {
-            gsMachine.setCurrentState(new ChooseActionState(null));     // what about the observable in the builder??
+            gsMachine.setCurrentState(new ChooseActionState());
         }
     }
     
