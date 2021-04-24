@@ -14,16 +14,17 @@ public class SimplePlayer implements Player {
     private Character character;
     private Role role;
     private List<Card> hand;
+    private List<Card> activeCards;
     private int lifePoints;
     private int protections = 0;
 
-    public SimplePlayer(Role role, Character character) {
+    public SimplePlayer(final Role role, final Character character) {
         this.character = character;
         this.role = role;
     }
 
     @Override
-    public void setRange(int sight) {
+    public void setRange(final int sight) {
         this.sight = sight;
     }
 
@@ -43,35 +44,54 @@ public class SimplePlayer implements Player {
     }
 
     @Override
-    public List<Card> getCardsByName(String name) {
+    public List<Card> getCardsByName(final String name) {
         return this.hand.stream().filter(c -> c.getRealName().equals(name)).collect(Collectors.toList());
+    }
+    
+    @Override
+    public List<Card> getActiveCardsByName(final String name){
+        return this.activeCards.stream().filter(c -> c.getRealName().equals(name)).collect(Collectors.toList());
     }
 
     @Override
-    public void addCard(Card card) {
+    public void addCard(final Card card) {
         this.hand.add(card);
     }
 
     @Override
-    public void playCard(String name, Table table) {
+    public void playCard(final String name, final Table table) {
         Card card = this.getCardsByName(name).get(0);
 
-        if (card.getColor() == Color.BROWN) {
-            this.removeCard(card);
+        if (card.getColor() == Color.BLUE) {
+            this.addActiveCard(card);
         }
 
         card.getEffect().useEffect(table);
+        this.removeCard(card);
     }
 
     @Override
-    public void removeCard(Card card) {
-        this.hand.forEach(i -> {
-            if (i.equals(card)) {
-                this.hand.remove(i);
-            }
-        });
+    public void removeCard(final Card card) {
+        this.hand.remove(card);
     }
 
+    @Override
+    public List<Card> getActiveCards(){
+        return this.activeCards;
+    }
+    
+    @Override
+    public void addActiveCard(final Card card) {
+        if(!this.activeCards.contains(card)) {
+            this.activeCards.add(card);
+        }
+    }
+    
+    @Override
+    public void removeActiveCard(final Card card) {
+        this.activeCards.remove(card);
+    }
+    
     @Override
     public Role getRole() {
         return this.role;
@@ -83,7 +103,7 @@ public class SimplePlayer implements Player {
     }
 
     @Override
-    public void modifyLifePoints(int points) {
+    public void modifyLifePoints(final int points) {
         int newLifePoints;
         newLifePoints = this.lifePoints + points;
         if (newLifePoints >= this.character.getLifePoints()) {
@@ -94,7 +114,7 @@ public class SimplePlayer implements Player {
     }
 
     @Override
-    public void modifySight(int sight) {
+    public void modifySight(final int sight) {
         this.sight += sight;
 
         if (this.sight < 0) {
@@ -103,7 +123,7 @@ public class SimplePlayer implements Player {
     }
 
     @Override
-    public void modifyRetreat(int retreat) {
+    public void modifyRetreat(final int retreat) {
         this.retreat = retreat;
     }
 
