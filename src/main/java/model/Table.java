@@ -16,6 +16,11 @@ public interface Table {
     IDeck getDeck();
     
     /**
+     * @return discard pile
+     */
+    List<Card> getDiscardPile();
+    
+    /**
      * @return a CircularList containing alive players
      */
     CircularList<Player> getPlayers();
