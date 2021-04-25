@@ -1,4 +1,5 @@
 import controller.Controller;
+import view.SwingViewFactory;
 
 public class App {
 

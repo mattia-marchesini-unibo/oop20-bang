@@ -37,7 +37,7 @@ public class GameViewObservables {
     }
 
     public ObservableElement<String> getCharacter() {
-        return character;
+        return this.character;
     }
     
     public void setCharacter(final ObservableElement<String> character) {
@@ -45,7 +45,7 @@ public class GameViewObservables {
     }
     
     public ObservableElement<String> getRole() {
-        return role;
+        return this.role;
     }
     
     public void setRole(final ObservableElement<String> role) {
@@ -53,7 +53,7 @@ public class GameViewObservables {
     }
     
     public ObservableElement<Integer> getLifePoints() {
-        return lifePoints;
+        return this.lifePoints;
     }
     
     public void setLifePoints(final ObservableElement<Integer> lifePoints) {
@@ -61,7 +61,7 @@ public class GameViewObservables {
     }
     
     public ObservableElement<List<String>> getHand() {
-        return hand;
+        return this.hand;
     }
     
     public void setHand(final ObservableElement<List<String>> hand) {
@@ -69,7 +69,7 @@ public class GameViewObservables {
     }
     
     public ObservableElement<List<String>> getBlueCards() {
-        return blueCards;
+        return this.blueCards;
     }
     
     public void setBlueCards(final ObservableElement<List<String>> blueCards) {
@@ -77,7 +77,7 @@ public class GameViewObservables {
     }
     
     public ObservableElement<List<String>> getOtherPlayers() {
-        return otherPlayers;
+        return this.otherPlayers;
     }
     
     public void setOtherPlayer(final ObservableElement<List<String>> otherPlayers) {
@@ -85,7 +85,7 @@ public class GameViewObservables {
     }
     
     public ObservableElement<List<Integer>> getOtherLifePoints() {
-        return otherLifePoints;
+        return this.otherLifePoints;
     }
     
     public void setOtherLifePoints(final ObservableElement<List<Integer>> otherLifePoints) {
@@ -93,7 +93,7 @@ public class GameViewObservables {
     }
     
     public ObservableElement<List<List<String>>> getOtherBlueCards() {
-        return otherBlueCards;
+        return this.otherBlueCards;
     }
     
     public void setOtherBlueCards(final ObservableElement<List<List<String>>> otherBlueCards) {
@@ -107,7 +107,6 @@ public class GameViewObservables {
     public void setAction(final ObservableElement<String> action) {
         this.action = action;
     }
-	
     public IObservable getTurn() {
         return this.turn;
     }

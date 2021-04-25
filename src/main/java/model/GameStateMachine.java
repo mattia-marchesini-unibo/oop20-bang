@@ -25,6 +25,10 @@ public class GameStateMachine {
         return this.messageObs;
     }
     
+    public void setMessage(final String message) {
+        this.messageObs.set(message);
+    }
+    
     public State getCurrentState() {
         return this.currentState;
     }

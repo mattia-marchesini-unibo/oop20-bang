@@ -263,14 +263,11 @@ public class SwingViewFactory implements ViewFactory {
     
     public static void main(String[] args) {
         var factory = new SwingViewFactory();
-        factory.getMenuView(new ObservableElement<Integer>(1));
-        // factory.getRulesView();
-        /*factory.getGameView(new GameViewObservables(new ObservableElement<String>("Char"), new ObservableElement<String>("Role"),
+        // factory.getEndGameView(new ObservableElement<List<String>>(List.of("Player1", "Player2")));
+        factory.getGameView(new GameViewObservables(new ObservableElement<String>("Char"), new ObservableElement<String>("Role"),
                                                     new ObservableElement<Integer>(4), new ObservableElement<List<String>>(List.of("Card")),
                                                     new ObservableElement<List<String>>(List.of("Blue")), new ObservableElement<List<String>>(List.of("Boh")),
                                                     new ObservableElement<List<Integer>>(List.of(1)), new ObservableElement<List<List<String>>>(List.of(List.of("Card"))),
-                                                    new ObservableElement<Integer>(5), new ObservableElement<String>("Azione")));*/
-        // factory.getEndGameView(new ObservableElement<List<String>>(List.of("Player1", "Player2")));
+                                                    new ObservableElement<Integer>(5), new ObservableElement<String>("Azione")));
     }
-    
 }
