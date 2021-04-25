@@ -14,14 +14,14 @@ public class GameViewObservables {
     private ObservableElement<List<String>> otherPlayers;
     private ObservableElement<List<Integer>> otherLifePoints;
     private ObservableElement<List<List<String>>> otherBlueCards;
-    private ObservableElement<Integer> turn;
     private ObservableElement<String> action;
+    private IObservable turn;
 	
     public GameViewObservables(ObservableElement<String> character, ObservableElement<String> role,
             ObservableElement<Integer> lifePoints, ObservableElement<List<String>> hand,
             ObservableElement<List<String>> blueCards, ObservableElement<List<String>> otherPlayers,
             ObservableElement<List<Integer>> otherLifePoints, ObservableElement<List<List<String>>> otherBlueCards,
-            ObservableElement<Integer> turn, ObservableElement<String> action) {
+            IObservable turn, ObservableElement<String> action) {
         this.character = character;
         this.role = role;
         this.lifePoints = lifePoints;
@@ -98,14 +98,6 @@ public class GameViewObservables {
         this.otherBlueCards = otherBlueCards;
     }
 	
-    public ObservableElement<Integer> getTurn() {
-        return this.turn;
-    }
-    
-    public void setTurn(final ObservableElement<Integer> turn) {
-        this.turn = turn;
-    }
-    
     public ObservableElement<String> getAction(){
         return this.action;
     }
@@ -113,5 +105,11 @@ public class GameViewObservables {
     public void setAction(final ObservableElement<String> action) {
         this.action = action;
     }
+    public IObservable getTurn() {
+        return this.turn;
+    }
     
+    public void setTurn(final IObservable turn) {
+        this.turn = turn;
+    }
 }
