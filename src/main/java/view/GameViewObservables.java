@@ -16,8 +16,6 @@ public class GameViewObservables {
     private ObservableElement<List<List<String>>> otherBlueCards;
     private ObservableElement<Integer> turn;
     private ObservableElement<String> action;
-    
-    
 	
     public GameViewObservables(ObservableElement<String> character, ObservableElement<String> role,
             ObservableElement<Integer> lifePoints, ObservableElement<List<String>> hand,

@@ -30,10 +30,10 @@ public class SimpleTable implements Table{
 	private List<Player> choosers;
 	private int howManyPerPlayer;
     
-    public SimpleTable(final IDeck deck, final CircularList<Player> players) {
+    public SimpleTable(final IDeck deck, final List<Player> players) {
         this.deck = deck;
-        this.players = players;
-        this.currentPlayer = players.getCurrentElement();
+        this.players = new CircularList<>(players);
+        this.currentPlayer = this.players.getCurrentElement();
     }
 
     @Override
