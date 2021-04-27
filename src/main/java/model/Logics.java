@@ -1,5 +1,7 @@
 package model;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import libs.CircularList;
@@ -7,33 +9,34 @@ import libs.CircularList;
 public class Logics {
 	
 	private SimpleTable table;
-	private CircularList<Player> currentPalyers;
-	private Player player;
-	private Set<Player> canBeFight;
-	private int pos;
+	private CircularList<Player> currentPlayers;
 	
 	public Logics(final SimpleTable table) {
 		this.table = table;
-		this.currentPalyers = this.table.getPlayers();
-		this.pos = this.currentPalyers.getPosition(this.player);//dentro gli passo il player
+		this.currentPlayers = this.table.getPlayers();
 	}
 
-	public Set<Player> getPalyers(final Player player){
-		this.addToSet(player);
-		return this.canBeFight;		
-	}
-
-	private void addToSet(final Player player) {
-		for(int i=0;i<this.player.getSight();i++) {
-			var posdx = this.currentPalyers.getNext();
-			var possx = this.currentPalyers.getPrev();
-			if(posdx.getIndex() == this.currentPalyers.getPosition(posdx) || posdx.getIndex() <= player.getSight()  ) {
-				this.canBeFight.add(posdx);
+	public Set<Player> getTargets() {		
+		Set<Player> targets = new HashSet<Player>();
+		Player cur = this.table.getCurrentPlayer();
+		for(int i=1;i<=this.table.getCurrentPlayer().getSight();i++) {
+			var playerdx = this.currentPlayers.getNextOf(cur);
+			i = i + playerdx.getRetreat();
+			if(i <= this.table.getCurrentPlayer().getSight()) {
+				targets.add(playerdx);
 			}
-			if(posdx.getIndex() == this.currentPalyers.getPosition(possx) || possx.getIndex() <= player.getSight()) {
-				this.canBeFight.add(possx);
-			}
+			cur = this.currentPlayers.getNextOf(cur);
 		}
+		cur = this.table.getCurrentPlayer();
+		for(int i=1;i<=this.table.getCurrentPlayer().getSight();i++) {
+			var playerdx = this.currentPlayers.getPrevOf(cur);
+			i = i + playerdx.getRetreat();
+			if(i <= this.table.getCurrentPlayer().getSight()) {
+				targets.add(playerdx);
+			}
+			cur = this.currentPlayers.getPrevOf(cur);
+		}
+		return targets;
 	}
-	
 }
+	
