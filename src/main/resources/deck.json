@@ -2,7 +2,13 @@
 	{
 		"localName": "bang",
 		"realName": "bang",
-		"color": "blue",
-		"howMuch": 2
+		"color": "brown",
+		"howMany": 2
+	},
+	{
+		"localName": "indiani",
+		"realName": "indians",
+		"color": "brown",
+		"howMany": 20
 	}
 ]

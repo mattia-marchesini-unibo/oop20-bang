@@ -1,9 +1,11 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import model.card.Card;
 import model.deck.IDeck;
@@ -15,6 +17,8 @@ enum Message{
 }
 
 public class SimpleTable implements Table{
+    private static final List<Role> totalRoles = List.of(
+        Role.SHERIFF,Role.RENEGADE,Role.OUTLAW,Role.OUTLAW,Role.DEPUTY,Role.OUTLAW,Role.OUTLAW);
     
     private IDeck deck;
     private List<Card> discardPile;
@@ -31,12 +35,30 @@ public class SimpleTable implements Table{
 	private List<Player> choosers;
 	private int howManyPerPlayer;
     
-    public SimpleTable(final IDeck deck, final List<Player> players) {
+    public SimpleTable(final IDeck deck, final int numberOfPlayers) {
         this.deck = deck;
-        this.players = new CircularList<>(players);
+        this.players = getPlayersFromNumber(numberOfPlayers);
+        this.getFirstCards();
         this.currentPlayer = this.players.getCurrentElement();
     }
 
+    private CircularList<Player> getPlayersFromNumber(final int playerNumber){
+        List<Role> roles = new ArrayList<>(totalRoles.subList(0, playerNumber));
+        Collections.shuffle(roles);
+        CircularList<Player> c = new CircularList<>(roles.stream().map(r -> new SimplePlayer(r, "player " + Integer.toString(roles.indexOf(r))))
+        .collect(Collectors.toList()));
+        
+        int pos = c.indexOf(c.stream().filter(p -> p.getRole() == Role.SHERIFF).findFirst().get());
+        c.setCurrentIndex(pos);
+        return c;
+    }
+
+    private void getFirstCards() {
+        this.players.forEach(p -> {
+            this.deck.nextCards(p.getLifePoints()).forEach(c -> p.addCard(c));
+        });
+    }
+    
     @Override
     public IDeck getDeck() {
         if(this.deck.remainigCards() == 0) {

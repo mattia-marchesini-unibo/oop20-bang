@@ -19,6 +19,8 @@ public class StartTurnState implements State {
             current.removeActiveCard(current.getActiveCardsByName("prison").get(0));
             gsMachine.setCurrentState(new EndTurnState());
         }
+        
+        gsMachine.setMessage("startTurn");
     }
 
 }

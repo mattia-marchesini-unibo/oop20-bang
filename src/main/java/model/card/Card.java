@@ -24,7 +24,7 @@ public class Card {
         entry("emporio", new GeneralStore()),
         entry("panico", new Panic()),
         entry("birra", new ModifyLifePoints(1)),
-        entry("indiani", new Indians()),
+        entry("indians", new Indians()),
         entry("duello", new Duel()),
         entry("schivata", new AddProtection()), //???
         entry("wells fargo", new DrawCardsFromDeck(3)),

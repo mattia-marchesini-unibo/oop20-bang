@@ -1,26 +1,22 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import libs.CircularList;
 
 public class Logics {
 	
 	private SimpleTable table;
-	
-	private static final List<Role> totalRoles = List.of(
-		Role.SHERIFF,Role.RENEGADE,Role.OUTLAW,Role.OUTLAW,Role.DEPUTY,Role.OUTLAW,Role.OUTLAW);
 
 	public Logics(final SimpleTable table) {
 		this.table = table;
 	}
 
-	public List<Role> getRolesForPlayers(final int playerNumber){
-		return totalRoles.subList(0, playerNumber);
-	}
-	
 	public Set<Player> getTargets() {		
 	        Player currentPlayer = this.table.getCurrentPlayer();
 		Set<Player> targets = new HashSet<Player>();

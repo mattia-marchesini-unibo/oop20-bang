@@ -15,7 +15,7 @@ public class SimplePlayer implements Player {
     private String name;
     private int retreat = 0;
     private Role role;
-    private List<Card> hand;
+    private List<Card> hand = new ArrayList<>();
     private int maxLifePoints;
     private int lifePoints;
     private int protections = 0;

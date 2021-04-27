@@ -13,6 +13,7 @@ import libs.observe.IObservable;
 import libs.observe.ObservableElement;
 import libs.observe.SimpleObservable;
 import model.GameStateMachine;
+import model.Logics;
 import model.Player;
 import model.SimplePlayer;
 import model.Role;
@@ -31,11 +32,14 @@ public class GameController {
     private GameViewObservables gameObs;
     private List<Player> allPlayers;
 
-    private static final List<Role> totalRoles = List.of(Role.SHERIFF, Role.RENEGADE, Role.OUTLAW, Role.OUTLAW,
-        Role.DEPUTY, Role.OUTLAW, Role.OUTLAW);
     private Map<String, Runnable> gsMachineMessages = new HashMap<String, Runnable>(
         Map.ofEntries(entry("playCard", () -> {
         }), entry("startTurn", () -> {
+            System.out.println("ciao");
+            Player current = this.gsMachine.getTable().getCurrentPlayer();
+            this.gameObs.getHand().set(
+                current.getCards().stream().map(c -> c.getRealName()).collect(Collectors.toList())
+            );
         }), entry("endTurn", () -> {
             // this.gameObs.getCharacter().set(null);
             List<Player> others = new ArrayList<>(this.gsMachine.getTable().getPlayers());
@@ -53,16 +57,12 @@ public class GameController {
         winners.clear();
         this.winners = winners;
 
-        List<Role> roles = new ArrayList<>(totalRoles.subList(0, numberOfPlayers));
-        Collections.shuffle(roles);
-        this.allPlayers = roles.stream().map(r -> new SimplePlayer(r, "player " + Integer.toString(roles.indexOf(r))))
-            .collect(Collectors.toList());
-
-        this.gsMachine = new GameStateMachine(new SimpleTable(new Deck(), allPlayers));
+        this.gsMachine = new GameStateMachine(new SimpleTable(new Deck(), numberOfPlayers));
         var obs = this.gsMachine.getMessageObservable();
         obs.addObserver(() -> this.gsMachineMessages.get(obs.get()).run());
 
-        Player first = this.allPlayers.get(0);
+        Player first = this.gsMachine.getTable().getCurrentPlayer();
+        this.allPlayers = this.gsMachine.getTable().getPlayers();
         this.gameObs = new GameViewObservables(new ObservableElement<String>(getPlayerName(first)),
             new ObservableElement<String>(first.getRole().toString()),
             new ObservableElement<Integer>(first.getLifePoints()), new ObservableElement<List<String>>(),
@@ -82,8 +82,9 @@ public class GameController {
         View view = factory.getGameView(this.gameObs);
         // var obs = view.getChangeScreenObservable();
         // obs.addObserver(() -> this.changeSceneObs.set(obs.get()));
-
         this.gsMachine.setCurrentState(new StartTurnState());
+        this.gsMachine.go();
+
         view.show();
     }
 
