@@ -98,18 +98,6 @@ public class SimplePlayer implements Player {
 
     @Override
     public void modifyLifePoints(int points) {
-<<<<<<< HEAD
-        int newLifePoints = this.lifePoints + points;
-
-        if (newLifePoints >= this.character.getLifePoints()) {
-            this.lifePoints = this.character.getLifePoints();
-        }
-        else if(newLifePoints < 0) {
-            this.lifePoints = 0;
-        }
-        else {
-            this.lifePoints = newLifePoints;
-=======
         int newLifePoints;
         newLifePoints = this.lifePoints + points;
         if (newLifePoints >= this.maxLifePoints) {
@@ -118,7 +106,6 @@ public class SimplePlayer implements Player {
             this.lifePoints = 0;
         } else {
         	this.lifePoints = newLifePoints;
->>>>>>> origin/feature/logics
         }
     }
 

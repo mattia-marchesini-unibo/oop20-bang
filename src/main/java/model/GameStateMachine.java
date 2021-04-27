@@ -32,4 +32,8 @@ public class GameStateMachine {
     public Table getTable() {
         return this.table;
     }
+
+    public State getCurrentState() {
+        return this.currentState;
+    }
 }
