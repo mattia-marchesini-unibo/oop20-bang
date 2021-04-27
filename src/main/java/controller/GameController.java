@@ -18,6 +18,7 @@ import model.SimplePlayer;
 import model.Role;
 import model.SimpleTable;
 import model.deck.Deck;
+import model.states.StartTurnState;
 import view.GameViewObservables;
 import view.View;
 import view.ViewFactory;
@@ -90,7 +91,7 @@ public class GameController {
 //        var obs = view.getChangeScreenObservable();
 //        obs.addObserver(() -> this.changeSceneObs.set(obs.get()));
 
-
+        this.gsMachine.setCurrentState(new StartTurnState());
         view.show();
     }
 
