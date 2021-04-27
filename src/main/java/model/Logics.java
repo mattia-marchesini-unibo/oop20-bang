@@ -1,13 +1,7 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
-
-import libs.CircularList;
 
 public class Logics {
 	
@@ -47,7 +41,7 @@ public class Logics {
 		if(!this.table.getCurrentPlayer().getActiveCardsByName("volcanic").isEmpty()) {
 			return true;
 		}
-		return this.table.getCurrentPlayer().getUSeBang() ? false : true;
+		return this.table.getCurrentPlayer().getUsedBang() ? false : true;
 	}
 }
 	
