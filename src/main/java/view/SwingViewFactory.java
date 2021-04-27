@@ -160,7 +160,7 @@ public class SwingViewFactory implements ViewFactory {
                  * Add observers
                  */
                 IObserver currentPlayerObs = () -> {
-                    currentPlayerStats.setText("Name: " + observables.getCharacter().get());
+                    currentPlayerStats.setText("Name: " + observables.getCurrentPlayer().get());
                     currentPlayerStats.append("\nHP: " + observables.getLifePoints().get());
                     currentPlayerStats.append("\nRole: " + observables.getRole().get());
                 };
@@ -185,7 +185,7 @@ public class SwingViewFactory implements ViewFactory {
                     }
                 };
                 
-                observables.getCharacter().addObserver(currentPlayerObs);
+                observables.getCurrentPlayer().addObserver(currentPlayerObs);
                 observables.getLifePoints().addObserver(currentPlayerObs);
                 observables.getRole().addObserver(currentPlayerObs);
                 observables.getHand().addObserver(() -> {

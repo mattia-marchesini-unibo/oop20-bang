@@ -6,7 +6,7 @@ import libs.observe.*;
 
 public class GameViewObservables {
 
-    private ObservableElement<String> character;
+    private ObservableElement<String> currentPlayer;
     private ObservableElement<String> role;
     private ObservableElement<Integer> lifePoints;
     private ObservableElement<List<String>> hand;
@@ -16,12 +16,12 @@ public class GameViewObservables {
     private ObservableElement<List<List<String>>> otherBlueCards;
     private ObservableElement<String> action;
 	
-    public GameViewObservables(ObservableElement<String> character, ObservableElement<String> role,
+    public GameViewObservables(ObservableElement<String> currentPlayer, ObservableElement<String> role,
             ObservableElement<Integer> lifePoints, ObservableElement<List<String>> hand,
             ObservableElement<List<String>> blueCards, ObservableElement<List<String>> otherPlayers,
             ObservableElement<List<Integer>> otherLifePoints,
             ObservableElement<List<List<String>>> otherBlueCards, ObservableElement<String> action) {
-        this.character = character;
+        this.currentPlayer = currentPlayer;
         this.role = role;
         this.lifePoints = lifePoints;
         this.hand = hand;
@@ -32,12 +32,12 @@ public class GameViewObservables {
         this.action = action;
     }
 
-    public ObservableElement<String> getCharacter() {
-        return this.character;
+    public ObservableElement<String> getCurrentPlayer() {
+        return this.currentPlayer;
     }
     
-    public void setCharacter(final ObservableElement<String> character) {
-        this.character = character;
+    public void setCurrentPlayer(final ObservableElement<String> currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
     
     public ObservableElement<String> getRole() {
