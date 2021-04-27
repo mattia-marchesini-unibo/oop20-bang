@@ -5,6 +5,11 @@ import java.util.List;
 import model.card.Card;
 
 public interface Player {
+    
+        /**
+         * @return player name
+         */
+        public String getName();
 
 	/**
 	 * this method set the sight of the sight of the player
