@@ -6,15 +6,12 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import libs.observe.ObservableElement;
-
 public abstract class AbstractView implements View {
     
     private static final double PROPORTION = 1.5;
     
     private JFrame frame;
     protected JPanel panel = new JPanel();
-    private ObservableElement<String> changeScreenObservable;
     
     public AbstractView(final JFrame frame) {
         this.frame = frame;
@@ -28,16 +25,6 @@ public abstract class AbstractView implements View {
         frame.getContentPane().add(panel);
         this.initView();
         this.show();
-    }
-    
-    @Override
-    public ObservableElement<String> getChangeScreenObservable(){
-        return this.changeScreenObservable;
-    }
-    
-    @Override
-    public void changeView(final String s) {
-        changeScreenObservable.set(s);
     }
 
     @Override

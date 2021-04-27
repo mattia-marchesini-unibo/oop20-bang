@@ -28,4 +28,15 @@ public interface ViewFactory {
      */
     View getEndGameView(final List<String> winners);
 
+    /**
+     * @return an {@link} @ObservableElement
+     */
+    ObservableElement<String> getChangeScreenObservable();
+    
+    /**
+     * Shows the specified view
+     * @param s the identifier of the view to show 
+     */
+    void changeView(final String s);
+
 }

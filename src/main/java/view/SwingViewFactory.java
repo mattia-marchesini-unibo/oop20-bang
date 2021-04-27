@@ -24,6 +24,7 @@ import libs.resources.Resources;
 public class SwingViewFactory implements ViewFactory {
     
     private JFrame frame = new JFrame("BANG!");
+    private ObservableElement<String> changeScreenObservable;
     
     @Override
     public View getMenuView(final ObservableElement<Integer> obs) {
@@ -151,7 +152,7 @@ public class SwingViewFactory implements ViewFactory {
                         JOptionPane.showMessageDialog(null, "You must discard " + cardsToDiscard + (cardsToDiscard == 1 ? "card" : "cards"),
                                                       "Discard cards", JOptionPane.INFORMATION_MESSAGE);
                     } else {
-                        observables.getTurn().notifyObservers();
+                        observables.getAction().set("endTurn");
                     }
                 });
                 
@@ -159,7 +160,7 @@ public class SwingViewFactory implements ViewFactory {
                  * Add observers
                  */
                 IObserver currentPlayerObs = () -> {
-                    currentPlayerStats.setText("Name: " + observables.getCharacter().get());
+                    currentPlayerStats.setText("Name: " + observables.getCurrentPlayer().get());
                     currentPlayerStats.append("\nHP: " + observables.getLifePoints().get());
                     currentPlayerStats.append("\nRole: " + observables.getRole().get());
                 };
@@ -184,7 +185,7 @@ public class SwingViewFactory implements ViewFactory {
                     }
                 };
                 
-                observables.getCharacter().addObserver(currentPlayerObs);
+                observables.getCurrentPlayer().addObserver(currentPlayerObs);
                 observables.getLifePoints().addObserver(currentPlayerObs);
                 observables.getRole().addObserver(currentPlayerObs);
                 observables.getHand().addObserver(() -> {
@@ -261,13 +262,20 @@ public class SwingViewFactory implements ViewFactory {
         };
     }
     
+    public ObservableElement<String> getChangeScreenObservable(){
+        return this.changeScreenObservable;
+    }
+    
+    public void changeView(final String s) {
+        this.changeScreenObservable.set(s);
+    }
+    
     public static void main(String[] args) {
         var factory = new SwingViewFactory();
         // factory.getEndGameView(new ObservableElement<List<String>>(List.of("Player1", "Player2")));
         factory.getGameView(new GameViewObservables(new ObservableElement<String>("Char"), new ObservableElement<String>("Role"),
                                                     new ObservableElement<Integer>(4), new ObservableElement<List<String>>(List.of("Card")),
-                                                    new ObservableElement<List<String>>(List.of("Blue")), new ObservableElement<List<String>>(List.of("Boh")),
-                                                    new ObservableElement<List<Integer>>(List.of(1)), new ObservableElement<List<List<String>>>(List.of(List.of("Card"))),
-                                                    new ObservableElement<Integer>(5), new ObservableElement<String>("Azione")));
+                                                    new ObservableElement<List<String>>(List.of("Blue")),
+                                                    new ObservableElement<List<String>>(List.of("Boh"))));
     }
 }
