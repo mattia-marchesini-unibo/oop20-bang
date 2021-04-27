@@ -7,6 +7,7 @@ import static java.util.Map.entry;
 
 import java.util.ArrayList;
 
+import libs.observe.IObserver;
 import libs.observe.ObservableElement;
 import view.View;
 import view.ViewFactory;
@@ -17,10 +18,11 @@ public class Controller {
     private ObservableElement<Integer> numberOfPlayers = new ObservableElement<>();
     private ObservableElement<String> changeSceneObs = new ObservableElement<>();
     private List<String> winners = new ArrayList<>();
-
+    private IObserver changeViewObserver = null;
     private Map<String, IViewController> controllers = new HashMap<String, IViewController>(Map.ofEntries(
-        entry("menu", (fct) -> {
+        entry("start", (fct) -> {
             View v = fct.getMenuView(numberOfPlayers);
+            v.getChangeScreenObservable().addObserver(changeViewObserver);
             v.show();
         }),
         entry("rules", (fct) -> {
@@ -38,15 +40,15 @@ public class Controller {
     ));
 
     public Controller(ViewFactory factory) {
+        this.changeViewObserver = () -> {
+            controllers.get(changeSceneObs.get()).setup(this.factory);
+            };
+
         this.factory = factory;
 //        this.factory.setChangeSceneObservable(this.changeSceneObs);
-
-        changeSceneObs.addObserver(() -> {
-            controllers.get(changeSceneObs.get()).setup(this.factory);
-        });
     }
 
     public void start() {
-        this.changeSceneObs.set("start");
+        controllers.get("start").setup(factory);
     }
 }

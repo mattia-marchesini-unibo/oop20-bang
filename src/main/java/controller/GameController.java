@@ -2,14 +2,16 @@ package controller;
 
 import static java.util.Map.entry;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import libs.CircularList;
+import libs.observe.IObservable;
 import libs.observe.ObservableElement;
+import libs.observe.SimpleObservable;
 import model.GameStateMachine;
 import model.Player;
 import model.SimplePlayer;
@@ -33,13 +35,18 @@ public class GameController {
     );
     private Map<String, Runnable> gsMachineMessages = new HashMap<String, Runnable>(Map.ofEntries(
         entry("playCard", () -> {}),
-        entry("startTurn", () -> {}),
+        entry("startTurn", () -> {
+        }),
         entry("endTurn", () -> {
-//            this.gameObs.getCharacter()
+//          this.gameObs.getCharacter().set(null);
+          List<Player> others = new ArrayList<>(this.gsMachine.getTable().getPlayers());
+          this.gameObs.getOtherPlayers()
+              .set(others.subList(1, others.size()).stream().map(p -> getPlayerName(p)).collect(Collectors.toList()));
         }),
         entry("chooseCards", () -> {}),
         entry("end", () -> {
-            winners.addAll(gsMachine.getTable().getPlayers().stream().map(p -> getPlayerName(p)).collect(Collectors.toList()));
+            this.winners.addAll(
+                gsMachine.getTable().getPlayers().stream().map(p -> getPlayerName(p)).collect(Collectors.toList()));
             changeSceneObs.set("end");
         })
     ));
@@ -49,7 +56,7 @@ public class GameController {
         winners.clear();
         this.winners = winners;
 
-        List<Role> roles = totalRoles.subList(0, numberOfPlayers);
+        List<Role> roles = new ArrayList<>(totalRoles.subList(0, numberOfPlayers));
         Collections.shuffle(roles);
         this.allPlayers = roles.stream().map(r -> new SimplePlayer(r, null)).collect(Collectors.toList());
 
@@ -62,20 +69,27 @@ public class GameController {
             new ObservableElement<String>(getPlayerName(first)),
             new ObservableElement<String>(first.getRole().toString()),
             new ObservableElement<Integer>(first.getLifePoints()),
-            new ObservableElement<List<String>>(first.getCards().stream().map(c -> c.getLocalName()).collect(Collectors.toList())),
-            null,
-            new ObservableElement<List<String>>(allPlayers.subList(1, numberOfPlayers).stream().map(p -> getPlayerName(p)).collect(Collectors.toList())),
-            new ObservableElement<List<Integer>>(allPlayers.subList(1, numberOfPlayers).stream().map(p -> p.getLifePoints()).collect(Collectors.toList())),
-            null,
-            new ObservableElement<Integer>(),
+            new ObservableElement<List<String>>(),
+            new ObservableElement<>(),
+            new ObservableElement<List<String>>(allPlayers.subList(1, numberOfPlayers).stream()
+                .map(p -> getPlayerName(p)).collect(Collectors.toList())),
+            new ObservableElement<List<Integer>>(allPlayers.subList(1, numberOfPlayers).stream()
+                .map(p -> p.getLifePoints()).collect(Collectors.toList())),
+            new ObservableElement<List<List<String>>>(),
+            new SimpleObservable(),
             new ObservableElement<String>()
         );
+
+        this.gameObs.getAction().addObserver(() -> {
+            this.gsMachine.setMessage(this.gameObs.getAction().get());
+        });
     }
 
     public void setup(ViewFactory factory) {
         View view = factory.getGameView(this.gameObs);
-        var obs = view.getChangeScreenObservable();
-        obs.addObserver(() -> this.changeSceneObs.set(obs.get()));
+//        var obs = view.getChangeScreenObservable();
+//        obs.addObserver(() -> this.changeSceneObs.set(obs.get()));
+
 
         view.show();
     }

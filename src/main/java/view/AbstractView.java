@@ -32,7 +32,7 @@ public abstract class AbstractView implements View {
     
     @Override
     public ObservableElement<String> getChangeScreenObservable(){
-        return this.getChangeScreenObservable();
+        return this.changeScreenObservable;
     }
     
     @Override

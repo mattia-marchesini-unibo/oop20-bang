@@ -45,10 +45,10 @@ public class SwingViewFactory implements ViewFactory {
                                                                                                 options.toArray(), options.get(0)));
                     if(playerNum.isPresent()) {
                         obs.set(playerNum.get());
-                        changeView("GameView");
+                        changeView("game");
                     }
                 });
-                howToPlay.addActionListener(e -> changeView("RulesView"));
+                howToPlay.addActionListener(e -> changeView("rules"));
                 quit.addActionListener(e -> System.exit(0));
                 
                 jp.add(play);
@@ -99,7 +99,7 @@ public class SwingViewFactory implements ViewFactory {
                     showBrown.setEnabled(true);
                     showBlue.setEnabled(false);
                 });
-                back.addActionListener(e -> changeView("MenuView"));
+                back.addActionListener(e -> changeView("start"));
                 
                 showRoles.setEnabled(false);
                 text.setText(Resources.readFile(ROLES_FILENAME));
