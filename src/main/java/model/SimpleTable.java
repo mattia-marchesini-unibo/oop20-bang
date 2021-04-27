@@ -17,6 +17,7 @@ enum Message{
 public class SimpleTable implements Table{
     
     private IDeck deck;
+    private List<Card> discardPile;
     private CircularList<Player> players;
     private Player currentPlayer;
     private List<String> usedCards = new ArrayList<>();
@@ -38,7 +39,17 @@ public class SimpleTable implements Table{
 
     @Override
     public IDeck getDeck() {
+        if(this.deck.remainigCards() == 0) {
+            this.deck.getCards().addAll(this.discardPile);
+            this.deck.shuffleDeck();
+            this.discardPile.clear();
+        }
         return this.deck;
+    }
+    
+    @Override
+    public List<Card> getDiscardPile() {
+        return this.discardPile;
     }
 
     @Override
