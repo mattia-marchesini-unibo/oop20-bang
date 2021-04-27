@@ -9,14 +9,12 @@ import libs.CircularList;
 public class Logics {
 	
 	private SimpleTable table;
-	private CircularList<Player> currentPlayers;
 	
 	private static final List<Role> totalRoles = List.of(
-			Role.SHERIFF,Role.RENEGADE,Role.OUTLAW,Role.OUTLAW,Role.DEPUTY,Role.OUTLAW,Role.OUTLAW);
+		Role.SHERIFF,Role.RENEGADE,Role.OUTLAW,Role.OUTLAW,Role.DEPUTY,Role.OUTLAW,Role.OUTLAW);
 
 	public Logics(final SimpleTable table) {
 		this.table = table;
-		this.currentPlayers = this.table.getPlayers();
 	}
 
 	public List<Role> getRolesForPlayers(final int playerNumber){
@@ -29,22 +27,22 @@ public class Logics {
 		
 		Player cur = currentPlayer;
 		for(int i=1;i<=currentPlayer.getSight();i++) {
-			var playerdx = this.currentPlayers.getNextOf(cur);
+			var playerdx = this.table.getPlayers().getNextOf(cur);
 			i = i + playerdx.getRetreat();
 			if(i <= currentPlayer.getSight()) {
 				targets.add(playerdx);
 			}
-			cur = this.currentPlayers.getNextOf(cur);
+			cur = this.table.getPlayers().getNextOf(cur);
 		}
 		
 		cur = currentPlayer;
 		for(int i=1;i<=currentPlayer.getSight();i++) {
-			var playerdx = this.currentPlayers.getPrevOf(cur);
+			var playerdx = this.table.getPlayers().getPrevOf(cur);
 			i = i + playerdx.getRetreat();
 			if(i <= currentPlayer.getSight()) {
 				targets.add(playerdx);
 			}
-			cur = this.currentPlayers.getPrevOf(cur);
+			cur = this.table.getPlayers().getPrevOf(cur);
 		}
 		return targets;
 	}
