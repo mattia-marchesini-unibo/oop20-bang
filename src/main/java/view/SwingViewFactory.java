@@ -24,6 +24,7 @@ import libs.resources.Resources;
 public class SwingViewFactory implements ViewFactory {
     
     private JFrame frame = new JFrame("BANG!");
+    private ObservableElement<String> changeScreenObservable;
     
     @Override
     public View getMenuView(final ObservableElement<Integer> obs) {
@@ -45,10 +46,10 @@ public class SwingViewFactory implements ViewFactory {
                                                                                                 options.toArray(), options.get(0)));
                     if(playerNum.isPresent()) {
                         obs.set(playerNum.get());
-                        changeView("GameView");
+                        changeView("game");
                     }
                 });
-                howToPlay.addActionListener(e -> changeView("RulesView"));
+                howToPlay.addActionListener(e -> changeView("rules"));
                 quit.addActionListener(e -> System.exit(0));
                 
                 jp.add(play);
@@ -99,7 +100,7 @@ public class SwingViewFactory implements ViewFactory {
                     showBrown.setEnabled(true);
                     showBlue.setEnabled(false);
                 });
-                back.addActionListener(e -> changeView("MenuView"));
+                back.addActionListener(e -> changeView("start"));
                 
                 showRoles.setEnabled(false);
                 text.setText(Resources.readFile(ROLES_FILENAME));
@@ -151,7 +152,7 @@ public class SwingViewFactory implements ViewFactory {
                         JOptionPane.showMessageDialog(null, "You must discard " + cardsToDiscard + (cardsToDiscard == 1 ? "card" : "cards"),
                                                       "Discard cards", JOptionPane.INFORMATION_MESSAGE);
                     } else {
-                        observables.getTurn().notifyObservers();
+                        observables.getAction().set("endTurn");
                     }
                 });
                 
@@ -261,13 +262,23 @@ public class SwingViewFactory implements ViewFactory {
         };
     }
     
+    public ObservableElement<String> getChangeScreenObservable(){
+        return this.changeScreenObservable;
+    }
+    
+    public void changeView(final String s) {
+        this.changeScreenObservable.set(s);
+    }
+    
     public static void main(String[] args) {
         var factory = new SwingViewFactory();
         // factory.getEndGameView(new ObservableElement<List<String>>(List.of("Player1", "Player2")));
         factory.getGameView(new GameViewObservables(new ObservableElement<String>("Char"), new ObservableElement<String>("Role"),
                                                     new ObservableElement<Integer>(4), new ObservableElement<List<String>>(List.of("Card")),
-                                                    new ObservableElement<List<String>>(List.of("Blue")), new ObservableElement<List<String>>(List.of("Boh")),
-                                                    new ObservableElement<List<Integer>>(List.of(1)), new ObservableElement<List<List<String>>>(List.of(List.of("Card"))),
-                                                    new ObservableElement<Integer>(5), new ObservableElement<String>("Azione")));
+                                                    new ObservableElement<List<String>>(List.of("Blue")),
+                                                    new ObservableElement<List<String>>(List.of("Boh")),
+                                                    new ObservableElement<List<Integer>>(List.of(1)),
+                                                    new ObservableElement<List<List<String>>>(List.of(List.of("Card"))),
+                                                    new ObservableElement<String>("Azione")));
     }
 }
