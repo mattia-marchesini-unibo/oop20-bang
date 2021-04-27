@@ -17,21 +17,24 @@ public class Logics {
 	}
 
 	public Set<Player> getTargets() {		
+	        Player currentPlayer = this.table.getCurrentPlayer();
 		Set<Player> targets = new HashSet<Player>();
-		Player cur = this.table.getCurrentPlayer();
-		for(int i=1;i<=this.table.getCurrentPlayer().getSight();i++) {
+		
+		Player cur = currentPlayer;
+		for(int i=1;i<=currentPlayer.getSight();i++) {
 			var playerdx = this.currentPlayers.getNextOf(cur);
 			i = i + playerdx.getRetreat();
-			if(i <= this.table.getCurrentPlayer().getSight()) {
+			if(i <= currentPlayer.getSight()) {
 				targets.add(playerdx);
 			}
 			cur = this.currentPlayers.getNextOf(cur);
 		}
-		cur = this.table.getCurrentPlayer();
-		for(int i=1;i<=this.table.getCurrentPlayer().getSight();i++) {
+		
+		cur = currentPlayer;
+		for(int i=1;i<=currentPlayer.getSight();i++) {
 			var playerdx = this.currentPlayers.getPrevOf(cur);
 			i = i + playerdx.getRetreat();
-			if(i <= this.table.getCurrentPlayer().getSight()) {
+			if(i <= currentPlayer.getSight()) {
 				targets.add(playerdx);
 			}
 			cur = this.currentPlayers.getPrevOf(cur);
