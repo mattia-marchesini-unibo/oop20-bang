@@ -21,7 +21,7 @@ public class CheckDeadPlayersState implements State {
         } else {
             gsMachine.setCurrentState(new ChooseActionState());
         }
-        
+    
     }
 
 }
