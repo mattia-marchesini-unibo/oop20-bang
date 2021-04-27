@@ -16,36 +16,31 @@ public class Controller {
 
     private ViewFactory factory;
     private ObservableElement<Integer> numberOfPlayers = new ObservableElement<>();
-    private ObservableElement<String> changeSceneObs = new ObservableElement<>();
+    private ObservableElement<String> changeSceneObs;
     private List<String> winners = new ArrayList<>();
-    private IObserver changeViewObserver = null;
-    private Map<String, IViewController> controllers = new HashMap<String, IViewController>(Map.ofEntries(
-        entry("start", (fct) -> {
+
+    private Map<String, IViewController> controllers = new HashMap<String, IViewController>(
+        Map.ofEntries(entry("start", (fct) -> {
             View v = fct.getMenuView(numberOfPlayers);
-            v.getChangeScreenObservable().addObserver(changeViewObserver);
             v.show();
-        }),
-        entry("rules", (fct) -> {
+        }), entry("rules", (fct) -> {
             View v = fct.getRulesView();
             v.show();
-        }),
-        entry("game", (fct) -> {
+        }), entry("game", (fct) -> {
             GameController gmc = new GameController(numberOfPlayers.get(), changeSceneObs, winners);
             gmc.setup(fct);
-        }),
-        entry("end", (fct) -> {
+        }), entry("end", (fct) -> {
             View v = fct.getEndGameView(winners);
             v.show();
-        })
-    ));
+        })));
 
     public Controller(ViewFactory factory) {
-        this.changeViewObserver = () -> {
+        this.changeSceneObs = factory.getChangeScreenObservable();
+        this.changeSceneObs.addObserver(() -> {
             controllers.get(changeSceneObs.get()).setup(this.factory);
-            };
+        });
 
         this.factory = factory;
-//        this.factory.setChangeSceneObservable(this.changeSceneObs);
     }
 
     public void start() {

@@ -24,7 +24,7 @@ import libs.resources.Resources;
 public class SwingViewFactory implements ViewFactory {
     
     private JFrame frame = new JFrame("BANG!");
-    private ObservableElement<String> changeScreenObservable;
+    private ObservableElement<String> changeScreenObservable = new ObservableElement<String>();
     
     @Override
     public View getMenuView(final ObservableElement<Integer> obs) {
@@ -268,14 +268,5 @@ public class SwingViewFactory implements ViewFactory {
     
     public void changeView(final String s) {
         this.changeScreenObservable.set(s);
-    }
-    
-    public static void main(String[] args) {
-        var factory = new SwingViewFactory();
-        // factory.getEndGameView(new ObservableElement<List<String>>(List.of("Player1", "Player2")));
-        factory.getGameView(new GameViewObservables(new ObservableElement<String>("Char"), new ObservableElement<String>("Role"),
-                                                    new ObservableElement<Integer>(4), new ObservableElement<List<String>>(List.of("Card")),
-                                                    new ObservableElement<List<String>>(List.of("Blue")),
-                                                    new ObservableElement<List<String>>(List.of("Boh"))));
     }
 }

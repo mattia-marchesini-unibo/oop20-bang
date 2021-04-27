@@ -77,7 +77,6 @@ public class GameController {
             new ObservableElement<List<Integer>>(allPlayers.subList(1, numberOfPlayers).stream()
                 .map(p -> p.getLifePoints()).collect(Collectors.toList())),
             new ObservableElement<List<List<String>>>(),
-            new SimpleObservable(),
             new ObservableElement<String>()
         );
 
