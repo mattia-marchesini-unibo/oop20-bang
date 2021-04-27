@@ -18,6 +18,7 @@ public class SimplePlayer implements Player {
     private int maxLifePoints;
     private int lifePoints;
     private int protections = 0;
+    private boolean useBang = false;
 
     public SimplePlayer(Role role, String name) {
         this.name = name;
@@ -101,8 +102,10 @@ public class SimplePlayer implements Player {
         newLifePoints = this.lifePoints + points;
         if (newLifePoints >= this.maxLifePoints) {
             this.lifePoints = this.maxLifePoints;
+        } else if(newLifePoints < 0 ){
+            this.lifePoints = 0;
         } else {
-            this.lifePoints = newLifePoints;
+        	this.lifePoints = newLifePoints;
         }
     }
 
@@ -138,4 +141,14 @@ public class SimplePlayer implements Player {
     public boolean hasProtection() {
         return this.protections > 0;
     }
+
+	@Override
+	public boolean getUSeBang() {
+		return this.useBang;
+	}
+
+	@Override
+	public void setUseBang(boolean b) {
+		this.useBang = b;
+	}
 }
