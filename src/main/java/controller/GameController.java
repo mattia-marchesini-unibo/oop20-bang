@@ -83,9 +83,8 @@ public class GameController {
         // var obs = view.getChangeScreenObservable();
         // obs.addObserver(() -> this.changeSceneObs.set(obs.get()));
         this.gsMachine.setCurrentState(new StartTurnState());
-        this.gsMachine.go();
-
         view.show();
+        this.gsMachine.go();
     }
 
     private String getPlayerName(Player player) {
