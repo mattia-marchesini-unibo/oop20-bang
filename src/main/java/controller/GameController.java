@@ -74,15 +74,7 @@ public class GameController {
 
         Player first = this.gsMachine.getTable().getCurrentPlayer();
         this.allPlayers = new ArrayList<>(this.gsMachine.getTable().getPlayers());
-        this.gameObs = new GameViewObservables(new ObservableElement<String>(getPlayerName(first)),
-            new ObservableElement<String>(first.getRole().toString()),
-            new ObservableElement<Integer>(first.getLifePoints()), new ObservableElement<List<String>>(),
-            new ObservableElement<>(),
-            new ObservableElement<List<String>>(allPlayers.subList(1, numberOfPlayers).stream()
-                .map(p -> getPlayerName(p)).collect(Collectors.toList())),
-            new ObservableElement<List<Integer>>(allPlayers.subList(1, numberOfPlayers).stream()
-                .map(p -> p.getLifePoints()).collect(Collectors.toList())),
-            new ObservableElement<List<List<String>>>(), new ObservableElement<String>());
+        this.gameObs = new GameViewObservables();
 
         this.gameObs.getAction().addObserver(() -> {
             this.gsMachine.setTurnMessage(this.gameObs.getAction().get());

@@ -237,6 +237,16 @@ public class SwingViewFactory implements ViewFactory {
                 observables.getOtherPlayers().addObserver(otherPlayersObs);
                 observables.getOtherLifePoints().addObserver(otherPlayersObs);
                 observables.getOtherBlueCards().addObserver(otherPlayersObs);
+                observables.getTargets().addObserver(() -> {
+                    // Guarda se si può fare senza il button Annulla
+                    List<String> options = observables.getTargets().get();
+                    Optional<Integer> choice = Optional.ofNullable((Integer) JOptionPane.showInputDialog(frame, "Choose target:",
+                                                                      "Choose target", JOptionPane.PLAIN_MESSAGE, null,
+                                                                      options.toArray(), options.get(0)));
+                    if(choice.isPresent()) {
+                        observables.setChoosenPlayer(options.get(choice.get()));
+                    }
+                });
                 
                 /*
                  * Compose view
