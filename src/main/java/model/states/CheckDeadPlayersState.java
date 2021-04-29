@@ -19,6 +19,7 @@ public class CheckDeadPlayersState implements State {
         if(!dead.isEmpty()) {
             gsMachine.setCurrentState(new CheckGameOverState());
         } else {
+            System.out.println("checkDead !!");
             gsMachine.setCurrentState(new ChooseActionState());
         }
     }

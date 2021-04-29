@@ -8,6 +8,7 @@ public class GameStateMachine {
     private State currentState;
     private Table table;
     private ObservableElement<String> messageObs = new ObservableElement<>();
+    private TurnObservable<String> turnMessageObs = new TurnObservable<>();
 
     public GameStateMachine(final Table table) {
         this.table = table;
@@ -35,5 +36,13 @@ public class GameStateMachine {
 
     public State getCurrentState() {
         return this.currentState;
+    }
+
+    public TurnObservable<String> getTurnMessageObservable() {
+        return this.turnMessageObs;
+    }
+    
+    public void setTurnMessage(String message) {
+        this.turnMessageObs.set(message);
     }
 }

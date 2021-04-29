@@ -15,6 +15,7 @@ public class GameViewObservables {
     private ObservableElement<List<Integer>> otherLifePoints;
     private ObservableElement<List<List<String>>> otherBlueCards;
     private ObservableElement<String> action;
+    private String choosenCard = "";
     
     public GameViewObservables(ObservableElement<String> currentPlayer, ObservableElement<String> role,
             ObservableElement<Integer> lifePoints, ObservableElement<List<String>> hand,
@@ -102,6 +103,14 @@ public class GameViewObservables {
     
     public void setAction(final ObservableElement<String> action) {
         this.action = action;
+    }
+    
+    public String getChoosenCard() {
+        return this.choosenCard;
+    }
+    
+    public void setChoosenCard(String choosenCard) {
+        this.choosenCard = choosenCard;
     }
     
 }

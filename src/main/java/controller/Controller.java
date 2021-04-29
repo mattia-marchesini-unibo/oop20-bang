@@ -27,7 +27,7 @@ public class Controller {
             View v = fct.getRulesView();
             v.show();
         }), entry("game", (fct) -> {
-            GameController gmc = new GameController(numberOfPlayers.get(), changeSceneObs, winners);
+            GameController gmc = new GameController(numberOfPlayers.get(), winners);
             gmc.setup(fct);
         }), entry("end", (fct) -> {
             View v = fct.getEndGameView(winners);

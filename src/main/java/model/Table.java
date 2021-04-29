@@ -9,34 +9,39 @@ import model.deck.IDeck;
 import model.effects.Effect;
 
 public interface Table {
-    
+
+    enum Message {
+        CHOOSE_PLAYER, CHOOSE_PLAYER_WITH_DISTANCE, CHOOSE_CARD
+    }
+
     /**
      * @return deck
      */
     IDeck getDeck();
-    
+
     /**
      * @return discard pile
      */
     List<Card> getDiscardPile();
-    
+
     /**
      * @return a CircularList containing alive players
      */
     CircularList<Player> getPlayers();
-    
+
     /**
      * Removes a player from a list of players
      * 
-     * @param player the player to remove
+     * @param player
+     *            the player to remove
      */
     void removePlayer(Player player);
-    
+
     /**
      * @return current player
      */
     Player getCurrentPlayer();
-    
+
     /**
      * Sets current player to the player passed as argument
      * 
@@ -50,16 +55,18 @@ public interface Table {
     void nextPlayer();
 
     TurnObservable<List<Player>> getChoosePlayersObservable();
-    
+
     TurnObservable<Map<Card, Player>> getChooseCardsObservable();
 
     void choosePlayers(int howMany);
-    
+
     void choosePlayers(int howMany, int distance);
-    
+
     void chooseCards(List<Card> cardsToChoose, List<Player> choosers, int howManyPerPlayer);
-    
+
     void playerUsedCard(String cardName);
 
     List<String> getPlayerUsedCards();
+
+    Message getMessage();
 }
