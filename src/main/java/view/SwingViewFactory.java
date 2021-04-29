@@ -167,9 +167,11 @@ public class SwingViewFactory implements ViewFactory {
                 IObserver currentPlayerObs = () -> {
                     currentPlayerStats.setText("Name: " + observables.getCurrentPlayer().get());
                     currentPlayerStats.append("\nHP: " + observables.getLifePoints().get());
-                    currentPlayerStats.append("\nRole: " + observables.getRole().get());
+                    if(observables.getRole().get().equals("sheriff")) {
+                        currentPlayerStats.append("\nRole: " + observables.getRole().get());
+                    }
                 };
-                IObserver playersObs = () -> {
+                IObserver otherPlayersObs = () -> {
                     playersPanel.removeAll();
                     for(int i = 0; i < observables.getOtherPlayers().get().size(); i++) {
                         JPanel jp = new JPanel();
@@ -178,13 +180,15 @@ public class SwingViewFactory implements ViewFactory {
                         JTextArea text = new JTextArea();
                         text.setEditable(false);
                         text.append("Name: " + observables.getOtherPlayers().get().get(i));
-                        text.append("\nHP: " + observables.getOtherLifePoints().get());
+                        text.append("\nHP: " + observables.getOtherLifePoints().get().get(i));
                         jp.add(text);
                         
-                        observables.getOtherBlueCards().get().get(i).forEach(c -> {
-                            JButton jb = new JButton(c);
-                            jp.add(jb);
-                        });
+//                        observables.getOtherBlueCards().addObserver(() -> {
+//                            observables.getOtherBlueCards().get().forEach(c -> {
+//                                JButton jb = new JButton(c);
+//                                jp.add(jb);
+//                            });
+//                        });
                         
                         playersPanel.add(jp);
                     }
@@ -206,6 +210,7 @@ public class SwingViewFactory implements ViewFactory {
                                 observables.setChoosenCard(c);
                                 observables.getAction().set("playCard");
                             } else if (choice == 1) {
+                                observables.setChoosenCard(c);
                                 observables.getAction().set("discardCard");
                             }
                         });
@@ -219,9 +224,9 @@ public class SwingViewFactory implements ViewFactory {
                         blueCardsPanel.add(jb);
                     });
                 });
-                observables.getOtherPlayers().addObserver(playersObs);
-                observables.getOtherLifePoints().addObserver(playersObs);
-                observables.getOtherBlueCards().addObserver(playersObs);
+                observables.getOtherPlayers().addObserver(otherPlayersObs);
+                observables.getOtherLifePoints().addObserver(otherPlayersObs);
+                observables.getOtherBlueCards().addObserver(otherPlayersObs);
                 
                 /*
                  * Compose view
@@ -231,6 +236,7 @@ public class SwingViewFactory implements ViewFactory {
                 currentPlayerPanel.add(new JLabel("Your cards in hand:"));
                 currentPlayerPanel.add(cardsScrollPane);
                 currentPlayerPanel.add(endTurn);
+                currentPlayerPanel.add(currentPlayerStats);
                 panel.add(playersPanel, BorderLayout.NORTH);
                 panel.add(currentPlayerPanel, BorderLayout.SOUTH);
             }

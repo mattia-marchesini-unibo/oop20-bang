@@ -64,7 +64,7 @@ public class PlayCardState implements State {
             gsMachine.go();
         }
         else {
-//            gsMachine.setMessage(null);
+            gsMachine.setMessage("playedCard");
             gsMachine.setCurrentState(new CheckDeadPlayersState());
             gsMachine.go();
         }

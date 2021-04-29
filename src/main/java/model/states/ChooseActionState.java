@@ -14,7 +14,6 @@ import model.card.Card;
 public class ChooseActionState implements State {
 
     private GameStateMachine gsMachine = null;
-    private IObserver observer;
 
     private Map <String, Runnable> actionMap = new HashMap<String, Runnable>(Map.ofEntries(
         entry("playCard", () -> {
@@ -25,6 +24,7 @@ public class ChooseActionState implements State {
             gsMachine.setCurrentState(new EndTurnState());
         }),
         entry("discardCard", () -> {
+            
         })
     ));
 
@@ -38,7 +38,11 @@ public class ChooseActionState implements State {
                 actionMap.get(msgObs.get()).run();
             }
         });
-        msgObs.addObserver(() -> gsMachine.go());
+        msgObs.addObserver(() -> {
+            if(!gsMachine.getCurrentState().equals(this)) {
+                gsMachine.go();
+            }
+        });
     }
 
 }
