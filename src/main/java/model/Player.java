@@ -6,20 +6,21 @@ import model.card.Card;
 
 public interface Player {
     
-	/**
-	 * 
-	 * @return useBang
-	 */
-	public boolean getUSeBang();
-	/**
-	 * @param b
-	 */
-	public void setUseBang(boolean b); 
-     /**
-      ** @return player name
-      */
-     public String getName();
-
+    /**
+     * @return useBang
+     */
+    public boolean getUsedBang();
+    
+    /**
+     * @param b
+     */
+    public void setUsedBang(boolean b); 
+    
+    /**
+     ** @return player name
+     */
+    public String getName();    
+    
     /**
      * this method set the sight of the sight of the player
      * @param sight

@@ -16,11 +16,11 @@ public class SimplePlayer implements Player {
     private int retreat = 0;
     private Role role;
     private List<Card> hand = new ArrayList<>();
+    private List<Card> activeCards = new ArrayList<>();
     private int maxLifePoints;
     private int lifePoints;
     private int protections = 0;
-    private boolean useBang = false;
-    private List<Card> activeCards = new ArrayList<>();
+    private boolean usedBang = false;
 
     public SimplePlayer(Role role, String name) {
         this.name = name;
@@ -31,6 +31,16 @@ public class SimplePlayer implements Player {
             this.maxLifePoints = MAX_LIFE_POINTS;
         }
         this.lifePoints = this.maxLifePoints;
+    }
+    
+    @Override
+    public boolean getUsedBang() {
+        return this.usedBang;
+    }
+
+    @Override
+    public void setUsedBang(boolean b) {
+        this.usedBang = b;
     }
 
     @Override
@@ -62,6 +72,11 @@ public class SimplePlayer implements Player {
     public List<Card> getCardsByName(String name) {
         return this.hand.stream().filter(c -> c.getRealName().equals(name)).collect(Collectors.toList());
     }
+    
+    @Override
+    public List<Card> getActiveCardsByName(String name) {
+        return this.activeCards.stream().filter(c -> c.getRealName().equals(name)).collect(Collectors.toList());
+    }
 
     @Override
     public void addCard(Card card) {
@@ -89,6 +104,23 @@ public class SimplePlayer implements Player {
         this.hand.remove(card);
     }
 
+    @Override
+    public List<Card> getActiveCards() {
+        return this.activeCards;
+    }
+
+    @Override
+    public void addActiveCard(final Card card) {
+        if (!this.activeCards.contains(card)) {
+            this.activeCards.add(card);
+        }
+    }
+
+    @Override
+    public void removeActiveCard(final Card card) {
+        this.activeCards.remove(card);
+    }
+    
     @Override
     public Role getRole() {
         return this.role;
@@ -144,36 +176,5 @@ public class SimplePlayer implements Player {
     public boolean hasProtection() {
         return this.protections > 0;
     }
-
-    @Override
-    public boolean getUSeBang() {
-        return this.useBang;
-    }
-
-    @Override
-    public void setUseBang(boolean b) {
-        this.useBang = b;
-    }
-
-    @Override
-    public List<Card> getActiveCards() {
-        return this.activeCards;
-    }
-
-    @Override
-    public void addActiveCard(final Card card) {
-        if (!this.activeCards.contains(card)) {
-            this.activeCards.add(card);
-        }
-    }
-
-    @Override
-    public void removeActiveCard(final Card card) {
-        this.activeCards.remove(card);
-    }
-
-    @Override
-    public List<Card> getActiveCardsByName(String name) {
-        return this.activeCards.stream().filter(c -> c.getRealName().equals(name)).collect(Collectors.toList());
-    }
+    
 }

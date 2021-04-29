@@ -85,9 +85,8 @@ public class GameController {
         View view = factory.getGameView(this.gameObs);
 
         this.gsMachine.setCurrentState(new StartTurnState());
-        this.gsMachine.go();
-
         view.show();
+        this.gsMachine.go();
     }
 
     private String getPlayerName(Player player) {

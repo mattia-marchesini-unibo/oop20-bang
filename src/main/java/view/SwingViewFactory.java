@@ -2,7 +2,9 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridBagLayout;
+import java.awt.Toolkit;
 import java.util.List;
 import java.util.Optional;
 
@@ -119,6 +121,7 @@ public class SwingViewFactory implements ViewFactory {
     public View getGameView(final GameViewObservables observables) {
         return new AbstractView(frame) {
             
+            private static final double PROPORTION = 1.5;
             private JPanel playersPanel;
             private JPanel currentPlayerPanel;
             private JPanel cardsPanel;
@@ -131,6 +134,8 @@ public class SwingViewFactory implements ViewFactory {
                 /*
                  * Set general view properties
                  */
+                Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+                frame.setSize((int) (dim.getWidth() / PROPORTION), (int) (dim.getHeight() / PROPORTION));
                 panel.setLayout(new BorderLayout());
                 playersPanel = new JPanel();
                 currentPlayerPanel = new JPanel();
@@ -243,8 +248,10 @@ public class SwingViewFactory implements ViewFactory {
                 JPanel jp = new JPanel();
                 jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
                 JLabel gameOverLabel = new JLabel("GAME OVER!");
-                StringBuilder builder = new StringBuilder("Player" + (winners.size() > 1 ? "s " : " "));
+                JButton quit = new JButton("Quit");
+                quit.addActionListener(e -> System.exit(0));
                 
+                StringBuilder builder = new StringBuilder("Player" + (winners.size() > 1 ? "s " : " "));
                 winners.forEach(w -> {
                     if(winners.indexOf(w) != 0) {
                         builder.append(", ");
@@ -258,6 +265,7 @@ public class SwingViewFactory implements ViewFactory {
                 winnersLabel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
                 jp.add(gameOverLabel);
                 jp.add(winnersLabel);
+                jp.add(quit);
                 panel.add(jp);
             }
         };
