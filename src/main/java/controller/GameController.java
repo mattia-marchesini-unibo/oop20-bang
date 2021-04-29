@@ -35,7 +35,6 @@ public class GameController {
     private Map<String, Runnable> gsMachineMessages = new HashMap<String, Runnable>(
         Map.ofEntries(entry("playCard", () -> {
         }), entry("startTurn", () -> {
-            System.out.println("ciao");
             Player current = this.gsMachine.getTable().getCurrentPlayer();
             this.gameObs.getHand().set(
                 current.getCards().stream().map(c -> c.getRealName()).collect(Collectors.toList())
@@ -52,14 +51,17 @@ public class GameController {
             changeSceneObs.set("end");
         })));
 
-    public GameController(int numberOfPlayers, ObservableElement<String> changeSceneObs, List<String> winners) {
-        this.changeSceneObs = changeSceneObs;
+    public GameController(int numberOfPlayers, List<String> winners) {
         winners.clear();
         this.winners = winners;
 
         this.gsMachine = new GameStateMachine(new SimpleTable(new Deck(), numberOfPlayers));
         var obs = this.gsMachine.getMessageObservable();
-        obs.addObserver(() -> this.gsMachineMessages.get(obs.get()).run());
+        obs.addObserver(() -> {
+            if(this.gsMachineMessages.containsKey(obs.get())) {
+                this.gsMachineMessages.get(obs.get()).run();
+            }
+        });
 
         Player first = this.gsMachine.getTable().getCurrentPlayer();
         this.allPlayers = this.gsMachine.getTable().getPlayers();
@@ -74,14 +76,14 @@ public class GameController {
             new ObservableElement<List<List<String>>>(), new ObservableElement<String>());
 
         this.gameObs.getAction().addObserver(() -> {
-            this.gsMachine.setMessage(this.gameObs.getAction().get());
+            this.gsMachine.setTurnMessage(this.gameObs.getAction().get());
         });
     }
 
     public void setup(ViewFactory factory) {
+        this.changeSceneObs = factory.getChangeScreenObservable();
         View view = factory.getGameView(this.gameObs);
-        // var obs = view.getChangeScreenObservable();
-        // obs.addObserver(() -> this.changeSceneObs.set(obs.get()));
+
         this.gsMachine.setCurrentState(new StartTurnState());
         this.gsMachine.go();
 

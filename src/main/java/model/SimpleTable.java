@@ -12,10 +12,6 @@ import model.deck.IDeck;
 import model.effects.Effect;
 import libs.CircularList;
 
-enum Message{
-	 CHOOSE_PLAYER, CHOOSE_PLAYER_WITH_DISTANCE, CHOOSE_CARD
-}
-
 public class SimpleTable implements Table{
     private static final List<Role> totalRoles = List.of(
         Role.SHERIFF,Role.RENEGADE,Role.OUTLAW,Role.OUTLAW,Role.DEPUTY,Role.OUTLAW,Role.OUTLAW);
@@ -29,7 +25,7 @@ public class SimpleTable implements Table{
     private TurnObservable<List<Player>> choosePlayersObservable = new TurnObservable<>();
     private TurnObservable<Map<Card, Player>> chooseCardsObservable = new TurnObservable<>();
 	private int howMany;
-	private Message message;
+	private Message message = null;
 	private int distance;
 	private List<Card> cardsToChoose;
 	private List<Player> choosers;
@@ -139,5 +135,10 @@ public class SimpleTable implements Table{
     @Override
     public List<String> getPlayerUsedCards() {
         return this.usedCards;
+    }
+    
+    @Override
+    public Message getMessage() {
+        return this.message;
     }
 }

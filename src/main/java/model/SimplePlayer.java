@@ -81,11 +81,12 @@ public class SimplePlayer implements Player {
 
     @Override
     public void removeCard(Card card) {
-        this.hand.forEach(i -> {
-            if (i.equals(card)) {
-                this.hand.remove(i);
-            }
-        });
+//        this.hand.forEach(i -> {
+//            if (i.equals(card)) {
+//                this.hand.remove(i);
+//            }
+//        });
+        this.hand.remove(card);
     }
 
     @Override

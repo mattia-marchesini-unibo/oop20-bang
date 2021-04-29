@@ -198,9 +198,10 @@ public class SwingViewFactory implements ViewFactory {
                                                                       JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null,
                                                                       options.toArray(), options.get(0));
                             if (choice == 0) {
-                                observables.getAction().set("Play");
+                                observables.setChoosenCard(c);
+                                observables.getAction().set("playCard");
                             } else if (choice == 1) {
-                                observables.getAction().set("Discard");
+                                observables.getAction().set("discardCard");
                             }
                         });
                         cardsPanel.add(jb);
