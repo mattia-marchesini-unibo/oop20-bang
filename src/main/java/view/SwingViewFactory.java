@@ -154,7 +154,7 @@ public class SwingViewFactory implements ViewFactory {
                 endTurn.addActionListener(e -> {
                     int cardsToDiscard = observables.getHand().get().size() - observables.getLifePoints().get();
                     if(cardsToDiscard > 0) {
-                        JOptionPane.showMessageDialog(null, "You must discard " + cardsToDiscard + (cardsToDiscard == 1 ? "card" : "cards"),
+                        JOptionPane.showMessageDialog(null, "You must discard " + cardsToDiscard + (cardsToDiscard == 1 ? " card." : " cards."),
                                                       "Discard cards", JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         observables.getAction().set("endTurn");
@@ -229,6 +229,7 @@ public class SwingViewFactory implements ViewFactory {
                 currentPlayerPanel.add(blueCardsPanel);
                 currentPlayerPanel.add(new JLabel("Your cards in hand:"));
                 currentPlayerPanel.add(cardsScrollPane);
+                currentPlayerPanel.add(currentPlayerStats);
                 currentPlayerPanel.add(endTurn);
                 panel.add(playersPanel, BorderLayout.NORTH);
                 panel.add(currentPlayerPanel, BorderLayout.SOUTH);
