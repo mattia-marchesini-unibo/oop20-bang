@@ -22,6 +22,7 @@ public class CheckDeadPlayersState implements State {
             System.out.println("checkDead !!");
             gsMachine.setCurrentState(new ChooseActionState());
         }
+        gsMachine.go();
     }
 
 }

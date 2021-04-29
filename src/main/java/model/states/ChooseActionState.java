@@ -14,7 +14,7 @@ import model.card.Card;
 public class ChooseActionState implements State {
 
     private GameStateMachine gsMachine = null;
-
+    
     private Map <String, Runnable> actionMap = new HashMap<String, Runnable>(Map.ofEntries(
         entry("playCard", () -> {
             Card card = gsMachine.getTable().getCurrentPlayer().getCardsByName("indians").get(0);
@@ -30,6 +30,7 @@ public class ChooseActionState implements State {
 
     @Override
     public void handle(GameStateMachine gsMachine) {
+        System.out.println("ChooseActionState");
         this.gsMachine = gsMachine;
         var msgObs = gsMachine.getTurnMessageObservable();
         msgObs.addObserver(() -> {

@@ -135,8 +135,6 @@ public class SwingViewFactory implements ViewFactory {
                 /*
                  * Set general view properties
                  */
-                Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-                frame.setSize((int) (dim.getWidth() / PROPORTION), (int) (dim.getHeight() / PROPORTION));
                 panel.setLayout(new BorderLayout());
                 playersPanel = new JPanel();
                 currentPlayerPanel = new JPanel();

@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 
 public abstract class AbstractView implements View {
     
-    private static final double PROPORTION = 2;
+    private static final double PROPORTION = 1.5;
     
     private JFrame frame;
     protected JPanel panel = new JPanel();

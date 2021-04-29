@@ -44,6 +44,7 @@ public class PlayCardState implements State {
     ));
 
     public PlayCardState(Card playedCard) {
+        System.out.println("PlayCardState!");
         this.playedCard = playedCard;
     }
 
