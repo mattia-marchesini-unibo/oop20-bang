@@ -17,14 +17,13 @@ public class CatBalou implements Effect {
         List<Player> others = new ArrayList<>(table.getPlayers());
         others.remove(0);
         Player opponent = others.get((int)(Math.random() * others.size()));
-        
+
         TurnObservable<Map<Card, Player>> cardOb = table.getChooseCardsObservable();
         cardOb.addObserver(() -> {
             Card card = cardOb.get().keySet().iterator().next();
             opponent.removeCard(card);
         });
-        
+
         table.chooseCards(opponent.getCards(), Arrays.asList(table.getCurrentPlayer()), 1);
     }
-
 }

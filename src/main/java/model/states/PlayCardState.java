@@ -5,7 +5,7 @@ import model.Table;
 import model.card.Card;
 
 public class PlayCardState implements State {
-    
+
     Card playedCard;
 
     public PlayCardState(Card playedCard) {
@@ -17,7 +17,7 @@ public class PlayCardState implements State {
         Table table = gsMachine.getTable();
         table.getCurrentPlayer().removeCard(playedCard);
         playedCard.getEffect().useEffect(table);
-        
+
         // if table message ==
     }
 }

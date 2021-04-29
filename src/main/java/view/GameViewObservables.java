@@ -6,7 +6,7 @@ import libs.observe.*;
 
 public class GameViewObservables {
 
-    private ObservableElement<String> character;
+    private ObservableElement<String> currentPlayer;
     private ObservableElement<String> role;
     private ObservableElement<Integer> lifePoints;
     private ObservableElement<List<String>> hand;
@@ -15,16 +15,13 @@ public class GameViewObservables {
     private ObservableElement<List<Integer>> otherLifePoints;
     private ObservableElement<List<List<String>>> otherBlueCards;
     private ObservableElement<String> action;
-    private IObservable turn;
     
-    
-	
-    public GameViewObservables(ObservableElement<String> character, ObservableElement<String> role,
+    public GameViewObservables(ObservableElement<String> currentPlayer, ObservableElement<String> role,
             ObservableElement<Integer> lifePoints, ObservableElement<List<String>> hand,
             ObservableElement<List<String>> blueCards, ObservableElement<List<String>> otherPlayers,
-            ObservableElement<List<Integer>> otherLifePoints, ObservableElement<List<List<String>>> otherBlueCards,
-            ObservableElement<Integer> turn, ObservableElement<String> action) {
-        this.character = character;
+            ObservableElement<List<Integer>> otherLifePoints,
+            ObservableElement<List<List<String>>> otherBlueCards, ObservableElement<String> action) {
+        this.currentPlayer = currentPlayer;
         this.role = role;
         this.lifePoints = lifePoints;
         this.hand = hand;
@@ -32,16 +29,15 @@ public class GameViewObservables {
         this.otherPlayers = otherPlayers;
         this.otherLifePoints = otherLifePoints;
         this.otherBlueCards = otherBlueCards;
-        this.turn = turn;
         this.action = action;
     }
 
-    public ObservableElement<String> getCharacter() {
-        return this.character;
+    public ObservableElement<String> getCurrentPlayer() {
+        return this.currentPlayer;
     }
     
-    public void setCharacter(final ObservableElement<String> character) {
-        this.character = character;
+    public void setCurrentPlayer(final ObservableElement<String> currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
     
     public ObservableElement<String> getRole() {
@@ -99,7 +95,7 @@ public class GameViewObservables {
     public void setOtherBlueCards(final ObservableElement<List<List<String>>> otherBlueCards) {
         this.otherBlueCards = otherBlueCards;
     }
-	
+    
     public ObservableElement<String> getAction(){
         return this.action;
     }
@@ -107,11 +103,5 @@ public class GameViewObservables {
     public void setAction(final ObservableElement<String> action) {
         this.action = action;
     }
-    public IObservable getTurn() {
-        return this.turn;
-    }
     
-    public void setTurn(final IObservable turn) {
-        this.turn = turn;
-    }
 }

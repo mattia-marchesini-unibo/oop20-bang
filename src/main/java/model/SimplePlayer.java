@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,17 +10,32 @@ import model.card.Color;
 public class SimplePlayer implements Player {
 
     private static final int BASIC_SIGHT = 1;
+    private static final int MAX_LIFE_POINTS = 4;
     private int sight = BASIC_SIGHT;
+    private String name;
     private int retreat = 0;
-    private Character character;
     private Role role;
     private List<Card> hand;
+    private int maxLifePoints;
     private int lifePoints;
     private int protections = 0;
+    private boolean useBang = false;
+    private List<Card> activeCards = new ArrayList<>();
 
-    public SimplePlayer(Role role, Character character) {
-        this.character = character;
+    public SimplePlayer(Role role, String name) {
+        this.name = name;
         this.role = role;
+        if (this.role.equals(Role.SHERIFF)) {
+            this.maxLifePoints = MAX_LIFE_POINTS + 1;
+        } else {
+            this.maxLifePoints = MAX_LIFE_POINTS;
+        }
+        this.lifePoints = this.maxLifePoints;
+    }
+
+    @Override
+    public String getName() {
+        return this.name;
     }
 
     @Override
@@ -86,8 +102,10 @@ public class SimplePlayer implements Player {
     public void modifyLifePoints(int points) {
         int newLifePoints;
         newLifePoints = this.lifePoints + points;
-        if (newLifePoints >= this.character.getLifePoints()) {
-            this.lifePoints = this.character.getLifePoints();
+        if (newLifePoints >= this.maxLifePoints) {
+            this.lifePoints = this.maxLifePoints;
+        } else if (newLifePoints < 0) {
+            this.lifePoints = 0;
         } else {
             this.lifePoints = newLifePoints;
         }
@@ -124,5 +142,37 @@ public class SimplePlayer implements Player {
     @Override
     public boolean hasProtection() {
         return this.protections > 0;
+    }
+
+    @Override
+    public boolean getUSeBang() {
+        return this.useBang;
+    }
+
+    @Override
+    public void setUseBang(boolean b) {
+        this.useBang = b;
+    }
+
+    @Override
+    public List<Card> getActiveCards() {
+        return this.activeCards;
+    }
+
+    @Override
+    public void addActiveCard(final Card card) {
+        if (!this.activeCards.contains(card)) {
+            this.activeCards.add(card);
+        }
+    }
+
+    @Override
+    public void removeActiveCard(final Card card) {
+        this.activeCards.remove(card);
+    }
+
+    @Override
+    public List<Card> getActiveCardsByName(String name) {
+        return this.activeCards.stream().filter(c -> c.getRealName().equals(name)).collect(Collectors.toList());
     }
 }

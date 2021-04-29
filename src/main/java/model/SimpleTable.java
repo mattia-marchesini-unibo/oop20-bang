@@ -17,6 +17,7 @@ enum Message{
 public class SimpleTable implements Table{
     
     private IDeck deck;
+    private List<Card> discardPile;
     private CircularList<Player> players;
     private Player currentPlayer;
     private List<String> usedCards = new ArrayList<>();
@@ -30,15 +31,25 @@ public class SimpleTable implements Table{
 	private List<Player> choosers;
 	private int howManyPerPlayer;
     
-    public SimpleTable(final IDeck deck, final CircularList<Player> players) {
+    public SimpleTable(final IDeck deck, final List<Player> players) {
         this.deck = deck;
-        this.players = players;
-        this.currentPlayer = players.getCurrentElement();
+        this.players = new CircularList<>(players);
+        this.currentPlayer = this.players.getCurrentElement();
     }
 
     @Override
     public IDeck getDeck() {
+        if(this.deck.remainigCards() == 0) {
+            this.deck.getCards().addAll(this.discardPile);
+            this.deck.shuffleDeck();
+            this.discardPile.clear();
+        }
         return this.deck;
+    }
+    
+    @Override
+    public List<Card> getDiscardPile() {
+        return this.discardPile;
     }
 
     @Override
@@ -62,17 +73,8 @@ public class SimpleTable implements Table{
     }
 
     @Override
-    public void drawCards(int nCards) {
-        
-    }
-
-    @Override
-    public void action(Effect effects, Set<Player> targets) {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
     public void nextPlayer() {
+        this.usedCards.clear();
         this.setCurrentPlayer(players.getNext());
     }
 

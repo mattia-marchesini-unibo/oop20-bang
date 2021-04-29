@@ -1,11 +1,18 @@
 package libs;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CircularList<X> extends ArrayList<X> {
     
     private static final long serialVersionUID = 7770028322718010907L;
     private int currentIndex = 0;
+    
+    public CircularList() { }
+    
+    public CircularList(List<X> list) {
+        super(list);
+    }
     
     /**
      * @return index of current element
@@ -68,7 +75,7 @@ public class CircularList<X> extends ArrayList<X> {
         if(indexOf((X) element) == this.size() - 1) {
             index = 0;
         } else {
-            index = currentIndex + 1;
+            index = indexOf(element) + 1;
         }
         return this.get(index);
     }
@@ -98,7 +105,7 @@ public class CircularList<X> extends ArrayList<X> {
         if(indexOf((X) element) == 0) {
             index = this.size() - 1;
         } else {
-            index = currentIndex - 1;
+            index = indexOf(element) - 1;
         }
         return this.get(index);
     }

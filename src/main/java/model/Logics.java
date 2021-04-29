@@ -1,5 +1,7 @@
 package model;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import libs.CircularList;
@@ -7,33 +9,49 @@ import libs.CircularList;
 public class Logics {
 	
 	private SimpleTable table;
-	private CircularList<Player> currentPalyers;
-	private Player player;
-	private Set<Player> canBeFight;
-	private int pos;
 	
+	private static final List<Role> totalRoles = List.of(
+		Role.SHERIFF,Role.RENEGADE,Role.OUTLAW,Role.OUTLAW,Role.DEPUTY,Role.OUTLAW,Role.OUTLAW);
+
 	public Logics(final SimpleTable table) {
 		this.table = table;
-		this.currentPalyers = this.table.getPlayers();
-		this.pos = this.currentPalyers.getPosition(this.player);//dentro gli passo il player
 	}
 
-	public Set<Player> getPalyers(final Player player){
-		this.addToSet(player);
-		return this.canBeFight;		
-	}
-
-	private void addToSet(final Player player) {
-		for(int i=0;i<this.player.getSight();i++) {
-			var posdx = this.currentPalyers.getNext();
-			var possx = this.currentPalyers.getPrev();
-			if(posdx.getIndex() == this.currentPalyers.getPosition(posdx) || posdx.getIndex() <= player.getSight()  ) {
-				this.canBeFight.add(posdx);
-			}
-			if(posdx.getIndex() == this.currentPalyers.getPosition(possx) || possx.getIndex() <= player.getSight()) {
-				this.canBeFight.add(possx);
-			}
-		}
+	public List<Role> getRolesForPlayers(final int playerNumber){
+		return totalRoles.subList(0, playerNumber);
 	}
 	
+	public Set<Player> getTargets() {		
+	        Player currentPlayer = this.table.getCurrentPlayer();
+		Set<Player> targets = new HashSet<Player>();
+		
+		Player cur = currentPlayer;
+		for(int i=1;i<=currentPlayer.getSight();i++) {
+			var playerdx = this.table.getPlayers().getNextOf(cur);
+			i = i + playerdx.getRetreat();
+			if(i <= currentPlayer.getSight()) {
+				targets.add(playerdx);
+			}
+			cur = this.table.getPlayers().getNextOf(cur);
+		}
+		
+		cur = currentPlayer;
+		for(int i=1;i<=currentPlayer.getSight();i++) {
+			var playerdx = this.table.getPlayers().getPrevOf(cur);
+			i = i + playerdx.getRetreat();
+			if(i <= currentPlayer.getSight()) {
+				targets.add(playerdx);
+			}
+			cur = this.table.getPlayers().getPrevOf(cur);
+		}
+		return targets;
+	}
+	
+	public boolean canUseBang() {
+		if(!this.table.getCurrentPlayer().getActiveCardsByName("volcanic").isEmpty()) {
+			return true;
+		}
+		return this.table.getCurrentPlayer().getUSeBang() ? false : true;
+	}
 }
+	

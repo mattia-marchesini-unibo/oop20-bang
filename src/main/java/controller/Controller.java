@@ -5,40 +5,45 @@ import java.util.List;
 import java.util.Map;
 import static java.util.Map.entry;
 
+import java.util.ArrayList;
+
+import libs.observe.IObserver;
 import libs.observe.ObservableElement;
-import model.GameStateMachine;
-import model.Player;
 import view.View;
 import view.ViewFactory;
 
 public class Controller {
 
     private ViewFactory factory;
-    private int numberOfPlayers;
-    ObservableElement<String> changeSceneObs = new ObservableElement<>();
+    private ObservableElement<Integer> numberOfPlayers = new ObservableElement<>();
+    private ObservableElement<String> changeSceneObs;
+    private List<String> winners = new ArrayList<>();
 
-    private Map<String, IViewController> controllers = new HashMap<>(Map.ofEntries(
-        entry("start", (fct) -> {
-//            View v = fct.getStartView();
-//            v.show();
-        }),
-        entry("newGame", (fct) -> {
-//            View v = fct.getNewGameView();
-//            v.show();
-        }),
-        entry("game", (IViewController)new GameController(numberOfPlayers))
-    ));
+    private Map<String, IViewController> controllers = new HashMap<String, IViewController>(
+        Map.ofEntries(entry("start", (fct) -> {
+            View v = fct.getMenuView(numberOfPlayers);
+            v.show();
+        }), entry("rules", (fct) -> {
+            View v = fct.getRulesView();
+            v.show();
+        }), entry("game", (fct) -> {
+            GameController gmc = new GameController(numberOfPlayers.get(), changeSceneObs, winners);
+            gmc.setup(fct);
+        }), entry("end", (fct) -> {
+            View v = fct.getEndGameView(winners);
+            v.show();
+        })));
 
     public Controller(ViewFactory factory) {
-        this.factory = factory;
-        this.factory.setChangeSceneObservable(this.changeSceneObs);
-
-        changeSceneObs.addObserver(() -> {
+        this.changeSceneObs = factory.getChangeScreenObservable();
+        this.changeSceneObs.addObserver(() -> {
             controllers.get(changeSceneObs.get()).setup(this.factory);
         });
+
+        this.factory = factory;
     }
 
     public void start() {
-        this.changeSceneObs.set("start");
+        controllers.get("start").setup(factory);
     }
 }

@@ -8,9 +8,13 @@ public interface IDeck {
 
     void newGame();
     
+    List<Card> getCards();
+    
     Card nextCard();
     
     List<Card> nextCards(int step);
     
-    int remanigCards();
+    int remainigCards();
+    
+    void shuffleDeck();
 }
