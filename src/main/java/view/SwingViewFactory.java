@@ -21,6 +21,7 @@ import javax.swing.ScrollPaneConstants;
 
 import libs.observe.IObserver;
 import libs.observe.ObservableElement;
+import libs.resources.ResourceNotFoundException;
 import libs.resources.Resources;
 
 public class SwingViewFactory implements ViewFactory {
@@ -170,6 +171,8 @@ public class SwingViewFactory implements ViewFactory {
                     if(observables.getRole().get().equals("sheriff")) {
                         currentPlayerStats.append("\nRole: " + observables.getRole().get());
                     }
+                    frame.getContentPane().validate();
+                    frame.getContentPane().repaint();
                 };
                 IObserver otherPlayersObs = () -> {
                     playersPanel.removeAll();
@@ -192,6 +195,8 @@ public class SwingViewFactory implements ViewFactory {
                         
                         playersPanel.add(jp);
                     }
+                    frame.getContentPane().validate();
+                    frame.getContentPane().repaint();
                 };
                 
                 observables.getCurrentPlayer().addObserver(currentPlayerObs);
@@ -216,13 +221,21 @@ public class SwingViewFactory implements ViewFactory {
                         });
                         cardsPanel.add(jb);
                     });
+                    frame.getContentPane().validate();
+                    frame.getContentPane().repaint();
                 });
                 observables.getBlueCards().addObserver(() -> {
                     blueCardsPanel.removeAll();
                     observables.getBlueCards().get().forEach(c -> {
-                        JButton jb = new JButton(new ImageIcon(ClassLoader.getSystemResource("images/" + c + ".png")));
-                        blueCardsPanel.add(jb);
+                        try {
+                            JButton jb = new JButton(new ImageIcon(Resources.getURL("images/" + c + ".png")));
+                            blueCardsPanel.add(jb);
+                        } catch (ResourceNotFoundException e1) {
+                            e1.printStackTrace();
+                        }
                     });
+                    frame.getContentPane().validate();
+                    frame.getContentPane().repaint();
                 });
                 observables.getOtherPlayers().addObserver(otherPlayersObs);
                 observables.getOtherLifePoints().addObserver(otherPlayersObs);
@@ -236,8 +249,8 @@ public class SwingViewFactory implements ViewFactory {
                 currentPlayerPanel.add(new JLabel("Your cards in hand:"));
                 currentPlayerPanel.add(cardsScrollPane);
                 currentPlayerPanel.add(currentPlayerStats);
-                currentPlayerPanel.add(endTurn);
                 currentPlayerPanel.add(currentPlayerStats);
+                currentPlayerPanel.add(endTurn);
                 panel.add(playersPanel, BorderLayout.NORTH);
                 panel.add(currentPlayerPanel, BorderLayout.SOUTH);
             }
