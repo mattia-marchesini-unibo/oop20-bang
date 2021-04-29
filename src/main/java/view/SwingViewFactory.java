@@ -122,7 +122,6 @@ public class SwingViewFactory implements ViewFactory {
     public View getGameView(final GameViewObservables observables) {
         return new AbstractView(frame) {
             
-            private static final double PROPORTION = 1.5;
             private JPanel playersPanel;
             private JPanel currentPlayerPanel;
             private JPanel cardsPanel;
