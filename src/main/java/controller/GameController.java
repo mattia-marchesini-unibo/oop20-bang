@@ -75,7 +75,7 @@ public class GameController {
     }
 
     public void setup(ViewFactory factory) {
-        this.changeSceneObs = factory.getChangeScreenObservable();
+        this.changeSceneObs = factory.getChangeSceneObservable();
         View view = factory.getGameView(this.gameObs);
 
         this.gsMachine.setCurrentState(new StartTurnState());
@@ -99,8 +99,9 @@ public class GameController {
         Player current = this.gsMachine.getTable().getCurrentPlayer();
         var others = getOthers();
 
-        this.gameObs.getHand().set(current.getCards().stream().map(c -> c.getRealName()).collect(Collectors.toList()));
-        this.gameObs.getOtherPlayers().set(others.stream().map(p -> getPlayerName(p)).collect(Collectors.toList()));
+        this.gameObs.getHand().setNoNotify(current.getCards().stream().map(c -> c.getRealName()).collect(Collectors.toList()));
+        List<String> l = others.stream().map(p -> getPlayerName(p)).collect(Collectors.toList());
+        this.gameObs.getOtherPlayers().setNoNotify(l);
 
         this.gameObs.getBlueCards()
             .set(current.getActiveCards().stream().map(c -> c.getRealName()).collect(Collectors.toList()));
@@ -108,9 +109,9 @@ public class GameController {
         others.forEach(p -> {
             othersBlueCards.add(p.getActiveCards().stream().map(c -> c.getRealName()).collect(Collectors.toList()));
         });
-        this.gameObs.getOtherBlueCards().set(othersBlueCards);
+        this.gameObs.getOtherBlueCards().setNoNotify(othersBlueCards);
 
-        this.gameObs.getLifePoints().set(current.getLifePoints());
+        this.gameObs.getLifePoints().setNoNotify(current.getLifePoints());
         List<Integer> othersLifePoints = new ArrayList<>();
         others.forEach(p -> {
             othersLifePoints.add(p.getLifePoints());

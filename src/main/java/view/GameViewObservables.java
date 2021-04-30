@@ -18,7 +18,7 @@ public class GameViewObservables {
     private ObservableElement<List<String>> targets = new ObservableElement<>();
     private String chosenCard = "";
     private String chosenPlayer = "";
-    
+
     public ObservableElement<String> getCurrentPlayer() {
         return this.currentPlayer;
     }

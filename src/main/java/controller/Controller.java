@@ -34,7 +34,7 @@ public class Controller {
         })));
 
     public Controller(ViewFactory factory) {
-        this.changeSceneObs = factory.getChangeScreenObservable();
+        this.changeSceneObs = factory.getChangeSceneObservable();
         this.changeSceneObs.addObserver(() -> {
             controllers.get(changeSceneObs.get()).setup(this.factory);
         });
