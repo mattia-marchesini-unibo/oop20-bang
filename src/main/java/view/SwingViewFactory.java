@@ -122,6 +122,7 @@ public class SwingViewFactory implements ViewFactory {
     public View getGameView(final GameViewObservables observables) {
         return new AbstractView(frame) {
             
+            private static final int ERROR_VALUE = -1;
             private JPanel playersPanel;
             private JPanel currentPlayerPanel;
             private JPanel cardsPanel;
@@ -238,13 +239,11 @@ public class SwingViewFactory implements ViewFactory {
                 observables.getOtherLifePoints().addObserver(otherPlayersObs);
                 observables.getOtherBlueCards().addObserver(otherPlayersObs);
                 observables.getTargets().addObserver(() -> {
-                    // Guarda se si può fare senza il button Annulla
                     List<String> options = observables.getTargets().get();
-                    Optional<Integer> choice = Optional.ofNullable((Integer) JOptionPane.showInputDialog(frame, "Choose target:",
-                                                                      "Choose target", JOptionPane.PLAIN_MESSAGE, null,
-                                                                      options.toArray(), options.get(0)));
-                    if(choice.isPresent()) {
-                        observables.setChoosenPlayer(options.get(choice.get()));
+                    int choice = JOptionPane.showOptionDialog(frame, "Choose target:", "Choose", JOptionPane.DEFAULT_OPTION,
+                                                              JOptionPane.PLAIN_MESSAGE, null, options.toArray(), options.get(0));
+                    if(choice != ERROR_VALUE) {
+                        observables.setChoosenPlayer(options.get(choice));
                     }
                 });
                 
