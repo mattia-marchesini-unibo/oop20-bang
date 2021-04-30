@@ -42,13 +42,14 @@ public class GameController {
             // this.gameObs.getOtherPlayers()
             // .set(others.subList(1, others.size()).stream().map(p -> getPlayerName(p)).collect(Collectors.toList()));
         }), entry("discardCard", () -> {
-            Card card = gsMachine.getTable().getCurrentPlayer().getActiveCardsByName(gameObs.getChosenCard()).get(0);
-            this.gsMachine.getTable().getCurrentPlayer().removeCard(card);
-            this.gsMachine.getTable().discardCard(card);
-            this.gameObs.getCurrentPlayer().get().getHand().set(this.gsMachine.getTable().getCurrentPlayer().getCards()
-                                                                                                            .stream()
-                                                                                                            .map(c -> c.getRealName())
-                                                                                                            .collect(Collectors.toList()));
+            Player current = gsMachine.getTable().getCurrentPlayer();
+            Table table = gsMachine.getTable();
+            Card card = current.getCardsByName(gameObs.getChosenCard()).get(0);
+            current.removeCard(card);
+            table.discardCard(card);
+//            List<String> cards = current.getCards().stream().map(c -> c.getRealName()).collect(Collectors.toList());
+//            this.gameObs.getCurrentPlayer().get().getHand().set(cards);
+            drawTable();
         }), entry("end", () -> {
             this.winners.addAll(
                 gsMachine.getTable().getPlayers().stream().map(p -> getPlayerName(p)).collect(Collectors.toList()));
@@ -72,9 +73,10 @@ public class GameController {
 
         this.gameObs.getAction().addObserver(() -> {
             this.gsMachine.setCurrentState(new ChooseActionState(this.gameObs.getAction().get()));
+            this.gsMachine.go();
         });
         
-        drawTable();
+//        drawTable();
     }
 
     public void setup(ViewFactory factory) {

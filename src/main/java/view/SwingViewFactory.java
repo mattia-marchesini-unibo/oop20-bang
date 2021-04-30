@@ -17,6 +17,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 
+import libs.observe.IObserver;
 import libs.observe.ObservableElement;
 import libs.resources.ResourceNotFoundException;
 import libs.resources.Resources;
@@ -169,28 +170,35 @@ public class SwingViewFactory implements ViewFactory {
                     currentPlayerStats.append("\nRole: " + currentPlayer.getRole());
                     
                     // Hand obs
-                    observables.getCurrentPlayer().get().getHand().addObserver(() -> {
+                    IObserver handObserver = () -> {
+                        System.out.println("qua");
                         cardsPanel.removeAll();
                         observables.getCurrentPlayer().get().getHand().get().forEach(c -> {
-                            JButton jb = new JButton(new ImageIcon(ClassLoader.getSystemResource("images/" + c + ".png")));
-                            jb.addActionListener(e -> {
-                                List<String> options = List.of("Play", "Discard", "Cancel");
-                                int choice = JOptionPane.showOptionDialog(frame, "Do you want to play or discard this card?", "Choose",
-                                                                          JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-                                                                          options.toArray(), options.get(0));
-                                if (choice == 0) {
-                                    observables.setChosenCard(c);
-                                    observables.getAction().set("playCard");
-                                } else if (choice == 1) {
-                                    observables.setChosenCard(c);
-                                    observables.getAction().set("discardCard");
-                                }
-                            });
-                            cardsPanel.add(jb);
+                            JButton jb;
+                            try {
+                                jb = new JButton(new ImageIcon(Resources.getURL("images/" + c + ".png")));
+                                jb.addActionListener(e -> {
+                                    List<String> options = List.of("Play", "Discard", "Cancel");
+                                    int choice = JOptionPane.showOptionDialog(frame, "Do you want to play or discard this card?", "Choose",
+                                                                              JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                                                                              options.toArray(), options.get(0));
+                                    if (choice == 0) {
+                                        observables.setChosenCard(c);
+                                        observables.getAction().set("playCard");
+                                    } else if (choice == 1) {
+                                        observables.setChosenCard(c);
+                                        System.out.println(c);
+                                        observables.getAction().set("discardCard");
+                                    }
+                                });
+                                cardsPanel.add(jb);
+                            } catch (ResourceNotFoundException e1) {
+                                e1.printStackTrace();
+                            }
                         });
-                        
-                    });
-                    
+                    };
+                    observables.getCurrentPlayer().get().getHand().addObserver(handObserver);
+
                     // Active cards obs
                     observables.getCurrentPlayer().get().getActiveCards().addObserver(() -> {
                         blueCardsPanel.removeAll();
@@ -245,7 +253,7 @@ public class SwingViewFactory implements ViewFactory {
                         observables.setChosenPlayer(options.get(choice));
                     }
                 });
-                
+
                 /*
                  * Compose view
                  */
@@ -266,7 +274,7 @@ public class SwingViewFactory implements ViewFactory {
     @Override
     public View getEndGameView(final List<String> winners) {
         return new AbstractView(frame) {
-            
+
             @Override
             public void initView() {
                 panel.setLayout(new GridBagLayout());
@@ -275,7 +283,7 @@ public class SwingViewFactory implements ViewFactory {
                 JLabel gameOverLabel = new JLabel("GAME OVER!");
                 JButton quit = new JButton("Quit");
                 quit.addActionListener(e -> System.exit(0));
-                
+ 
                 StringBuilder builder = new StringBuilder("Player" + (winners.size() > 1 ? "s " : " "));
                 winners.forEach(w -> {
                     if(winners.indexOf(w) != 0) {
@@ -285,7 +293,7 @@ public class SwingViewFactory implements ViewFactory {
                 });
                 builder.append(" won the game!");
                 JLabel winnersLabel = new JLabel(builder.toString());
-                
+
                 gameOverLabel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
                 winnersLabel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
                 jp.add(gameOverLabel);

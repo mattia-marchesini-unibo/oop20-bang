@@ -15,7 +15,7 @@ public class SimpleTable implements Table{
         Role.SHERIFF,Role.RENEGADE,Role.OUTLAW,Role.OUTLAW,Role.DEPUTY,Role.OUTLAW,Role.OUTLAW);
     
     private IDeck deck;
-    private List<Card> discardPile;
+    private List<Card> discardPile = new ArrayList<>();
     private CircularList<Player> players;
     private Player currentPlayer;
     private List<String> usedCards = new ArrayList<>();
