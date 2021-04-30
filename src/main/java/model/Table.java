@@ -21,6 +21,12 @@ public interface Table {
      * @return discard pile
      */
     List<Card> getDiscardPile();
+    
+    /**
+     * Add card to the discard pile
+     * @param card the card to discard
+     */
+    void discardCard(final Card card);
 
     /**
      * @return a CircularList containing alive players

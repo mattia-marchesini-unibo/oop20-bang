@@ -17,7 +17,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 
-import libs.observe.IObserver;
 import libs.observe.ObservableElement;
 import libs.resources.ResourceNotFoundException;
 import libs.resources.Resources;
@@ -138,7 +137,7 @@ public class SwingViewFactory implements ViewFactory {
                 currentPlayerPanel = new JPanel();
                 currentPlayerPanel.setLayout(new BoxLayout(currentPlayerPanel, BoxLayout.Y_AXIS));
                 cardsPanel = new JPanel();
-                blueCardsPanel = new JPanel(); 
+                blueCardsPanel = new JPanel();
                 
                 JScrollPane cardsScrollPane = new JScrollPane(cardsPanel);
                 cardsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -149,7 +148,8 @@ public class SwingViewFactory implements ViewFactory {
                 
                 endTurn = new JButton("End turn");
                 endTurn.addActionListener(e -> {
-                    int cardsToDiscard = observables.getHand().get().size() - observables.getLifePoints().get();
+                    CurrentPlayerInfo currentPlayer = observables.getCurrentPlayer().get();
+                    int cardsToDiscard = currentPlayer.getHand().get().size() - currentPlayer.getLifePoints();
                     if(cardsToDiscard > 0) {
                         JOptionPane.showMessageDialog(null, "You must discard " + cardsToDiscard + (cardsToDiscard == 1 ? " card." : " cards."),
                                                       "Discard cards", JOptionPane.INFORMATION_MESSAGE);
@@ -161,81 +161,82 @@ public class SwingViewFactory implements ViewFactory {
                 /*
                  * Add observers
                  */
-                IObserver currentPlayerObs = () -> {
-                    currentPlayerStats.setText("Name: " + observables.getCurrentPlayer().get());
-                    currentPlayerStats.append("\nHP: " + observables.getLifePoints().get());
-                    if(observables.getRole().get().equals("sheriff")) {
-                        currentPlayerStats.append("\nRole: " + observables.getRole().get());
-                    }
+                // Current player obs
+                observables.getCurrentPlayer().addObserver(() -> {
+                    CurrentPlayerInfo currentPlayer = observables.getCurrentPlayer().get();
+                    currentPlayerStats.setText("Name: " + currentPlayer.getName());
+                    currentPlayerStats.append("\nHP: " + currentPlayer.getLifePoints());
+                    currentPlayerStats.append("\nRole: " + currentPlayer.getRole());
+                    
+                    // Hand obs
+                    observables.getCurrentPlayer().get().getHand().addObserver(() -> {
+                        cardsPanel.removeAll();
+                        observables.getCurrentPlayer().get().getHand().get().forEach(c -> {
+                            JButton jb = new JButton(new ImageIcon(ClassLoader.getSystemResource("images/" + c + ".png")));
+                            jb.addActionListener(e -> {
+                                List<String> options = List.of("Play", "Discard", "Cancel");
+                                int choice = JOptionPane.showOptionDialog(frame, "Do you want to play or discard this card?", "Choose",
+                                                                          JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                                                                          options.toArray(), options.get(0));
+                                if (choice == 0) {
+                                    observables.setChosenCard(c);
+                                    observables.getAction().set("playCard");
+                                } else if (choice == 1) {
+                                    observables.setChosenCard(c);
+                                    observables.getAction().set("discardCard");
+                                }
+                            });
+                            cardsPanel.add(jb);
+                        });
+                        
+                    });
+                    
+                    // Active cards obs
+                    observables.getCurrentPlayer().get().getActiveCards().addObserver(() -> {
+                        blueCardsPanel.removeAll();
+                        observables.getCurrentPlayer().get().getBlueCards().forEach(c -> {
+                            try {
+                                JButton jb = new JButton(new ImageIcon(Resources.getURL("images/" + c + ".png")));
+                                blueCardsPanel.add(jb);
+                            } catch (ResourceNotFoundException e1) {
+                                e1.printStackTrace();
+                            }
+                        });
+                        frame.getContentPane().validate();
+                        frame.getContentPane().repaint();
+                    });
                     frame.getContentPane().validate();
                     frame.getContentPane().repaint();
-                };
-                IObserver otherPlayersObs = () -> {
+                });
+                
+                // Other players obs
+                observables.getOtherPlayers().addObserver(() -> {
                     playersPanel.removeAll();
                     for(int i = 0; i < observables.getOtherPlayers().get().size(); i++) {
+                        var p = observables.getOtherPlayers().get().get(i);
                         JPanel jp = new JPanel();
                         jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
                         
                         JTextArea text = new JTextArea();
                         text.setEditable(false);
-                        text.append("Name: " + observables.getOtherPlayers().get().get(i));
-                        text.append("\nHP: " + observables.getOtherLifePoints().get().get(i));
+                        text.append("Name: " + p.getName());
+                        text.append("\nHP: " + p.getLifePoints());
+                        if(p.getRole().equals("sheriff")) {
+                            text.append("\nRole: " + p.getRole());
+                        }
                         jp.add(text);
                         
-//                        observables.getOtherBlueCards().addObserver(() -> {
-//                            observables.getOtherBlueCards().get().forEach(c -> {
-//                                JButton jb = new JButton(c);
-//                                jp.add(jb);
-//                            });
-//                        });
+                        p.getBlueCards().forEach(c -> {
+                            jp.add(new JButton(c));
+                        });
                         
                         playersPanel.add(jp);
                     }
                     frame.getContentPane().validate();
                     frame.getContentPane().repaint();
-                };
+                });
                 
-                observables.getCurrentPlayer().addObserver(currentPlayerObs);
-                observables.getLifePoints().addObserver(currentPlayerObs);
-                observables.getRole().addObserver(currentPlayerObs);
-                observables.getHand().addObserver(() -> {
-                    cardsPanel.removeAll();
-                    observables.getHand().get().forEach(c -> {
-                        JButton jb = new JButton(new ImageIcon(ClassLoader.getSystemResource("images/" + c + ".png")));
-                        jb.addActionListener(e -> {
-                            List<String> options = List.of("Play", "Discard", "Cancel");
-                            int choice = JOptionPane.showOptionDialog(frame, "Do you want to play or discard this card?", "Choose",
-                                                                      JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-                                                                      options.toArray(), options.get(0));
-                            if (choice == 0) {
-                                observables.setChosenCard(c);
-                                observables.getAction().set("playCard");
-                            } else if (choice == 1) {
-                                observables.setChosenCard(c);
-                                observables.getAction().set("discardCard");
-                            }
-                        });
-                        cardsPanel.add(jb);
-                    });
-                    frame.getContentPane().validate();
-                    frame.getContentPane().repaint();
-                });
-                observables.getBlueCards().addObserver(() -> {
-                    blueCardsPanel.removeAll();
-                    observables.getBlueCards().get().forEach(c -> {
-                        try {
-                            JButton jb = new JButton(new ImageIcon(Resources.getURL("images/" + c + ".png")));
-                            blueCardsPanel.add(jb);
-                        } catch (ResourceNotFoundException e1) {
-                            e1.printStackTrace();
-                        }
-                    });
-                    frame.getContentPane().validate();
-                    frame.getContentPane().repaint();
-                });
-                observables.getOtherPlayers().addObserver(otherPlayersObs);
-                observables.getOtherLifePoints().addObserver(otherPlayersObs);
-                observables.getOtherBlueCards().addObserver(otherPlayersObs);
+                // Targets obs
                 observables.getTargets().addObserver(() -> {
                     List<String> options = observables.getTargets().get();
                     int choice = JOptionPane.showOptionDialog(frame, "Choose target:", "Choose", JOptionPane.DEFAULT_OPTION,

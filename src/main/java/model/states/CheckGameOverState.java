@@ -9,8 +9,7 @@ public class CheckGameOverState  implements State {
     public void handle(final GameStateMachine gsMachine) {
         if(this.isOver(gsMachine)) {
             gsMachine.setCurrentState(new EndGameState());
-        } else {
-            gsMachine.setCurrentState(new ChooseActionState());
+            gsMachine.go();
         }
     }
     
