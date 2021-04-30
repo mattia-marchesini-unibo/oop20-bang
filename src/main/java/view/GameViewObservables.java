@@ -99,19 +99,19 @@ public class GameViewObservables {
         this.targets = targets;
     }
     
-    public String getChoosenCard() {
+    public String getChosenCard() {
         return this.chosenCard;
     }
     
-    public void setChoosenCard(String choosenCard) {
-        this.chosenCard = choosenCard;
+    public void setChosenCard(String chosenCard) {
+        this.chosenCard = chosenCard;
     }
     
-    public String getChoosenPlayer() {
+    public String getChosenPlayer() {
         return this.chosenPlayer;
     }
     
-    public void setChoosenPlayer(String choosenPlayer) {
-        this.chosenPlayer = choosenPlayer;
+    public void setChosenPlayer(String chosenPlayer) {
+        this.chosenPlayer = chosenPlayer;
     }
 }

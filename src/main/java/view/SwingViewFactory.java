@@ -210,10 +210,10 @@ public class SwingViewFactory implements ViewFactory {
                                                                       JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null,
                                                                       options.toArray(), options.get(0));
                             if (choice == 0) {
-                                observables.setChoosenCard(c);
+                                observables.setChosenCard(c);
                                 observables.getAction().set("playCard");
                             } else if (choice == 1) {
-                                observables.setChoosenCard(c);
+                                observables.setChosenCard(c);
                                 observables.getAction().set("discardCard");
                             }
                         });
@@ -243,7 +243,7 @@ public class SwingViewFactory implements ViewFactory {
                     int choice = JOptionPane.showOptionDialog(frame, "Choose target:", "Choose", JOptionPane.DEFAULT_OPTION,
                                                               JOptionPane.PLAIN_MESSAGE, null, options.toArray(), options.get(0));
                     if(choice != ERROR_VALUE) {
-                        observables.setChoosenPlayer(options.get(choice));
+                        observables.setChosenPlayer(options.get(choice));
                     }
                 });
                 
