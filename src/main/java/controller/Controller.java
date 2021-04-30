@@ -7,7 +7,6 @@ import static java.util.Map.entry;
 
 import java.util.ArrayList;
 
-import libs.observe.IObserver;
 import libs.observe.ObservableElement;
 import view.View;
 import view.ViewFactory;

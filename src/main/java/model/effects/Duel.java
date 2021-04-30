@@ -1,6 +1,5 @@
 package model.effects;
 
-import java.util.Arrays;
 import java.util.List;
 
 import model.Player;

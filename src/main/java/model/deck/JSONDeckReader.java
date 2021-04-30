@@ -21,6 +21,7 @@ class JSONDeckReader implements IDeckReader {
         Color color;
         int howMany;
         
+        @SuppressWarnings("unused")
         public JSONCard(String localName, String realName, String color, int howMany) {
             this.localName = localName;
             this.realName = realName;

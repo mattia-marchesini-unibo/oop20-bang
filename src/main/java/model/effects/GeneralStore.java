@@ -8,7 +8,6 @@ import model.Player;
 import model.Table;
 import model.TurnObservable;
 import model.card.Card;
-import model.deck.IDeck;
 
 public class GeneralStore implements Effect {
 

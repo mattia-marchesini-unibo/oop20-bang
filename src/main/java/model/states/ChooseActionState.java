@@ -2,8 +2,6 @@ package model.states;
 
 import java.util.Map;
 
-import libs.observe.IObserver;
-
 import static java.util.Map.entry;
 
 import java.util.HashMap;

@@ -1,12 +1,24 @@
 package model.card;
 
+import static java.util.Map.entry;
+
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import model.effects.*;
-
-import static java.util.Map.entry;
+import model.effects.AddProtection;
+import model.effects.Bang;
+import model.effects.CatBalou;
+import model.effects.DrawCardsFromDeck;
+import model.effects.Duel;
+import model.effects.Effect;
+import model.effects.Gatling;
+import model.effects.GeneralStore;
+import model.effects.Indians;
+import model.effects.ModifyLifePoints;
+import model.effects.ModifyRetreat;
+import model.effects.ModifySight;
+import model.effects.Panic;
+import model.effects.Saloon;
 
 public class Card {
 

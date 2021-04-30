@@ -3,20 +3,14 @@ package controller;
 import static java.util.Map.entry;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import libs.observe.IObservable;
 import libs.observe.ObservableElement;
-import libs.observe.SimpleObservable;
 import model.GameStateMachine;
-import model.Logics;
 import model.Player;
-import model.SimplePlayer;
-import model.Role;
 import model.SimpleTable;
 import model.Table;
 import model.deck.Deck;
@@ -72,7 +66,6 @@ public class GameController {
             }
         });
 
-        Player first = this.gsMachine.getTable().getCurrentPlayer();
         this.allPlayers = new ArrayList<>(this.gsMachine.getTable().getPlayers());
         this.gameObs = new GameViewObservables();
 

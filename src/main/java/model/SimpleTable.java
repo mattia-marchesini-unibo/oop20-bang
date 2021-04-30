@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
+import libs.CircularList;
 import model.card.Card;
 import model.deck.IDeck;
-import model.effects.Effect;
-import libs.CircularList;
 
 public class SimpleTable implements Table{
     private static final List<Role> totalRoles = List.of(
@@ -140,5 +138,25 @@ public class SimpleTable implements Table{
     @Override
     public Message getMessage() {
         return this.message;
+    }
+
+    public int getDistance() {
+        return distance;
+    }
+
+    public int getHowMany() {
+        return howMany;
+    }
+
+    public List<Card> getCardsToChoose() {
+        return cardsToChoose;
+    }
+
+    public List<Player> getChoosers() {
+        return choosers;
+    }
+
+    public int getHowManyPerPlayer() {
+        return howManyPerPlayer;
     }
 }
