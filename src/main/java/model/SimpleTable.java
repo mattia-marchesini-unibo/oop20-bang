@@ -67,6 +67,11 @@ public class SimpleTable implements Table{
     public List<Card> getDiscardPile() {
         return this.discardPile;
     }
+    
+    @Override
+    public void discardCard(final Card card) {
+        this.discardPile.add(card);
+    };
 
     @Override
     public CircularList<Player> getPlayers() {

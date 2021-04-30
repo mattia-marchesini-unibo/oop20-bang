@@ -18,11 +18,10 @@ public class CheckDeadPlayersState implements State {
         dead.forEach(p -> table.removePlayer(p));
         if(!dead.isEmpty()) {
             gsMachine.setCurrentState(new CheckGameOverState());
+            gsMachine.go();
         } else {
             System.out.println("checkDead !!");
-            gsMachine.setCurrentState(new ChooseActionState());
         }
-        gsMachine.go();
     }
 
 }

@@ -13,7 +13,9 @@ import model.GameStateMachine;
 import model.Player;
 import model.SimpleTable;
 import model.Table;
+import model.card.Card;
 import model.deck.Deck;
+import model.states.ChooseActionState;
 import model.states.StartTurnState;
 import view.CurrentPlayerInfo;
 import view.GameViewObservables;
@@ -39,7 +41,14 @@ public class GameController {
             // List<Player> others = new ArrayList<>(this.gsMachine.getTable().getPlayers());
             // this.gameObs.getOtherPlayers()
             // .set(others.subList(1, others.size()).stream().map(p -> getPlayerName(p)).collect(Collectors.toList()));
-        }), entry("chooseCards", () -> {
+        }), entry("discardCard", () -> {
+            Card card = gsMachine.getTable().getCurrentPlayer().getActiveCardsByName(gameObs.getChosenCard()).get(0);
+            this.gsMachine.getTable().getCurrentPlayer().removeCard(card);
+            this.gsMachine.getTable().discardCard(card);
+            this.gameObs.getCurrentPlayer().get().getHand().set(this.gsMachine.getTable().getCurrentPlayer().getCards()
+                                                                                                            .stream()
+                                                                                                            .map(c -> c.getRealName())
+                                                                                                            .collect(Collectors.toList()));
         }), entry("end", () -> {
             this.winners.addAll(
                 gsMachine.getTable().getPlayers().stream().map(p -> getPlayerName(p)).collect(Collectors.toList()));
@@ -62,7 +71,7 @@ public class GameController {
         this.gameObs = new GameViewObservables();
 
         this.gameObs.getAction().addObserver(() -> {
-            this.gsMachine.setTurnMessage(this.gameObs.getAction().get());
+            this.gsMachine.setCurrentState(new ChooseActionState(this.gameObs.getAction().get()));
         });
         
         drawTable();

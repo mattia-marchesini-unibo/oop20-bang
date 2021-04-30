@@ -13,8 +13,6 @@ public class StartTurnState implements State {
         
         if(current.getActiveCardsByName("prison").isEmpty()) {
             table.getDeck().nextCards(2).forEach(c -> current.addCard(c));
-            gsMachine.setCurrentState(new ChooseActionState());
-            gsMachine.go();
         }
         else {
             current.removeActiveCard(current.getActiveCardsByName("prison").get(0));

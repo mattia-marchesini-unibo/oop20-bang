@@ -10,38 +10,36 @@ import model.GameStateMachine;
 import model.card.Card;
 
 public class ChooseActionState implements State {
-
-    private GameStateMachine gsMachine = null;
     
+    private GameStateMachine gsMachine = null;
+    private final String action;
     private Map <String, Runnable> actionMap = new HashMap<String, Runnable>(Map.ofEntries(
-        entry("playCard", () -> {
-            Card card = gsMachine.getTable().getCurrentPlayer().getCardsByName("indians").get(0);
-            gsMachine.setCurrentState(new PlayCardState(card));
-        }),
-        entry("endTurn", () -> {
-            gsMachine.setCurrentState(new EndTurnState());
-        }),
-        entry("discardCard", () -> {
-            
-        })
-    ));
+            entry("playCard", () -> {
+                Card card = gsMachine.getTable().getCurrentPlayer().getCardsByName("indians").get(0);
+                gsMachine.setCurrentState(new PlayCardState(card));
+                gsMachine.go();
+            }),
+            entry("endTurn", () -> {
+                gsMachine.setCurrentState(new EndTurnState());
+                gsMachine.go();
+            }),
+            entry("discardCard", () -> {
+                gsMachine.setMessage("discardCard");
+            })
+        ));
+    
+    public ChooseActionState(final String action) {
+        this.action = action;
+    }
 
     @Override
     public void handle(GameStateMachine gsMachine) {
         System.out.println("ChooseActionState");
         this.gsMachine = gsMachine;
-        var msgObs = gsMachine.getTurnMessageObservable();
-        msgObs.addObserver(() -> {
-            System.out.println(msgObs.get());
-            if(actionMap.containsKey(msgObs.get())) {
-                actionMap.get(msgObs.get()).run();
-            }
-        });
-        msgObs.addObserver(() -> {
-            if(!gsMachine.getCurrentState().equals(this)) {
-                gsMachine.go();
-            }
-        });
+        
+        if(actionMap.containsKey(action)) {
+            this.actionMap.get(action).run();
+        }
     }
 
 }
