@@ -15,7 +15,9 @@ import model.SimpleTable;
 import model.Table;
 import model.deck.Deck;
 import model.states.StartTurnState;
+import view.CurrentPlayerInfo;
 import view.GameViewObservables;
+import view.PlayerInfo;
 import view.View;
 import view.ViewFactory;
 
@@ -29,17 +31,7 @@ public class GameController {
 
     private Map<String, Runnable> gsMachineMessages = new HashMap<String, Runnable>(
         Map.ofEntries(entry("playedCard", () -> {
-            System.out.println("qui");
-            var others = getOthers();
-            List<Integer> othersLifePoints = new ArrayList<>();
-            others.forEach(p -> {
-                othersLifePoints.add(p.getLifePoints());
-            });
-            this.gameObs.getOtherLifePoints().set(othersLifePoints);
-
-            var hand = this.gsMachine.getTable().getCurrentPlayer().getCards().stream().map(c -> c.getRealName())
-                .collect(Collectors.toList());
-            this.gameObs.getHand().set(hand);
+            drawTable();
         }), entry("startTurn", () -> {
             drawTable();
         }), entry("endTurn", () -> {
@@ -72,6 +64,8 @@ public class GameController {
         this.gameObs.getAction().addObserver(() -> {
             this.gsMachine.setTurnMessage(this.gameObs.getAction().get());
         });
+        
+        drawTable();
     }
 
     public void setup(ViewFactory factory) {
@@ -98,25 +92,21 @@ public class GameController {
     private void drawTable() {
         Player current = this.gsMachine.getTable().getCurrentPlayer();
         var others = getOthers();
-
-        this.gameObs.getHand().set(current.getCards().stream().map(c -> c.getRealName()).collect(Collectors.toList()));
-        this.gameObs.getOtherPlayers().set(others.stream().map(p -> getPlayerName(p)).collect(Collectors.toList()));
-
-        this.gameObs.getBlueCards()
-            .set(current.getActiveCards().stream().map(c -> c.getRealName()).collect(Collectors.toList()));
-        List<List<String>> othersBlueCards = new ArrayList<>();
-        others.forEach(p -> {
-            othersBlueCards.add(p.getActiveCards().stream().map(c -> c.getRealName()).collect(Collectors.toList()));
-        });
-        this.gameObs.getOtherBlueCards().set(othersBlueCards);
-
-        this.gameObs.getLifePoints().set(current.getLifePoints());
-        List<Integer> othersLifePoints = new ArrayList<>();
-        others.forEach(p -> {
-            othersLifePoints.add(p.getLifePoints());
-        });
-        this.gameObs.getOtherLifePoints().set(othersLifePoints);
-
-        this.gameObs.getRole().set(current.getRole().toString());
+        
+        this.gameObs.setCurrentPlayer(new CurrentPlayerInfo(
+                this.getPlayerName(current),
+                current.getLifePoints(),
+                current.getRole().toString(),
+                current.getActiveCards().stream().map(c -> c.getRealName()).collect(Collectors.toList())));
+        this.gameObs.getCurrentPlayer().get().getHand().set(current.getCards().stream().map(c -> c.getRealName()).collect(Collectors.toList()));
+        List<PlayerInfo> otherPlayers = new ArrayList<>();
+        others.forEach(p -> otherPlayers.add(new PlayerInfo(
+                this.getPlayerName(p),
+                p.getLifePoints(),
+                p.getRole().toString(),
+                p.getActiveCards().stream().map(c -> c.getRealName()).collect(Collectors.toList())
+            ))
+        );
+        this.gameObs.setOtherPlayers(otherPlayers);
     }
 }
