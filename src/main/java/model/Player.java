@@ -51,9 +51,8 @@ public interface Player {
     /**
      * Removes a card from the hand of the player
      * @param card
-     * @return card
      */
-    public Card removeCard(final Card card);
+    public void removeCard(final Card card);
 	
     /**
      * @return a list containing the active cards of the player

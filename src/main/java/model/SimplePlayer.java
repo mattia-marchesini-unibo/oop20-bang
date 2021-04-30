@@ -95,9 +95,8 @@ public class SimplePlayer implements Player {
     }
 
     @Override
-    public Card removeCard(Card card) {
+    public void removeCard(Card card) {
         this.hand.remove(card);
-        return card;
     }
 
     @Override
