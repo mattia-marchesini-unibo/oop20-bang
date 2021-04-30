@@ -78,7 +78,7 @@ public class GameController {
     }
 
     public void setup(ViewFactory factory) {
-        this.changeSceneObs = factory.getChangeScreenObservable();
+        this.changeSceneObs = factory.getChangeSceneObservable();
         View view = factory.getGameView(this.gameObs);
 
         this.gsMachine.setCurrentState(new StartTurnState());

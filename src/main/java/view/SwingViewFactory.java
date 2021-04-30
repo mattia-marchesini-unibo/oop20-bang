@@ -24,10 +24,10 @@ import libs.resources.Resources;
 public class SwingViewFactory implements ViewFactory {
     
     private JFrame frame = new JFrame("BANG!");
-    private ObservableElement<String> changeScreenObservable = new ObservableElement<String>();
+    private ObservableElement<String> changeSceneObservable = new ObservableElement<String>();
     
     @Override
-    public View getMenuView(final ObservableElement<Integer> obs) {
+    public View getMenuView(final ObservableElement<Integer> numberOfPlayers) {
         return new AbstractView(frame) {
             
             @Override
@@ -45,7 +45,7 @@ public class SwingViewFactory implements ViewFactory {
                                                                                                 "Choose players", JOptionPane.PLAIN_MESSAGE, null,
                                                                                                 options.toArray(), options.get(0)));
                     if(playerNum.isPresent()) {
-                        obs.set(playerNum.get());
+                        numberOfPlayers.set(playerNum.get());
                         changeView("game");
                     }
                 });
@@ -296,11 +296,11 @@ public class SwingViewFactory implements ViewFactory {
         };
     }
     
-    public ObservableElement<String> getChangeScreenObservable(){
-        return this.changeScreenObservable;
+    public ObservableElement<String> getChangeSceneObservable(){
+        return this.changeSceneObservable;
     }
     
     public void changeView(final String s) {
-        this.changeScreenObservable.set(s);
+        this.changeSceneObservable.set(s);
     }
 }
