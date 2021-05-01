@@ -10,6 +10,7 @@ import model.GameStateMachine;
 import model.Table;
 import model.Table.Message;
 import model.card.Card;
+import model.card.Color;
 
 public class PlayCardState implements State {
 
@@ -56,9 +57,13 @@ public class PlayCardState implements State {
         this.gsMachine = gsMachine;
         Table table = gsMachine.getTable();
         table.getCurrentPlayer().removeCard(playedCard);
+//        table.getCurrentPlayer().getActiveCards().forEach(c -> c.getEffect().useEffect(table));
         playedCard.getEffect().useEffect(table);
         Message msg = table.getMessage();
         table.setMessage(null);
+        if(playedCard.getColor().equals(Color.BLUE)) {
+            table.getCurrentPlayer().addActiveCard(playedCard);
+        }
         if(this.tableMsgMap.containsKey(msg)) {
             var pair = this.tableMsgMap.get(msg);
             pair.getX().run();
