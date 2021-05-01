@@ -105,7 +105,7 @@ public interface Player {
     
     void setPrison(boolean hasPrison);
     
-    void addWeapon(Card card);
+    void addWeapon(String card);
     
     void removeWeapon();
 }

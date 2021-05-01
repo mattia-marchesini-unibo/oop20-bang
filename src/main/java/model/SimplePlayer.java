@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 import model.card.Card;
 import model.card.Color;
-import model.card.Weapon;
 
 public class SimplePlayer implements Player {
 
@@ -93,10 +92,10 @@ public class SimplePlayer implements Player {
     public void playCard(String name, Table table) {
         Card card = this.getCardsByName(name).get(0);
 
-        if (card.getColor() == Color.BROWN) {
-            this.removeCard(card);
+        if (card.getColor() == Color.BLUE) {
+            this.addActiveCard(card);
         }
-
+        this.removeCard(card);
         card.getEffect().useEffect(table);
     }
 
@@ -187,12 +186,17 @@ public class SimplePlayer implements Player {
     }
 
     @Override
-    public void addWeapon(Card card) {
-        this.weapon = Optional.of(card);
+    public void addWeapon(String card) {
+        if(this.weapon.isPresent()) {
+            this.removeActiveCard(this.weapon.get());
+        }
+        this.weapon = Optional.of(this.getCardsByName(card).get(0));
+        this.addActiveCard(this.getCardsByName(card).get(0));
     }
 
     @Override
     public void removeWeapon() {
+        this.removeActiveCard(this.weapon.get());
         this.weapon = Optional.empty();
     }
 
