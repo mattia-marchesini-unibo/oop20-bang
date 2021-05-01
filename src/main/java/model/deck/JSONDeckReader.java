@@ -7,7 +7,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import libs.resources.Resources;
-import model.card.Color;
 import model.card.Card;
 
 class JSONDeckReader implements IDeckReader {
@@ -18,11 +17,11 @@ class JSONDeckReader implements IDeckReader {
     private class JSONCard {
         String localName;
         String realName;
-        Color color;
+        String color;
         int howMany;
         
         @SuppressWarnings("unused")
-        public JSONCard(String localName, String realName, Color color, int howMany) {
+        public JSONCard(String localName, String realName, String color, int howMany) {
             this.localName = localName;
             this.realName = realName;
             this.color = color;

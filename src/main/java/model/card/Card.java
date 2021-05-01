@@ -39,11 +39,11 @@ public class Card {
     private Color color;
     private Effect effect;
 
-    public Card(final String cardId, final Color color, final String localName, final String realName) {
+    public Card(final String cardId, final String color, final String localName, final String realName) {
         this.cardId = cardId;
         this.localName = localName;
         this.realName = realName;
-        this.color = color;
+        this.color = Color.valueOf(color.toUpperCase());
         this.effect = cardEffectsMap.get(realName);
     }
 

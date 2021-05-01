@@ -242,7 +242,9 @@ public class SwingViewFactory implements ViewFactory {
                         jp.add(text);
                         
                         p.getBlueCards().forEach(c -> {
-                            jp.add(new JButton(c));
+                            JButton jb = new JButton(c);
+                            jp.add(jb);
+                            jb.setAlignmentX(JPanel.CENTER_ALIGNMENT);
                         });
                         
                         playersPanel.add(jp);
