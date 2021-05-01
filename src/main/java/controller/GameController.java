@@ -50,8 +50,6 @@ public class GameController {
         }), entry("endTurn", () -> {
             drawTable();
         }), entry("discardCard", () -> {
-            // List<String> cards = current.getCards().stream().map(c -> c.getRealName()).collect(Collectors.toList());
-            // this.gameObs.getCurrentPlayer().get().getHand().set(cards);
             Player current = gsMachine.getTable().getCurrentPlayer();
             Card card = current.getCardsByName(gameObs.getChosenCard()).get(0);
             current.removeCard(card);

@@ -182,14 +182,14 @@ public class SwingViewFactory implements ViewFactory {
                 /*
                  * Add observers
                  */
-                // Current player obs
+                // Current player observable
                 observables.getCurrentPlayer().addObserver(() -> {
                     CurrentPlayerInfo currentPlayer = observables.getCurrentPlayer().get();
                     currentPlayerStats.setText("Name: " + currentPlayer.getName());
                     currentPlayerStats.append("\nHP: " + currentPlayer.getLifePoints());
                     currentPlayerStats.append("\nRole: " + currentPlayer.getRole());
                     
-                    // Hand obs
+                    // Hand observable
                     IObserver handObserver = () -> {
                         cardsPanel.removeAll();
                         observables.getCurrentPlayer().get().getHand().get().forEach(c -> {
@@ -219,7 +219,7 @@ public class SwingViewFactory implements ViewFactory {
                     };
                     observables.getCurrentPlayer().get().getHand().addObserver(handObserver);
 
-                    // Active cards obs
+                    // Active cards observable
                     observables.getCurrentPlayer().get().getActiveCards().addObserver(() -> {
                         blueCardsPanel.removeAll();
                         observables.getCurrentPlayer().get().getBlueCards().forEach(c -> {
@@ -237,7 +237,7 @@ public class SwingViewFactory implements ViewFactory {
                     frame.getContentPane().repaint();
                 });
                 
-                // Other players obs
+                // Other players observable
                 observables.getOtherPlayers().addObserver(() -> {
                     playersPanel.removeAll();
                     for(int i = 0; i < observables.getOtherPlayers().get().size(); i++) {
@@ -266,7 +266,7 @@ public class SwingViewFactory implements ViewFactory {
                     frame.getContentPane().repaint();
                 });
                 
-                // Targets obs
+                // Targets observable
                 observables.getTargets().addObserver(() -> {
                     List<String> options = observables.getTargets().get();
                     int choice = JOptionPane.showOptionDialog(frame, "Choose target:", "Choose", JOptionPane.DEFAULT_OPTION,
