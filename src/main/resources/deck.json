@@ -124,6 +124,30 @@
 		"realName": "stagecoach",
 		"color": "blue",
 		"howMany": 2
+	},
+	{
+		"localName": "volcanic",
+		"realName": "volcanic",
+		"color": "blue",
+		"howMany": 2
+	},
+	{
+		"localName": "wells fargo",
+		"realName": "wells fargo",
+		"color": "brow",
+		"howMany": 2
+	},
+	{
+		"localName": "volcanic",
+		"realName": "volcanic",
+		"color": "blue",
+		"howMany": 2
+	},
+	{
+		"localName": "winchester",
+		"realName": "winchester",
+		"color": "blue",
+		"howMany": 2
 	}
 
 ]
