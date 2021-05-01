@@ -21,7 +21,7 @@ public class Card {
         entry("mirino",new ModifySight(1)),
         entry("mustang", new ModifyRetreat(1)),
         entry("emporio", new GeneralStore()),
-        entry("panico", new Panic()),
+        entry("panic", new Panic()),
         entry("birra", new ModifyLifePoints(1)),
         entry("indians", new Indians()),
         entry("duello", new Duel()),
