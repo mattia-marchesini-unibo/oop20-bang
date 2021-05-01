@@ -251,7 +251,7 @@ public class SwingViewFactory implements ViewFactory {
                     int choice = JOptionPane.showOptionDialog(frame, "Choose target:", "Choose", JOptionPane.DEFAULT_OPTION,
                                                               JOptionPane.PLAIN_MESSAGE, null, options.toArray(), options.get(0));
                     if(choice != ERROR_VALUE) {
-                        observables.setChosenPlayer(options.get(choice));
+                        observables.getChosenPlayer().set(options.get(choice));
                     }
                 });
 

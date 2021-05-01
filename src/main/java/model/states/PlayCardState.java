@@ -28,7 +28,7 @@ public class PlayCardState implements State {
         ),
         Message.CHOOSE_PLAYER, new Pair<>(
             (Runnable)() -> {
-                gsMachine.getTable().getChoosePlayersObservable().addObserver(() -> {
+                gsMachine.getTable().getChoosePlayerObservable().addObserver(() -> {
                     gsMachine.setCurrentState(new CheckDeadPlayersState());
                     gsMachine.go();
                 });
@@ -37,7 +37,7 @@ public class PlayCardState implements State {
         ),
         Message.CHOOSE_PLAYER_WITH_DISTANCE, new Pair<>(
             (Runnable)() -> {
-                gsMachine.getTable().getChoosePlayersObservable().addObserver(() -> {
+                gsMachine.getTable().getChoosePlayerObservable().addObserver(() -> {
                     gsMachine.setCurrentState(new CheckDeadPlayersState());
                     gsMachine.go();
                 });

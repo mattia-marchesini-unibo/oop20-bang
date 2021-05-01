@@ -12,12 +12,12 @@ public class Bang implements Effect {
 
     @Override
     public void useEffect(Table table) {
-        TurnObservable<List<Player>> ob = table.getChoosePlayersObservable();
+        TurnObservable<Player> ob = table.getChoosePlayerObservable();
         Player current = table.getCurrentPlayer();
         CircularList<Player> players = table.getPlayers();
 
         ob.addObserver(() -> {
-            Player p = ob.get().get(0);
+            Player p = ob.get();
 
             if(p.hasProtection()) {
                 p.removeProtection();

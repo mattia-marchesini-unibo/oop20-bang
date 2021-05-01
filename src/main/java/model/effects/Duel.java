@@ -12,10 +12,10 @@ public class Duel implements Effect {
     @Override
     public void useEffect(Table table) {
         Player p1 = table.getCurrentPlayer();
-        TurnObservable<List<Player>> ob = table.getChoosePlayersObservable();
+        TurnObservable<Player> ob = table.getChoosePlayerObservable();
 
         ob.addObserver(() -> {
-            Player p2 = ob.get().get(0);
+            Player p2 = ob.get();
             
             List<Card> p1Bangs = p1.getCardsByName("bang");
             List<Card> p2Bangs = p2.getCardsByName("bang");

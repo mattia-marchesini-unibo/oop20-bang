@@ -13,13 +13,13 @@ public class Panic implements Effect {
 
     @Override
     public void useEffect(Table table) {
-        TurnObservable<List<Player>> opponentOb = table.getChoosePlayersObservable();
+        TurnObservable<Player> opponentOb = table.getChoosePlayerObservable();
         Player current = table.getCurrentPlayer();
 
         TurnObservable<Map<Card, Player>> cardOb = table.getChooseCardsObservable();
 
         opponentOb.addObserver(() -> {
-            Player opponent = opponentOb.get().get(0);
+            Player opponent = opponentOb.get();
             cardOb.addObserver(() -> {
                 Map<Card, Player> map = cardOb.get();
                 opponent.removeCard(map.keySet().iterator().next());

@@ -11,7 +11,7 @@ public class GameViewObservables {
     private ObservableElement<List<String>> targets = new ObservableElement<>();
     private ObservableElement<String> action = new ObservableElement<>();
     private String chosenCard = "";
-    private String chosenPlayer = "";
+    private ObservableElement<String> chosenPlayer = new ObservableElement<>();
     
     public ObservableElement<CurrentPlayerInfo> getCurrentPlayer(){
         return this.currentPlayer;
@@ -53,11 +53,7 @@ public class GameViewObservables {
         this.chosenCard = chosenCard;
     }
     
-    public String getChosenPlayer() {
+    public ObservableElement<String> getChosenPlayer() {
         return this.chosenPlayer;
-    }
-    
-    public void setChosenPlayer(String chosenPlayer) {
-        this.chosenPlayer = chosenPlayer;
     }
 }

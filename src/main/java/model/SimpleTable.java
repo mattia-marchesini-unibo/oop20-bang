@@ -20,11 +20,11 @@ public class SimpleTable implements Table{
     private Player currentPlayer;
     private List<String> usedCards = new ArrayList<>();
     
-    private TurnObservable<List<Player>> choosePlayersObservable = new TurnObservable<>();
+    private TurnObservable<Player> choosePlayerObservable = new TurnObservable<>();
     private TurnObservable<Map<Card, Player>> chooseCardsObservable = new TurnObservable<>();
 	private int howMany;
 	private Message message = null;
-	private int distance;
+	private List<Player> chosenPlayerList;
 	private List<Card> cardsToChoose;
 	private List<Player> choosers;
 	private int howManyPerPlayer;
@@ -95,8 +95,8 @@ public class SimpleTable implements Table{
     }
 
     @Override
-    public TurnObservable<List<Player>> getChoosePlayersObservable() {
-        return this.choosePlayersObservable;
+    public TurnObservable<Player> getChoosePlayerObservable() {
+        return this.choosePlayerObservable;
     }
 
     @Override
@@ -105,15 +105,9 @@ public class SimpleTable implements Table{
     }
 
     @Override
-    public void choosePlayers() {
-    	this.distance = 0;
+    public void choosePlayer(List<Player> chosenPlayerList) {
     	this.message = Message.CHOOSE_PLAYER;
-    }
-
-    @Override
-    public void choosePlayers(int distance) {
-    	this.distance = distance;
-    	this.message = Message.CHOOSE_PLAYER_WITH_DISTANCE;
+    	this.chosenPlayerList = chosenPlayerList;
     }
 
     @Override
@@ -145,8 +139,8 @@ public class SimpleTable implements Table{
     }
 
     @Override
-    public int getDistance() {
-        return distance;
+    public List<Player> getChosenPlayerList() {
+        return this.chosenPlayerList;
     }
 
     @Override
