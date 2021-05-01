@@ -9,7 +9,7 @@ import model.Table;
 import model.TurnObservable;
 import model.card.Card;
 
-public class Duel implements Effect {
+public class Prison implements Effect {
 
     @Override
     public void useEffect(Table table) {
@@ -19,19 +19,12 @@ public class Duel implements Effect {
         ob.addObserver(() -> {
             Player p2 = ob.get();
             
-            List<Card> p1Bangs = p1.getCardsByName("bang");
-            List<Card> p2Bangs = p2.getCardsByName("bang");
-            
-            if(p1Bangs.size() > p2Bangs.size()) {
-                p2.modifyLifePoints(-1);
-            }
-            else if(p2Bangs.size() > p1Bangs.size()) {
-                p1.modifyLifePoints(-1);
-            }
+            p2.setPrison(true);
         });
         
         List<Player> others = new ArrayList<>(table.getPlayers());
         others.remove(p1);
         table.choosePlayer(others.stream().collect(Collectors.toSet()));
     }
+
 }

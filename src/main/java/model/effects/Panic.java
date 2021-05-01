@@ -1,8 +1,10 @@
 package model.effects;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import model.Player;
 import model.Table;
@@ -28,7 +30,10 @@ public class Panic implements Effect {
             table.chooseCards(opponent.getCards(), Arrays.asList(current), 1);
         });
 
-        table.choosePlayers(1);
+        Set<Player> s = new HashSet<>();
+        s.add(table.getPlayers().getNextOf(current));
+        s.add(table.getPlayers().getPrevOf(current));
+        table.choosePlayer(s);
     }
 
 }

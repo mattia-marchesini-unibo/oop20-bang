@@ -99,4 +99,8 @@ public interface Player {
     void removeProtection();
 
     boolean hasProtection();
+    
+    boolean hasPrison();
+    
+    void setPrison(boolean hasPrison);
 }

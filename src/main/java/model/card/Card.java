@@ -5,20 +5,7 @@ import static java.util.Map.entry;
 import java.util.HashMap;
 import java.util.Map;
 
-import model.effects.AddProtection;
-import model.effects.Bang;
-import model.effects.CatBalou;
-import model.effects.DrawCardsFromDeck;
-import model.effects.Duel;
-import model.effects.Effect;
-import model.effects.Gatling;
-import model.effects.GeneralStore;
-import model.effects.Indians;
-import model.effects.ModifyLifePoints;
-import model.effects.ModifyRetreat;
-import model.effects.ModifySight;
-import model.effects.Panic;
-import model.effects.Saloon;
+import model.effects.*;
 
 public class Card {
 
@@ -43,7 +30,8 @@ public class Card {
         entry("diligenza",new DrawCardsFromDeck(2)),
         entry("saloon", new Saloon(1)),
         entry("gatling", new Gatling()),
-        entry("cat balou", new CatBalou())
+        entry("cat balou", new CatBalou()),
+        entry("prison", new Prison())
         ));
 
 	private String localName;

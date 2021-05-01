@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import libs.CircularList;
@@ -24,7 +25,7 @@ public class SimpleTable implements Table{
     private TurnObservable<Map<Card, Player>> chooseCardsObservable = new TurnObservable<>();
 	private int howMany;
 	private Message message = null;
-	private List<Player> chosenPlayerList;
+	private Set<Player> chosenPlayerList;
 	private List<Card> cardsToChoose;
 	private List<Player> choosers;
 	private int howManyPerPlayer;
@@ -105,7 +106,7 @@ public class SimpleTable implements Table{
     }
 
     @Override
-    public void choosePlayer(List<Player> chosenPlayerList) {
+    public void choosePlayer(Set<Player> chosenPlayerList) {
     	this.message = Message.CHOOSE_PLAYER;
     	this.chosenPlayerList = chosenPlayerList;
     }
@@ -139,7 +140,7 @@ public class SimpleTable implements Table{
     }
 
     @Override
-    public List<Player> getChosenPlayerList() {
+    public Set<Player> getChosenPlayerList() {
         return this.chosenPlayerList;
     }
 

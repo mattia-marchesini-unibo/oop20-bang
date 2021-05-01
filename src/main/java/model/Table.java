@@ -2,6 +2,8 @@ package model;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
 import libs.CircularList;
 import model.card.Card;
 import model.deck.IDeck;
@@ -62,7 +64,7 @@ public interface Table {
 
     TurnObservable<Map<Card, Player>> getChooseCardsObservable();
 
-    void choosePlayer(List<Player> chosenPlayerList);
+    void choosePlayer(Set<Player> chosenPlayerList);
 
     void chooseCards(List<Card> cardsToChoose, List<Player> choosers, int howManyPerPlayer);
 
@@ -82,5 +84,5 @@ public interface Table {
 
     int getHowManyPerPlayer();
 
-    List<Player> getChosenPlayerList();
+    Set<Player> getChosenPlayerList();
 }

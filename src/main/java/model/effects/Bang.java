@@ -1,5 +1,6 @@
 package model.effects;
 
+import model.Logics;
 import model.Player;
 import model.Table;
 import model.TurnObservable;
@@ -26,8 +27,9 @@ public class Bang implements Effect {
                 p.modifyLifePoints(-1);
             }
         });
+        Logics logics = new Logics(table);
 
-        table.choosePlayers();
+        table.choosePlayer(logics.getTargets());
         table.playerUsedCard("bang");
     }
 }

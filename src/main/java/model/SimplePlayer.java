@@ -21,6 +21,7 @@ public class SimplePlayer implements Player {
     private int lifePoints;
     private int protections = 0;
     private boolean usedBang = false;
+    private boolean hasPrison = false;
 
     public SimplePlayer(Role role, String name) {
         this.name = name;
@@ -170,6 +171,16 @@ public class SimplePlayer implements Player {
     @Override
     public boolean hasProtection() {
         return this.protections > 0;
+    }
+
+    @Override
+    public boolean hasPrison() {
+        return this.hasPrison ;
+    }
+
+    @Override
+    public void setPrison(boolean hasPrison) {
+        this.hasPrison = hasPrison;
     }
     
 }

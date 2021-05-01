@@ -11,11 +11,11 @@ public class StartTurnState implements State {
         Table table = gsMachine.getTable();
         Player current = table.getCurrentPlayer();
         
-        if(current.getActiveCardsByName("prison").isEmpty()) {
+        if(!current.hasPrison()) {
             table.getDeck().nextCards(2).forEach(c -> current.addCard(c));
         }
         else {
-            current.removeActiveCard(current.getActiveCardsByName("prison").get(0));
+            current.setPrison(false);
             gsMachine.setCurrentState(new EndTurnState());
             gsMachine.go();
         }

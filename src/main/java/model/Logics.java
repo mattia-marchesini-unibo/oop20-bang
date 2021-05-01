@@ -5,9 +5,9 @@ import java.util.Set;
 
 public class Logics {
 	
-	private SimpleTable table;
+	private Table table;
 
-	public Logics(final SimpleTable table) {
+	public Logics(final Table table) {
 		this.table = table;
 	}
 
