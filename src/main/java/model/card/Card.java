@@ -14,11 +14,11 @@ public class Card {
     private static Map<String, Effect> cardEffectsMap = new HashMap<>(Map.ofEntries(
         entry("missed", new AddProtection()),
         entry("bang", new Bang()),
-        entry("schofield", new ModifySight(2)),
-        entry("remington", new ModifySight(3)),
-        entry("rev Carabine", new ModifySight(4)),
-        entry("winchester", new ModifySight(5)),
-        entry("scope",new ModifySight(1)),
+        entry("schofield", new Weapon(2)),
+        entry("remington", new Weapon(3)),
+        entry("rev Carabine", new Weapon(4)),
+        entry("winchester", new Weapon(5)),
+        entry("scope",new Scope()),
         entry("mustang", new ModifyRetreat(1)),
         entry("hideout", new ModifyRetreat(1)),
         entry("generalstore", new GeneralStore()),
@@ -32,7 +32,8 @@ public class Card {
         entry("saloon", new Saloon(1)),
         entry("gatling", new Gatling()),
         entry("cat balou", new CatBalou()),
-        entry("jail", new Jail())
+        entry("jail", new Jail()),
+        entry("volcanic", new Weapon(1))
         ));
 
 	private String localName;

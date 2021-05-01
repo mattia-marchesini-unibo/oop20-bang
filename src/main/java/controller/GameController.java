@@ -35,6 +35,7 @@ public class GameController {
     private Map<String, Runnable> gsMachineMessages = new HashMap<String, Runnable>(
         Map.ofEntries(entry("playCard", () -> {
             Card card = gsMachine.getTable().getCurrentPlayer().getCardsByName(this.gameObs.getChosenCard()).get(0);
+            System.out.println(card.getRealName());
             gsMachine.setCurrentState(new PlayCardState(card));
             gsMachine.go();
         }), entry("choosePlayer", () -> {
@@ -82,7 +83,7 @@ public class GameController {
 
         this.gameObs.getChosenPlayer().addObserver(() -> {
             Player plr = allPlayers.stream().filter(p -> getPlayerName(p).equals(this.gameObs.getChosenPlayer().get())).findFirst().get();
-            gsMachine.getTable().getChooseCardsObservable().set(plr);
+            gsMachine.getTable().getChoosePlayerObservable().set(plr);
         });
         // drawTable();
     }

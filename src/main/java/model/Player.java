@@ -1,6 +1,7 @@
 package model;
 
 import java.util.List;
+import java.util.Set;
 
 import model.card.Card;
 
@@ -57,7 +58,7 @@ public interface Player {
     /**
      * @return a list containing the active cards of the player
      */
-    public List<Card> getActiveCards();
+    public Set<Card> getActiveCards();
         
     /**
      * Adds a card to the active cards
@@ -103,4 +104,8 @@ public interface Player {
     boolean hasPrison();
     
     void setPrison(boolean hasPrison);
+    
+    void addWeapon(Card card);
+    
+    void removeWeapon();
 }
