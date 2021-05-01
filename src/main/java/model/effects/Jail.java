@@ -9,7 +9,7 @@ import model.Table;
 import model.TurnObservable;
 import model.card.Card;
 
-public class Prison implements Effect {
+public class Jail implements Effect {
 
     @Override
     public void useEffect(Table table) {
