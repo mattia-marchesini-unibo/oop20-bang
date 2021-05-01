@@ -3,9 +3,16 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.GridBagLayout;
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -181,6 +188,7 @@ public class SwingViewFactory implements ViewFactory {
                                 if (choice == 0) {
                                     observables.setChosenCard(c);
                                     observables.getAction().set("playCard");
+                                    this.getSound(c);
                                 } else if (choice == 1) {
                                     observables.setChosenCard(c);
                                     observables.getAction().set("discardCard");
@@ -259,6 +267,25 @@ public class SwingViewFactory implements ViewFactory {
                 panel.add(playersPanel, BorderLayout.NORTH);
                 panel.add(currentPlayerPanel, BorderLayout.SOUTH);
             }
+
+			private void getSound(String c) {
+				try {
+			         // Open an audio input stream.
+			         URL url = this.getClass().getClassLoader().getResource("sound/bang.wav");
+			         AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+			         // Get a sound clip resource.
+			         Clip clip = AudioSystem.getClip();
+			         // Open audio clip and load samples from the audio input stream.
+			         clip.open(audioIn);
+			         clip.start();
+			      } catch (UnsupportedAudioFileException e) {
+			         e.printStackTrace();
+			      } catch (IOException e) {
+			         e.printStackTrace();
+			      } catch (LineUnavailableException e) {
+			         e.printStackTrace();
+			      }
+			}
             
         };
     }
