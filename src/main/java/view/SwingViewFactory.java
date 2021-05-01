@@ -179,7 +179,10 @@ public class SwingViewFactory implements ViewFactory {
                     observables.getCurrentPlayer().get().getHand().addObserver(() -> {
                         cardsPanel.removeAll();
                         observables.getCurrentPlayer().get().getHand().get().forEach(c -> {
-                            JButton jb = new JButton(new ImageIcon(ClassLoader.getSystemResource("images/" + c + ".png")));
+                            JButton jb;
+							try {
+								jb = new JButton(new ImageIcon(Resources.getURL("images/" + c + ".png")));
+							
                             jb.addActionListener(e -> {
                                 List<String> options = List.of("Play", "Discard", "Cancel");
                                 int choice = JOptionPane.showOptionDialog(frame, "Do you want to play or discard this card?", "Choose",
@@ -195,6 +198,9 @@ public class SwingViewFactory implements ViewFactory {
                                 }
                             });
                             cardsPanel.add(jb);
+							} catch (ResourceNotFoundException e1) {
+								e1.printStackTrace();
+							}
                         });
                         
                     });
@@ -271,7 +277,7 @@ public class SwingViewFactory implements ViewFactory {
 			private void getSound(String c) {
 				try {
 			         // Open an audio input stream.
-			         URL url = this.getClass().getClassLoader().getResource("sound/bang.wav");
+			         URL url = this.getClass().getClassLoader().getResource("sound/" + c + ".wav");
 			         AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
 			         // Get a sound clip resource.
 			         Clip clip = AudioSystem.getClip();
