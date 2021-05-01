@@ -21,7 +21,7 @@ public class Card {
         entry("scope",new ModifySight(1)),
         entry("mustang", new ModifyRetreat(1)),
         entry("hideout", new ModifyRetreat(1)),
-        entry("emporium", new GeneralStore()),
+        entry("generalstore", new GeneralStore()),
         entry("panic", new Panic()),
         entry("beer", new ModifyLifePoints(1)),
         entry("indians", new Indians()),
