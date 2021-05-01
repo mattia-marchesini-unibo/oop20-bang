@@ -22,10 +22,10 @@ class JSONDeckReader implements IDeckReader {
         int howMany;
         
         @SuppressWarnings("unused")
-        public JSONCard(String localName, String realName, String color, int howMany) {
+        public JSONCard(String localName, String realName, Color color, int howMany) {
             this.localName = localName;
             this.realName = realName;
-            this.color = Color.valueOf(color.toUpperCase());
+            this.color = color;
             this.howMany = howMany;
         }
     }
@@ -37,7 +37,6 @@ class JSONDeckReader implements IDeckReader {
             String json = Resources.readFile(DECK_FILE);
             Gson gson = new Gson();
             List<JSONCard> c = gson.fromJson(json, new TypeToken<List<JSONCard>>() {}.getType());
-//            c.forEach(car -> System.out.println(car.realName));
             c.forEach(crd -> {
                 for(int i = 0; i < crd.howMany; i++) {
                     this.cards.add(new Card(
@@ -46,7 +45,6 @@ class JSONDeckReader implements IDeckReader {
                         crd.localName,
                         crd.realName
                     ));
-//                    System.out.println(crd.realName + " " + Integer.toString(i));
                 }
             });
         }

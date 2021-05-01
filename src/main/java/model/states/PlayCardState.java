@@ -61,6 +61,7 @@ public class PlayCardState implements State {
         playedCard.getEffect().useEffect(table);
         Message msg = table.getMessage();
         table.setMessage(null);
+        System.out.println(playedCard.getColor());
         if(playedCard.getColor().equals(Color.BLUE)) {
             table.getCurrentPlayer().addActiveCard(playedCard);
         }
