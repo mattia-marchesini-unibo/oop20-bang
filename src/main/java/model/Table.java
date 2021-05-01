@@ -62,9 +62,9 @@ public interface Table {
 
     TurnObservable<Map<Card, Player>> getChooseCardsObservable();
 
-    void choosePlayers(int howMany);
+    void choosePlayers();
 
-    void choosePlayers(int howMany, int distance);
+    void choosePlayers(int distance);
 
     void chooseCards(List<Card> cardsToChoose, List<Player> choosers, int howManyPerPlayer);
 
@@ -73,4 +73,16 @@ public interface Table {
     List<String> getPlayerUsedCards();
 
     Message getMessage();
+
+    void setMessage(Message message);
+
+    int getDistance();
+
+    int getHowMany();
+
+    List<Card> getCardsToChoose();
+
+    List<Player> getChoosers();
+
+    int getHowManyPerPlayer();
 }

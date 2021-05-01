@@ -7,7 +7,6 @@ import static java.util.Map.entry;
 import java.util.HashMap;
 
 import model.GameStateMachine;
-import model.card.Card;
 
 public class ChooseActionState implements State {
     
@@ -15,9 +14,7 @@ public class ChooseActionState implements State {
     private final String action;
     private Map <String, Runnable> actionMap = new HashMap<String, Runnable>(Map.ofEntries(
             entry("playCard", () -> {
-                Card card = gsMachine.getTable().getCurrentPlayer().getCardsByName("indians").get(0);
-                gsMachine.setCurrentState(new PlayCardState(card));
-                gsMachine.go();
+                gsMachine.setMessage("playCard");
             }),
             entry("endTurn", () -> {
                 gsMachine.setCurrentState(new EndTurnState());

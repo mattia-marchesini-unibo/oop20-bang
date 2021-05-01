@@ -55,11 +55,6 @@ public class SimpleTable implements Table{
     
     @Override
     public IDeck getDeck() {
-        if(this.deck.remainigCards() == 0) {
-            this.deck.getCards().addAll(this.discardPile);
-            this.deck.shuffleDeck();
-            this.discardPile.clear();
-        }
         return this.deck;
     }
     
@@ -110,14 +105,13 @@ public class SimpleTable implements Table{
     }
 
     @Override
-    public void choosePlayers(int howMany) {
-    	this.howMany = howMany;
+    public void choosePlayers() {
+    	this.distance = 0;
     	this.message = Message.CHOOSE_PLAYER;
     }
 
     @Override
-    public void choosePlayers(int howMany, int distance) {
-    	this.howMany = howMany;
+    public void choosePlayers(int distance) {
     	this.distance = distance;
     	this.message = Message.CHOOSE_PLAYER_WITH_DISTANCE;
     }
@@ -144,23 +138,33 @@ public class SimpleTable implements Table{
     public Message getMessage() {
         return this.message;
     }
+    
+    @Override
+    public void setMessage(Message message) {
+        this.message = message;
+    }
 
+    @Override
     public int getDistance() {
         return distance;
     }
 
+    @Override
     public int getHowMany() {
         return howMany;
     }
 
+    @Override
     public List<Card> getCardsToChoose() {
         return cardsToChoose;
     }
 
+    @Override
     public List<Player> getChoosers() {
         return choosers;
     }
 
+    @Override
     public int getHowManyPerPlayer() {
         return howManyPerPlayer;
     }

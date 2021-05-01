@@ -27,7 +27,7 @@ public class Bang implements Effect {
             }
         });
 
-        table.choosePlayers(1);
+        table.choosePlayers();
         table.playerUsedCard("bang");
     }
 }

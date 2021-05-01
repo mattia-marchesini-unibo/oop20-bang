@@ -171,7 +171,6 @@ public class SwingViewFactory implements ViewFactory {
                     
                     // Hand obs
                     IObserver handObserver = () -> {
-                        System.out.println("qua");
                         cardsPanel.removeAll();
                         observables.getCurrentPlayer().get().getHand().get().forEach(c -> {
                             JButton jb;

@@ -16,6 +16,7 @@ import model.Table;
 import model.card.Card;
 import model.deck.Deck;
 import model.states.ChooseActionState;
+import model.states.PlayCardState;
 import model.states.StartTurnState;
 import view.CurrentPlayerInfo;
 import view.GameViewObservables;
@@ -32,23 +33,27 @@ public class GameController {
     private List<Player> allPlayers;
 
     private Map<String, Runnable> gsMachineMessages = new HashMap<String, Runnable>(
-        Map.ofEntries(entry("playedCard", () -> {
+        Map.ofEntries(
+            entry("playCard", () -> {
+                Card card = gsMachine.getTable().getCurrentPlayer().getCardsByName(this.gameObs.getChosenCard()).get(0);
+                gsMachine.setCurrentState(new PlayCardState(card));
+                gsMachine.go();
+            }),
+            entry("choosePlayer", () -> {
+                
+            }),
+            entry("playedCard", () -> {
             drawTable();
         }), entry("startTurn", () -> {
             drawTable();
         }), entry("endTurn", () -> {
-            // this.gameObs.getCharacter().set(null);
-            // List<Player> others = new ArrayList<>(this.gsMachine.getTable().getPlayers());
-            // this.gameObs.getOtherPlayers()
-            // .set(others.subList(1, others.size()).stream().map(p -> getPlayerName(p)).collect(Collectors.toList()));
+            drawTable();
         }), entry("discardCard", () -> {
-            Player current = gsMachine.getTable().getCurrentPlayer();
-            Table table = gsMachine.getTable();
-            Card card = current.getCardsByName(gameObs.getChosenCard()).get(0);
-            current.removeCard(card);
-            table.discardCard(card);
 //            List<String> cards = current.getCards().stream().map(c -> c.getRealName()).collect(Collectors.toList());
 //            this.gameObs.getCurrentPlayer().get().getHand().set(cards);
+            Player current = gsMachine.getTable().getCurrentPlayer();
+            Card card = current.getCardsByName(gameObs.getChosenCard()).get(0);
+            current.removeCard(card);
             drawTable();
         }), entry("end", () -> {
             this.winners.addAll(

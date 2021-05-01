@@ -18,7 +18,6 @@ public class GameViewObservables {
     }
     
     public void setCurrentPlayer(final CurrentPlayerInfo currentPlayerInfo) {
-        System.out.println("qui");
         this.currentPlayer.set(currentPlayerInfo);
     }
     

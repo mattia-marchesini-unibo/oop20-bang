@@ -28,7 +28,7 @@ public class Panic implements Effect {
             table.chooseCards(opponent.getCards(), Arrays.asList(current), 1);
         });
 
-        table.choosePlayers(1, 1);
+        table.choosePlayers(1);
     }
 
 }

@@ -21,6 +21,7 @@ public class PlayCardState implements State {
             (Runnable)() -> {
                 gsMachine.getTable().getChooseCardsObservable().addObserver(() -> {
                     gsMachine.setCurrentState(new CheckDeadPlayersState());
+                    gsMachine.go();
                 });
             },
             "chooseCard"
@@ -29,6 +30,7 @@ public class PlayCardState implements State {
             (Runnable)() -> {
                 gsMachine.getTable().getChoosePlayersObservable().addObserver(() -> {
                     gsMachine.setCurrentState(new CheckDeadPlayersState());
+                    gsMachine.go();
                 });
             },
             "choosePlayer"
@@ -37,6 +39,7 @@ public class PlayCardState implements State {
             (Runnable)() -> {
                 gsMachine.getTable().getChoosePlayersObservable().addObserver(() -> {
                     gsMachine.setCurrentState(new CheckDeadPlayersState());
+                    gsMachine.go();
                 });
             },
             "choosePlayerDistance"
@@ -55,11 +58,12 @@ public class PlayCardState implements State {
         table.getCurrentPlayer().removeCard(playedCard);
         playedCard.getEffect().useEffect(table);
         Message msg = table.getMessage();
+        table.setMessage(null);
         if(this.tableMsgMap.containsKey(msg)) {
             var pair = this.tableMsgMap.get(msg);
             pair.getX().run();
+            System.out.println(pair.getY());
             gsMachine.setMessage(pair.getY());
-            gsMachine.go();
         }
         else {
             gsMachine.setMessage("playedCard");

@@ -28,6 +28,6 @@ public class Duel implements Effect {
             }
         });
         
-        table.choosePlayers(1);
+        table.choosePlayers();
     }
 }
