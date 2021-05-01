@@ -56,4 +56,5 @@ public class GameViewObservables {
     public ObservableElement<String> getChosenPlayer() {
         return this.chosenPlayer;
     }
+    
 }

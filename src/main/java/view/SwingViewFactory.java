@@ -2,6 +2,7 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.io.IOException;
 import java.net.URL;
@@ -38,14 +39,25 @@ public class SwingViewFactory implements ViewFactory {
     public View getMenuView(final ObservableElement<Integer> numberOfPlayers) {
         return new AbstractView(frame) {
             
+            private static final int LABEL_FONT_SIZE = 50;
+            private static final int BUTTON_FONT_SIZE = 30;
+            
             @Override
             public void initView() {
+                Font labelFont = new Font(null, Font.BOLD, LABEL_FONT_SIZE);
+                Font buttonFont = new Font(null, Font.PLAIN, BUTTON_FONT_SIZE);
                 panel.setLayout(new GridBagLayout());
                 JPanel jp = new JPanel();
                 jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
+                JLabel label = new JLabel("BANG!");
+                label.setFont(labelFont);
+                label.setAlignmentX(JPanel.CENTER_ALIGNMENT);
                 JButton play = new JButton("Play");
                 JButton howToPlay = new JButton("How to play");
                 JButton quit = new JButton("Quit");
+                play.setFont(buttonFont);
+                howToPlay.setFont(buttonFont);
+                quit.setFont(buttonFont);
                 
                 play.addActionListener(e -> {
                     List<Integer> options = List.of(4, 5, 6, 7);
@@ -60,6 +72,7 @@ public class SwingViewFactory implements ViewFactory {
                 howToPlay.addActionListener(e -> changeView("rules"));
                 quit.addActionListener(e -> System.exit(0));
                 
+                jp.add(label);
                 jp.add(play);
                 jp.add(howToPlay);
                 jp.add(quit);

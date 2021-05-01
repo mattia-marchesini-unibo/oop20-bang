@@ -34,6 +34,7 @@ public class Logics {
 			}
 			cur = this.table.getPlayers().getPrevOf(cur);
 		}
+		targets.remove(currentPlayer);
 		return targets;
 	}
 	

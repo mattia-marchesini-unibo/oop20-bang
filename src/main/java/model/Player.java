@@ -8,16 +8,6 @@ import model.card.Card;
 public interface Player {
     
     /**
-     * @return useBang
-     */
-    public boolean getUsedBang();
-    
-    /**
-     * @param b
-     */
-    public void setUsedBang(boolean b); 
-    
-    /**
      ** @return player name
      */
     public String getName();    

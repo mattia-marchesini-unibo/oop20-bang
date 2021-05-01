@@ -12,7 +12,7 @@ public class Card {
     private static Map<String, Effect> cardEffectsMap = new HashMap<>(Map.ofEntries(
             entry("missed", new AddProtection()),
             entry("bang", new Bang()),
-            entry("schofield", new Weapon(2, "schofield")),
+            entry("shofield", new Weapon(2, "shofield")),
             entry("remington", new Weapon(3, "remington")),
             entry("rev carabine", new Weapon(4, "rev carabine")),
             entry("winchester", new Weapon(5, "winchester")),

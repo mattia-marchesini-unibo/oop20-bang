@@ -23,7 +23,6 @@ public class SimplePlayer implements Player {
     private int maxLifePoints;
     private int lifePoints;
     private int protections = 0;
-    private boolean usedBang = false;
     private boolean hasPrison = false;
     private Optional<Card> weapon = Optional.empty();
 
@@ -36,16 +35,6 @@ public class SimplePlayer implements Player {
             this.maxLifePoints = MAX_LIFE_POINTS;
         }
         this.lifePoints = this.maxLifePoints;
-    }
-
-    @Override
-    public boolean getUsedBang() {
-        return this.usedBang;
-    }
-
-    @Override
-    public void setUsedBang(boolean b) {
-        this.usedBang = b;
     }
 
     @Override

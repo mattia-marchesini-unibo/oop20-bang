@@ -25,7 +25,7 @@ public class SimpleTable implements Table{
     private TurnObservable<Map<Card, Player>> chooseCardsObservable = new TurnObservable<>();
 	private int howMany;
 	private Message message = null;
-	private Set<Player> chosenPlayerList;
+	private Set<Player> chosenPlayerSet;
 	private List<Card> cardsToChoose;
 	private List<Player> choosers;
 	private int howManyPerPlayer;
@@ -40,8 +40,12 @@ public class SimpleTable implements Table{
     private CircularList<Player> getPlayersFromNumber(final int playerNumber){
         List<Role> roles = new ArrayList<>(totalRoles.subList(0, playerNumber));
         Collections.shuffle(roles);
-        CircularList<Player> c = new CircularList<>(roles.stream().map(r -> new SimplePlayer(r, "player " + Integer.toString(roles.indexOf(r))))
-        .collect(Collectors.toList()));
+        //CircularList<Player> c = new CircularList<>(roles.stream().map(r -> new SimplePlayer(r, "player " + Integer.toString(roles.indexOf(r))))
+        //.collect(Collectors.toList()));
+        CircularList<Player> c = new CircularList<>();
+        for (int i = 0; i < playerNumber; i++) {
+            c.add(new SimplePlayer(roles.get(i), "player " + i));
+        }
         
         int pos = c.indexOf(c.stream().filter(p -> p.getRole() == Role.SHERIFF).findFirst().get());
         c.setCurrentIndex(pos);
@@ -106,9 +110,9 @@ public class SimpleTable implements Table{
     }
 
     @Override
-    public void choosePlayer(Set<Player> chosenPlayerList) {
+    public void choosePlayer(Set<Player> chosenPlayerSet) {
     	this.message = Message.CHOOSE_PLAYER;
-    	this.chosenPlayerList = chosenPlayerList;
+    	this.chosenPlayerSet = chosenPlayerSet;
     }
 
     @Override
@@ -141,7 +145,7 @@ public class SimpleTable implements Table{
 
     @Override
     public Set<Player> getChosenPlayerList() {
-        return this.chosenPlayerList;
+        return this.chosenPlayerSet;
     }
 
     @Override

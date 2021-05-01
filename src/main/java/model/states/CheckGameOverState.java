@@ -7,6 +7,7 @@ public class CheckGameOverState  implements State {
 
     @Override
     public void handle(final GameStateMachine gsMachine) {
+        System.out.println("CHECK GAMEOVER");
         if(this.isOver(gsMachine)) {
             gsMachine.setCurrentState(new EndGameState());
             gsMachine.go();

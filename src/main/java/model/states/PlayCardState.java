@@ -56,22 +56,23 @@ public class PlayCardState implements State {
     public void handle(final GameStateMachine gsMachine) {
         this.gsMachine = gsMachine;
         Table table = gsMachine.getTable();
-        table.getCurrentPlayer().removeCard(playedCard);
-//        table.getCurrentPlayer().getActiveCards().forEach(c -> c.getEffect().useEffect(table));
         playedCard.getEffect().useEffect(table);
+        
         Message msg = table.getMessage();
         table.setMessage(null);
         System.out.println(playedCard.getColor());
-        if(playedCard.getColor().equals(Color.BLUE)) {
+        if(playedCard.getColor().equals(Color.BLUE) && !playedCard.getRealName().equals("jail")) {
             table.getCurrentPlayer().addActiveCard(playedCard);
         }
         if(this.tableMsgMap.containsKey(msg)) {
             var pair = this.tableMsgMap.get(msg);
             pair.getX().run();
             System.out.println(pair.getY());
+            table.getCurrentPlayer().removeCard(playedCard);
             gsMachine.setMessage(pair.getY());
         }
         else {
+            table.getCurrentPlayer().removeCard(playedCard);
             gsMachine.setMessage("playedCard");
             gsMachine.setCurrentState(new CheckDeadPlayersState());
             gsMachine.go();

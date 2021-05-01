@@ -3,7 +3,7 @@
 		"localName": "bang",
 		"realName": "bang",
 		"color": "brown",
-		"howMany": 2
+		"howMany": 20
 	},
 	{
 		"localName": "indiani",
@@ -32,12 +32,6 @@
 	{
 		"localName": "cat balou",
 		"realName": "cat balou",
-		"color": "brown",
-		"howMany": 2
-	},
-	{
-		"localName": "emporio",
-		"realName": "Emporium",
 		"color": "brown",
 		"howMany": 2
 	},
@@ -84,12 +78,6 @@
 		"howMany": 2
 	},
 	{
-		"localName": "rev carabine",
-		"realName": "rev carabine",
-		"color": "blue",
-		"howMany": 2
-	},
-	{
 		"localName": "saloon",
 		"realName": "saloon",
 		"color": "brown",
@@ -114,12 +102,6 @@
 		"howMany": 2
 	},
 	{
-		"localName": "rev carabine",
-		"realName": "rev carabine",
-		"color": "blue",
-		"howMany": 2
-	},
-	{
 		"localName": "diligenza",
 		"realName": "stagecoach",
 		"color": "brown",
@@ -135,12 +117,6 @@
 		"localName": "wells fargo",
 		"realName": "wells fargo",
 		"color": "brown",
-		"howMany": 2
-	},
-	{
-		"localName": "volcanic",
-		"realName": "volcanic",
-		"color": "blue",
 		"howMany": 2
 	},
 	{
