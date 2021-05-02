@@ -2,10 +2,18 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.GridBagLayout;
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,25 +27,37 @@ import javax.swing.ScrollPaneConstants;
 
 import libs.observe.IObserver;
 import libs.observe.ObservableElement;
+import libs.resources.ResourceNotFoundException;
 import libs.resources.Resources;
 
 public class SwingViewFactory implements ViewFactory {
     
     private JFrame frame = new JFrame("BANG!");
-    private ObservableElement<String> changeScreenObservable = new ObservableElement<String>();
+    private ObservableElement<String> changeSceneObservable = new ObservableElement<String>();
     
     @Override
-    public View getMenuView(final ObservableElement<Integer> obs) {
+    public View getMenuView(final ObservableElement<Integer> numberOfPlayers) {
         return new AbstractView(frame) {
+            
+            private static final int LABEL_FONT_SIZE = 50;
+            private static final int BUTTON_FONT_SIZE = 30;
             
             @Override
             public void initView() {
+                Font labelFont = new Font(null, Font.BOLD, LABEL_FONT_SIZE);
+                Font buttonFont = new Font(null, Font.PLAIN, BUTTON_FONT_SIZE);
                 panel.setLayout(new GridBagLayout());
                 JPanel jp = new JPanel();
                 jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
+                JLabel label = new JLabel("BANG!");
+                label.setFont(labelFont);
+                label.setAlignmentX(JPanel.CENTER_ALIGNMENT);
                 JButton play = new JButton("Play");
                 JButton howToPlay = new JButton("How to play");
                 JButton quit = new JButton("Quit");
+                play.setFont(buttonFont);
+                howToPlay.setFont(buttonFont);
+                quit.setFont(buttonFont);
                 
                 play.addActionListener(e -> {
                     List<Integer> options = List.of(4, 5, 6, 7);
@@ -45,13 +65,14 @@ public class SwingViewFactory implements ViewFactory {
                                                                                                 "Choose players", JOptionPane.PLAIN_MESSAGE, null,
                                                                                                 options.toArray(), options.get(0)));
                     if(playerNum.isPresent()) {
-                        obs.set(playerNum.get());
+                        numberOfPlayers.set(playerNum.get());
                         changeView("game");
                     }
                 });
                 howToPlay.addActionListener(e -> changeView("rules"));
                 quit.addActionListener(e -> System.exit(0));
                 
+                jp.add(label);
                 jp.add(play);
                 jp.add(howToPlay);
                 jp.add(quit);
@@ -119,6 +140,7 @@ public class SwingViewFactory implements ViewFactory {
     public View getGameView(final GameViewObservables observables) {
         return new AbstractView(frame) {
             
+            private static final int ERROR_VALUE = -1;
             private JPanel playersPanel;
             private JPanel currentPlayerPanel;
             private JPanel cardsPanel;
@@ -136,7 +158,7 @@ public class SwingViewFactory implements ViewFactory {
                 currentPlayerPanel = new JPanel();
                 currentPlayerPanel.setLayout(new BoxLayout(currentPlayerPanel, BoxLayout.Y_AXIS));
                 cardsPanel = new JPanel();
-                blueCardsPanel = new JPanel(); 
+                blueCardsPanel = new JPanel();
                 
                 JScrollPane cardsScrollPane = new JScrollPane(cardsPanel);
                 cardsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -147,9 +169,10 @@ public class SwingViewFactory implements ViewFactory {
                 
                 endTurn = new JButton("End turn");
                 endTurn.addActionListener(e -> {
-                    int cardsToDiscard = observables.getHand().get().size() - observables.getLifePoints().get();
+                    CurrentPlayerInfo currentPlayer = observables.getCurrentPlayer().get();
+                    int cardsToDiscard = currentPlayer.getHand().get().size() - currentPlayer.getLifePoints();
                     if(cardsToDiscard > 0) {
-                        JOptionPane.showMessageDialog(null, "You must discard " + cardsToDiscard + (cardsToDiscard == 1 ? "card" : "cards"),
+                        JOptionPane.showMessageDialog(null, "You must discard " + cardsToDiscard + (cardsToDiscard == 1 ? " card." : " cards."),
                                                       "Discard cards", JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         observables.getAction().set("endTurn");
@@ -159,64 +182,100 @@ public class SwingViewFactory implements ViewFactory {
                 /*
                  * Add observers
                  */
-                IObserver currentPlayerObs = () -> {
-                    currentPlayerStats.setText("Name: " + observables.getCurrentPlayer().get());
-                    currentPlayerStats.append("\nHP: " + observables.getLifePoints().get());
-                    currentPlayerStats.append("\nRole: " + observables.getRole().get());
-                };
-                IObserver playersObs = () -> {
+                // Current player observable
+                observables.getCurrentPlayer().addObserver(() -> {
+                    CurrentPlayerInfo currentPlayer = observables.getCurrentPlayer().get();
+                    currentPlayerStats.setText("Name: " + currentPlayer.getName());
+                    currentPlayerStats.append("\nHP: " + currentPlayer.getLifePoints());
+                    currentPlayerStats.append("\nRole: " + currentPlayer.getRole());
+                    
+                    // Hand observable
+                    IObserver handObserver = () -> {
+                        cardsPanel.removeAll();
+                        observables.getCurrentPlayer().get().getHand().get().forEach(c -> {
+                            JButton jb;
+							try {
+								jb = new JButton(new ImageIcon(Resources.getURL("images/" + c + ".png")));
+							
+                            jb.addActionListener(e -> {
+                                List<String> options = List.of("Play", "Discard", "Cancel");
+                                int choice = JOptionPane.showOptionDialog(frame, "Do you want to play or discard this card?", "Choose",
+                                                                          JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                                                                          options.toArray(), options.get(0));
+                                if (choice == 0) {
+                                    observables.setChosenCard(c);
+                                    observables.getAction().set("playCard");
+                                    this.getSound(c);
+                                } else if (choice == 1) {
+                                    observables.setChosenCard(c);
+                                    observables.getAction().set("discardCard");
+                                }
+                            });
+                            cardsPanel.add(jb);
+							} catch (ResourceNotFoundException e1) {
+								e1.printStackTrace();
+							}
+                        });
+                    };
+                    observables.getCurrentPlayer().get().getHand().addObserver(handObserver);
+
+                    // Active cards observable
+                    observables.getCurrentPlayer().get().getActiveCards().addObserver(() -> {
+                        blueCardsPanel.removeAll();
+                        observables.getCurrentPlayer().get().getBlueCards().forEach(c -> {
+                            try {
+                                JButton jb = new JButton(new ImageIcon(Resources.getURL("images/" + c + ".png")));
+                                blueCardsPanel.add(jb);
+                            } catch (ResourceNotFoundException e1) {
+                                e1.printStackTrace();
+                            }
+                        });
+                        frame.getContentPane().validate();
+                        frame.getContentPane().repaint();
+                    });
+                    frame.getContentPane().validate();
+                    frame.getContentPane().repaint();
+                });
+                
+                // Other players observable
+                observables.getOtherPlayers().addObserver(() -> {
                     playersPanel.removeAll();
                     for(int i = 0; i < observables.getOtherPlayers().get().size(); i++) {
+                        var p = observables.getOtherPlayers().get().get(i);
                         JPanel jp = new JPanel();
                         jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
                         
                         JTextArea text = new JTextArea();
                         text.setEditable(false);
-                        text.append("Name: " + observables.getOtherPlayers().get().get(i));
-                        text.append("\nHP: " + observables.getOtherLifePoints().get());
+                        text.append("Name: " + p.getName());
+                        text.append("\nHP: " + p.getLifePoints());
+                        if(p.getRole().equals("sheriff")) {
+                            text.append("\nRole: " + p.getRole());
+                        }
                         jp.add(text);
                         
-                        observables.getOtherBlueCards().get().get(i).forEach(c -> {
+                        p.getBlueCards().forEach(c -> {
                             JButton jb = new JButton(c);
                             jp.add(jb);
+                            jb.setAlignmentX(JPanel.CENTER_ALIGNMENT);
                         });
                         
                         playersPanel.add(jp);
                     }
-                };
-                
-                observables.getCurrentPlayer().addObserver(currentPlayerObs);
-                observables.getLifePoints().addObserver(currentPlayerObs);
-                observables.getRole().addObserver(currentPlayerObs);
-                observables.getHand().addObserver(() -> {
-                    cardsPanel.removeAll();
-                    observables.getHand().get().forEach(c -> {
-                        JButton jb = new JButton(new ImageIcon(ClassLoader.getSystemResource("images/" + c + ".png")));
-                        jb.addActionListener(e -> {
-                            List<String> options = List.of("Play", "Discard", "Cancel");
-                            int choice = JOptionPane.showOptionDialog(frame, "Do you want to play or discard this card?", "Choose",
-                                                                      JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-                                                                      options.toArray(), options.get(0));
-                            if (choice == 0) {
-                                observables.getAction().set("Play");
-                            } else if (choice == 1) {
-                                observables.getAction().set("Discard");
-                            }
-                        });
-                        cardsPanel.add(jb);
-                    });
+                    frame.getContentPane().validate();
+                    frame.getContentPane().repaint();
                 });
-                observables.getBlueCards().addObserver(() -> {
-                    blueCardsPanel.removeAll();
-                    observables.getBlueCards().get().forEach(c -> {
-                        JButton jb = new JButton(new ImageIcon(ClassLoader.getSystemResource("images/" + c + ".png")));
-                        blueCardsPanel.add(jb);
-                    });
-                });
-                observables.getOtherPlayers().addObserver(playersObs);
-                observables.getOtherLifePoints().addObserver(playersObs);
-                observables.getOtherBlueCards().addObserver(playersObs);
                 
+                // Targets observable
+                observables.getTargets().addObserver(() -> {
+                    List<String> options = observables.getTargets().get();
+                    int choice = JOptionPane.showOptionDialog(frame, "Choose target:", "Choose", JOptionPane.DEFAULT_OPTION,
+                                                              JOptionPane.PLAIN_MESSAGE, null, options.toArray(), options.get(0));
+                    if(choice != ERROR_VALUE) {
+                        observables.getChosenPlayer().set(options.get(choice));
+                    }
+                });
+
                 /*
                  * Compose view
                  */
@@ -224,10 +283,31 @@ public class SwingViewFactory implements ViewFactory {
                 currentPlayerPanel.add(blueCardsPanel);
                 currentPlayerPanel.add(new JLabel("Your cards in hand:"));
                 currentPlayerPanel.add(cardsScrollPane);
+                currentPlayerPanel.add(currentPlayerStats);
+                currentPlayerPanel.add(currentPlayerStats);
                 currentPlayerPanel.add(endTurn);
                 panel.add(playersPanel, BorderLayout.NORTH);
                 panel.add(currentPlayerPanel, BorderLayout.SOUTH);
             }
+
+			private void getSound(String c) {
+				try {
+			         // Open an audio input stream.
+			         URL url = this.getClass().getClassLoader().getResource("sound/" + c + ".wav");
+			         AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+			         // Get a sound clip resource.
+			         Clip clip = AudioSystem.getClip();
+			         // Open audio clip and load samples from the audio input stream.
+			         clip.open(audioIn);
+			         clip.start();
+			      } catch (UnsupportedAudioFileException e) {
+			         e.printStackTrace();
+			      } catch (IOException e) {
+			         e.printStackTrace();
+			      } catch (LineUnavailableException e) {
+			         e.printStackTrace();
+			      }
+			}
             
         };
     }
@@ -235,15 +315,17 @@ public class SwingViewFactory implements ViewFactory {
     @Override
     public View getEndGameView(final List<String> winners) {
         return new AbstractView(frame) {
-            
+
             @Override
             public void initView() {
                 panel.setLayout(new GridBagLayout());
                 JPanel jp = new JPanel();
                 jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
                 JLabel gameOverLabel = new JLabel("GAME OVER!");
+                JButton quit = new JButton("Quit");
+                quit.addActionListener(e -> System.exit(0));
+ 
                 StringBuilder builder = new StringBuilder("Player" + (winners.size() > 1 ? "s " : " "));
-                
                 winners.forEach(w -> {
                     if(winners.indexOf(w) != 0) {
                         builder.append(", ");
@@ -252,21 +334,22 @@ public class SwingViewFactory implements ViewFactory {
                 });
                 builder.append(" won the game!");
                 JLabel winnersLabel = new JLabel(builder.toString());
-                
+
                 gameOverLabel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
                 winnersLabel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
                 jp.add(gameOverLabel);
                 jp.add(winnersLabel);
+                jp.add(quit);
                 panel.add(jp);
             }
         };
     }
     
-    public ObservableElement<String> getChangeScreenObservable(){
-        return this.changeScreenObservable;
+    public ObservableElement<String> getChangeSceneObservable(){
+        return this.changeSceneObservable;
     }
     
     public void changeView(final String s) {
-        this.changeScreenObservable.set(s);
+        this.changeSceneObservable.set(s);
     }
 }

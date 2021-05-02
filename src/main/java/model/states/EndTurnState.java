@@ -8,5 +8,7 @@ public class EndTurnState implements State {
     public void handle(final GameStateMachine gsMachine) {
         gsMachine.getTable().nextPlayer();
         gsMachine.setCurrentState(new StartTurnState());
+        gsMachine.go();
+        gsMachine.setMessage("endTurn");
     }
 }

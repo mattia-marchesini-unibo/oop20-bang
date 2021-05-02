@@ -2,7 +2,6 @@ package libs.resources;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -38,7 +37,6 @@ public class Resources {
     public static String readFile(String path) {
         try {
             String read = Files.readString(Resources.getFile(path).toPath());
-//            System.out.println(read);
             return read;
         } catch (IOException e) {
             e.printStackTrace();

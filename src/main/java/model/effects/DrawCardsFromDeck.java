@@ -12,7 +12,7 @@ public class DrawCardsFromDeck implements Effect {
 
     @Override
     public void useEffect(Table table) {
-        table.getDeck().nextCards(this.howMany);
+        table.getDeck().nextCards(this.howMany).forEach(c -> table.getCurrentPlayer().addCard(c));
     }
 
 }

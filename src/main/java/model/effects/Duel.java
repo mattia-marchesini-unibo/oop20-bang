@@ -1,7 +1,8 @@
 package model.effects;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import model.Player;
 import model.Table;
@@ -13,10 +14,10 @@ public class Duel implements Effect {
     @Override
     public void useEffect(Table table) {
         Player p1 = table.getCurrentPlayer();
-        TurnObservable<List<Player>> ob = table.getChoosePlayersObservable();
+        TurnObservable<Player> ob = table.getChoosePlayerObservable();
 
         ob.addObserver(() -> {
-            Player p2 = ob.get().get(0);
+            Player p2 = ob.get();
             
             List<Card> p1Bangs = p1.getCardsByName("bang");
             List<Card> p2Bangs = p2.getCardsByName("bang");
@@ -29,6 +30,8 @@ public class Duel implements Effect {
             }
         });
         
-        table.choosePlayers(1);
+        List<Player> others = new ArrayList<>(table.getPlayers());
+        others.remove(p1);
+        table.choosePlayer(others.stream().collect(Collectors.toSet()));
     }
 }

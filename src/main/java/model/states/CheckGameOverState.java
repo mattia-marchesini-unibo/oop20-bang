@@ -9,8 +9,7 @@ public class CheckGameOverState  implements State {
     public void handle(final GameStateMachine gsMachine) {
         if(this.isOver(gsMachine)) {
             gsMachine.setCurrentState(new EndGameState());
-        } else {
-            gsMachine.setCurrentState(new ChooseActionState());
+            gsMachine.go();
         }
     }
     
@@ -32,6 +31,9 @@ public class CheckGameOverState  implements State {
         if(gsMachine.getTable().getPlayers().stream()
                                             .filter(p -> p.getRole().equals(Role.OUTLAW) || p.getRole().equals(Role.RENEGADE))
                                             .count() == 0) {
+            return true;
+        }
+        if(gsMachine.getTable().getPlayers().size() <= 1) {
             return true;
         }
         return false;
