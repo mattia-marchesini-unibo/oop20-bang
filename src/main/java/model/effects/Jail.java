@@ -18,8 +18,8 @@ public class Jail implements Effect {
         
         ob.addObserver(() -> {
             Player p2 = ob.get();
-            System.out.println("Dentro la jail il nome è: " + ob.get().getName());
-            p2.addActiveCard(p1.getCardsByName("jail").get(0));
+            System.out.println("Dentro la jail il nome: " + ob.get().getName());
+//            p2.addActiveCard(p1.getCardsByName("jail").get(0));
             p2.setPrison(true);
         });
         

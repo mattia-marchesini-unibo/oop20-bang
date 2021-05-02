@@ -16,12 +16,12 @@ public class StartTurnState implements State {
             table.getDeck().nextCards(2).forEach(c -> current.addCard(c));
         } else {
             current.setPrison(false);
-            System.out.println(current.getActiveCardsByName("jail"));
-            current.removeActiveCard(current.getActiveCardsByName("jail").get(0));
+//            System.out.println(current.getActiveCardsByName("jail"));
+//            current.removeActiveCard(current.getActiveCardsByName("jail").get(0));
             gsMachine.setCurrentState(new EndTurnState());
             gsMachine.go();
         }
-        
+
         gsMachine.setMessage("startTurn");
     }
 
