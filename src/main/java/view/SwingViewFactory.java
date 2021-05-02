@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +26,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 
-import libs.observe.IObserver;
 import libs.observe.ObservableElement;
 import libs.resources.Resources;
 
@@ -189,41 +189,39 @@ public class SwingViewFactory implements ViewFactory {
                     currentPlayerStats.append("\nRole: " + currentPlayer.getRole());
                     
                     // Hand observable
-                    IObserver handObserver = () -> {
+                    observables.getCurrentPlayer().get().getHand().addObserver(() -> {
                         cardsPanel.removeAll();
                         observables.getCurrentPlayer().get().getHand().get().forEach(c -> {
                             JButton jb;
-							jb = new JButton(new ImageIcon(Resources.getSwingImage("images/" + c + ".png")));
-
-                     jb.addActionListener(e -> {
-                            List<String> options = List.of("Play", "Discard", "Cancel");
-                            int choice = JOptionPane.showOptionDialog(frame, "Do you want to play or discard this card?", "Choose",
-                                                                      JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-                                                                      options.toArray(), options.get(0));
-                            if (choice == 0) {
-                                observables.setChosenCard(c);
-                                observables.getAction().set("playCard");
-                                this.getSound(c);
-                            } else if (choice == 1) {
-                                observables.setChosenCard(c);
-                                observables.getAction().set("discardCard");
-                            }
-                     });
-                     cardsPanel.add(jb);
+                                jb = new JButton(new ImageIcon(Resources.getSwingImage("images/" + c + ".png")));
+                                jb.addActionListener(e -> {
+                                List<String> options = List.of("Play", "Discard", "Cancel");
+                                int choice = JOptionPane.showOptionDialog(frame, "Do you want to play or discard this card?", "Choose",
+                                                                          JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                                                                          options.toArray(), options.get(0));
+                                if (choice == 0) {
+                                    observables.setChosenCard(c);
+                                    observables.getAction().set("playCard");
+                                    this.getSound(c);
+                                } else if (choice == 1) {
+                                    observables.setChosenCard(c);
+                                    observables.getAction().set("discardCard");
+                                }
+                                
+                            });
+                            cardsPanel.add(jb);
                         });
-                    };
-                    observables.getCurrentPlayer().get().getHand().addObserver(handObserver);
-
-                    // Active cards observable
-                    observables.getCurrentPlayer().get().getActiveCards().addObserver(() -> {
-                        blueCardsPanel.removeAll();
-                        observables.getCurrentPlayer().get().getBlueCards().forEach(c -> {
-                            JButton jb = new JButton(new ImageIcon(Resources.getSwingImage("images/" + c + ".png")));
-                            blueCardsPanel.add(jb);
-                        });
-                        frame.getContentPane().validate();
-                        frame.getContentPane().repaint();
                     });
+
+                    // Add active cards
+                    blueCardsPanel.removeAll();
+                    observables.getCurrentPlayer().get().getBlueCards().forEach(c -> {
+                        JButton jb;
+                            jb = new JButton(new ImageIcon(Resources.getSwingImage("images/" + c + ".png")));
+                            blueCardsPanel.add(jb);
+                            blueCardsPanel.add(jb);
+                    });
+                    
                     frame.getContentPane().validate();
                     frame.getContentPane().repaint();
                 });
@@ -281,24 +279,24 @@ public class SwingViewFactory implements ViewFactory {
                 panel.add(currentPlayerPanel, BorderLayout.SOUTH);
             }
 
-			private void getSound(String c) {
-				try {
-			         // Open an audio input stream.
-			         InputStream stream = this.getClass().getClassLoader().getResourceAsStream("sound/" + c + ".wav");
-			         AudioInputStream audioIn = AudioSystem.getAudioInputStream(stream);
-			         // Get a sound clip resource.
-			         Clip clip = AudioSystem.getClip();
-			         // Open audio clip and load samples from the audio input stream.
-			         clip.open(audioIn);
-			         clip.start();
-			      } catch (UnsupportedAudioFileException e) {
-			         e.printStackTrace();
-			      } catch (IOException e) {
-			         e.printStackTrace();
-			      } catch (LineUnavailableException e) {
-			         e.printStackTrace();
-			      }
-			}
+            private void getSound(String c) {
+                try {
+                    // Open an audio input stream.
+                    InputStream str= ClassLoader.getSystemResourceAsStream("sound/" + c + ".wav");
+                    AudioInputStream audioIn = AudioSystem.getAudioInputStream(str);
+                    // Get a sound clip resource.
+                    Clip clip = AudioSystem.getClip();
+                    // Open audio clip and load samples from the audio input stream.
+                    clip.open(audioIn);
+                    clip.start();
+                } catch (UnsupportedAudioFileException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (LineUnavailableException e) {
+                    e.printStackTrace();
+                }
+            }
             
         };
     }
@@ -307,13 +305,21 @@ public class SwingViewFactory implements ViewFactory {
     public View getEndGameView(final List<String> winners) {
         return new AbstractView(frame) {
 
+            private static final int GAMEOVER_LABEL_FONT_SIZE = 50;
+            private static final int FONT_SIZE = 30;
+            
             @Override
             public void initView() {
+                Font gameoverFont = new Font(null, Font.BOLD, GAMEOVER_LABEL_FONT_SIZE);
+                Font font = new Font(null, Font.PLAIN, FONT_SIZE);
                 panel.setLayout(new GridBagLayout());
                 JPanel jp = new JPanel();
                 jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
                 JLabel gameOverLabel = new JLabel("GAME OVER!");
+                gameOverLabel.setFont(gameoverFont);
                 JButton quit = new JButton("Quit");
+                quit.setFont(font);
+                quit.setAlignmentX(JPanel.CENTER_ALIGNMENT);
                 quit.addActionListener(e -> System.exit(0));
  
                 StringBuilder builder = new StringBuilder("Player" + (winners.size() > 1 ? "s " : " "));
@@ -325,6 +331,7 @@ public class SwingViewFactory implements ViewFactory {
                 });
                 builder.append(" won the game!");
                 JLabel winnersLabel = new JLabel(builder.toString());
+                winnersLabel.setFont(font);
 
                 gameOverLabel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
                 winnersLabel.setAlignmentX(JPanel.CENTER_ALIGNMENT);

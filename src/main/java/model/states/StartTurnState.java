@@ -19,7 +19,7 @@ public class StartTurnState implements State {
             gsMachine.go();
         }
 
-        gsMachine.setMessage("startTurn");
+        gsMachine.setMessage("drawTable");
     }
 
 }

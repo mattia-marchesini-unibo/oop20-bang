@@ -9,6 +9,6 @@ public class EndTurnState implements State {
         gsMachine.getTable().nextPlayer();
         gsMachine.setCurrentState(new StartTurnState());
         gsMachine.go();
-        gsMachine.setMessage("endTurn");
+        gsMachine.setMessage("drawTable");
     }
 }
