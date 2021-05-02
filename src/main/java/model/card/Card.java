@@ -10,7 +10,7 @@ import model.effects.*;
 public class Card {
 
     private static Map<String, Effect> cardEffectsMap = new HashMap<>(Map.ofEntries(
-            entry("missed", new AddProtection()),
+            entry("missed", new Missed()),
             entry("bang", new Bang()),
             entry("shofield", new Weapon(2, "shofield")),
             entry("remington", new Weapon(3, "remington")),
@@ -19,12 +19,12 @@ public class Card {
             entry("scope", new Scope()),
             entry("mustang", new ModifyRetreat(1)),
             entry("hideout", new ModifyRetreat(1)),
-            entry("emporium", new GeneralStore()),
+            entry("emporium", new Emporium()),
             entry("panic", new Panic()),
             entry("beer", new ModifyLifePoints(1)),
             entry("indians", new Indians()),
             entry("duel", new Duel()),
-            entry("dodge", new AddProtection()),
+            entry("dodge", new Dodge()),
             entry("wells fargo", new DrawCardsFromDeck(3)),
             entry("stagecoach", new DrawCardsFromDeck(2)),
             entry("saloon", new Saloon(1)),

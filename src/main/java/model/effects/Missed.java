@@ -2,7 +2,7 @@ package model.effects;
 
 import model.Table;
 
-public class AddProtection implements Effect {
+public class Missed implements Effect {
 
 	@Override
 	public void useEffect(Table table) {
