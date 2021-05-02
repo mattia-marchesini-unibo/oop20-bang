@@ -26,7 +26,6 @@ public class Resources {
     
     public static String readFile(String path) {
         InputStreamReader s = new InputStreamReader(ClassLoader.getSystemResourceAsStream(path));
-        
         BufferedReader reader = new BufferedReader(s);
         
         StringBuffer sb = new StringBuffer();
