@@ -3,10 +3,10 @@ package libs.observe;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ObservableElement<E> implements IObservable {
+public class ObservableElement<E> implements Observable {
 
     private E element = null;
-    private List<IObserver> observers = new ArrayList<>();
+    private List<Observer> observers = new ArrayList<>();
 
     public ObservableElement(final E element) {
         this.element = element;
@@ -15,37 +15,50 @@ public class ObservableElement<E> implements IObservable {
     public ObservableElement() {
     }
 
+    /**
+     * Returns the observed element.
+     * 
+     * @return element
+     */
     public E get() {
         return element;
     }
 
-    public void set(E element) {
+    /**
+     * Sets observed element and notifies the observables.
+     * 
+     * @param element
+     */
+    public void set(final E element) {
         this.element = element;
         this.notifyObservers();
     }
 
-    public void setNotEqual(E element) {
-        this.element = element;
-        if (!element.equals(element)) {
-            this.notifyObservers();
-        }
-    }
-
-    public void setNoNotify(E element) {
+    /**
+     * Sets observed elements without notifying the observables.
+     * 
+     * @param element
+     */
+    public void setNoNotify(final E element) {
         this.element = element;
     }
 
+    /**
+     * Returns true if the element is null
+     * 
+     * @return 
+     */
     public boolean isEmpty() {
         return this.element == null;
     }
 
     @Override
-    public void addObserver(IObserver observer) {
+    public void addObserver(Observer observer) {
         this.observers.add(observer);
     }
 
     @Override
-    public void removeObserver(IObserver observer) {
+    public void removeObserver(Observer observer) {
         this.observers.remove(observer);
     }
 

@@ -3,17 +3,17 @@ package libs.observe;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimpleObservable implements IObservable {
+public class SimpleObservable implements Observable {
 
-    List<IObserver> observers = new ArrayList<>();
+    List<Observer> observers = new ArrayList<>();
     
     @Override
-    public void addObserver(IObserver observer) {
+    public void addObserver(Observer observer) {
         this.observers.add(observer);
     }
 
     @Override
-    public void removeObserver(IObserver observer) {
+    public void removeObserver(Observer observer) {
         this.observers.remove(observer);
     }
 

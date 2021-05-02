@@ -10,20 +10,12 @@ import javax.imageio.ImageIO;
 
 public class Resources {
 
-//    public static File getFile(String path) {
-//        return new File(Resources.getURI(path));
-//    }
-
-//    public static String readFile(String path) {
-//        try {
-//            String read = Files.readString(Resources.getFile(path).toPath());
-//            return read;
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
-    
+    /**
+     * Reads a text file.
+     * 
+     * @param path the path of the file to read
+     * @return the text of the file
+     */
     public static String readFile(String path) {
         InputStreamReader s = new InputStreamReader(ClassLoader.getSystemResourceAsStream(path));
         BufferedReader reader = new BufferedReader(s);
@@ -41,6 +33,12 @@ public class Resources {
         return "";
     }
     
+    /**
+     * Loads an image file.
+     * 
+     * @param path the path of the file to load
+     * @return the image
+     */
     public static Image getSwingImage(String path) {
         BufferedImage img = null;
         try {

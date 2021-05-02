@@ -55,7 +55,7 @@ public class GameController {
             changeSceneObs.set("end");
         })));
 
-    public GameController(int numberOfPlayers, List<String> winners) {
+    public GameController(final int numberOfPlayers, final List<String> winners) {
         winners.clear();
         this.winners = winners;
 
@@ -81,7 +81,7 @@ public class GameController {
         });
     }
 
-    public void setup(ViewFactory factory) {
+    public void setup(final ViewFactory factory) {
         this.changeSceneObs = factory.getChangeSceneObservable();
         View view = factory.getGameView(this.gameObs);
 

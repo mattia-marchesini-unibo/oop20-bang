@@ -11,26 +11,31 @@ public class Logics {
         this.table = table;
     }
 
+    /**
+     * Returns the possible targets of the current player.
+     * 
+     * @return a set of players
+     */
     public Set<Player> getTargets() {
         Player currentPlayer = this.table.getCurrentPlayer();
         Set<Player> targets = new HashSet<Player>();
 
         Player cur = currentPlayer;
         for (int i = 1; i <= currentPlayer.getSight(); i++) {
-            var playerdx = this.table.getPlayers().getNextOf(cur);
-            i = i + playerdx.getRetreat();
+            var playerSx = this.table.getPlayers().getNextOf(cur);
+            i = i + playerSx.getRetreat();
             if (i <= currentPlayer.getSight()) {
-                targets.add(playerdx);
+                targets.add(playerSx);
             }
             cur = this.table.getPlayers().getNextOf(cur);
         }
 
         cur = currentPlayer;
         for (int i = 1; i <= currentPlayer.getSight(); i++) {
-            var playerdx = this.table.getPlayers().getPrevOf(cur);
-            i = i + playerdx.getRetreat();
+            var playerDx = this.table.getPlayers().getPrevOf(cur);
+            i = i + playerDx.getRetreat();
             if (i <= currentPlayer.getSight()) {
-                targets.add(playerdx);
+                targets.add(playerDx);
             }
             cur = this.table.getPlayers().getPrevOf(cur);
         }

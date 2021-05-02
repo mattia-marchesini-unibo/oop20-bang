@@ -8,10 +8,11 @@ public class CircularList<X> extends ArrayList<X> {
     private static final long serialVersionUID = 7770028322718010907L;
     private int currentIndex = 0;
     
-    public CircularList() { }
-    
-    public CircularList(List<X> list) {
+    public CircularList(final List<X> list) {
         super(list);
+    }
+    
+    public CircularList() {
     }
     
     /**
@@ -51,7 +52,7 @@ public class CircularList<X> extends ArrayList<X> {
     }
     
     /**
-     * Changes the index of current element to the next one
+     * Changes the current element to the next one
      * 
      * @return the new current element
      */
@@ -81,7 +82,7 @@ public class CircularList<X> extends ArrayList<X> {
     }
     
     /**
-     * Changes the index of current element to the previous one
+     * Changes the current element to the previous one
      * 
      * @return the new current element
      */

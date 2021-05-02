@@ -1,6 +1,6 @@
 package libs.observe;
 
 @FunctionalInterface
-public interface IObserver {
+public interface Observer {
     void update();
 }

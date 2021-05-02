@@ -39,8 +39,6 @@ public class SimpleTable implements Table{
     private CircularList<Player> getPlayersFromNumber(final int playerNumber){
         List<Role> roles = new ArrayList<>(totalRoles.subList(0, playerNumber));
         Collections.shuffle(roles);
-        //CircularList<Player> c = new CircularList<>(roles.stream().map(r -> new SimplePlayer(r, "player " + Integer.toString(roles.indexOf(r))))
-        //.collect(Collectors.toList()));
         CircularList<Player> c = new CircularList<>();
         for (int i = 0; i < playerNumber; i++) {
             c.add(new SimplePlayer(roles.get(i), "player " + i));
