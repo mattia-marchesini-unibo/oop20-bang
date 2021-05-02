@@ -158,6 +158,11 @@ public class SwingViewFactory implements ViewFactory {
                 cardsPanel = new JPanel();
                 blueCardsPanel = new JPanel();
                 
+                JLabel cardsInPlay = new JLabel("Your cards in play:");
+                cardsInPlay.setAlignmentX(JPanel.CENTER_ALIGNMENT);
+                JLabel cardsInHand = new JLabel("Your cards in hand:");
+                cardsInHand.setAlignmentX(JPanel.CENTER_ALIGNMENT);
+                
                 JScrollPane cardsScrollPane = new JScrollPane(cardsPanel);
                 cardsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
                 cardsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
@@ -166,6 +171,7 @@ public class SwingViewFactory implements ViewFactory {
                 currentPlayerStats.setEditable(false);
                 
                 endTurn = new JButton("End turn");
+                endTurn.setAlignmentX(JPanel.CENTER_ALIGNMENT);
                 endTurn.addActionListener(e -> {
                     CurrentPlayerInfo currentPlayer = observables.getCurrentPlayer().get();
                     int cardsToDiscard = currentPlayer.getHand().get().size() - currentPlayer.getLifePoints();
@@ -267,9 +273,9 @@ public class SwingViewFactory implements ViewFactory {
                 /*
                  * Compose view
                  */
-                currentPlayerPanel.add(new JLabel("Your cards in play:"));
+                currentPlayerPanel.add(cardsInPlay);
                 currentPlayerPanel.add(blueCardsPanel);
-                currentPlayerPanel.add(new JLabel("Your cards in hand:"));
+                currentPlayerPanel.add(cardsInHand);
                 currentPlayerPanel.add(cardsScrollPane);
                 currentPlayerPanel.add(currentPlayerStats);
                 currentPlayerPanel.add(currentPlayerStats);
