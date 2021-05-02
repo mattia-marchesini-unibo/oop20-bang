@@ -15,18 +15,18 @@ public class Jail implements Effect {
     public void useEffect(Table table) {
         Player p1 = table.getCurrentPlayer();
         TurnObservable<Player> ob = table.getChoosePlayerObservable();
-        
-        ob.addObserver(() -> {
-            Player p2 = ob.get();
-            System.out.println("Dentro la jail il nome: " + ob.get().getName());
-//            p2.addActiveCard(p1.getCardsByName("jail").get(0));
-            p2.setPrison(true);
-        });
-        
         List<Player> others = new ArrayList<>(table.getPlayers());
         others.remove(p1);
         others.remove(table.getPlayers().stream().filter(p -> p.getRole().equals(Role.SHERIFF)).findFirst().get());
-        table.choosePlayer(others.stream().collect(Collectors.toSet()));
+        
+        if(!others.isEmpty()) {
+            ob.addObserver(() -> {
+                Player p2 = ob.get();
+                p2.setPrison(true);
+            });
+            
+            table.choosePlayer(others.stream().collect(Collectors.toSet()));
+        }
     }
 
 }

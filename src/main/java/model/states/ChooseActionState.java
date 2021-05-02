@@ -31,7 +31,6 @@ public class ChooseActionState implements State {
 
     @Override
     public void handle(GameStateMachine gsMachine) {
-        System.out.println("ChooseActionState");
         this.gsMachine = gsMachine;
         
         if(actionMap.containsKey(action)) {

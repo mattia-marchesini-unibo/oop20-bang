@@ -33,6 +33,9 @@ public class CheckGameOverState  implements State {
                                             .count() == 0) {
             return true;
         }
+        if(gsMachine.getTable().getPlayers().size() <= 1) {
+            return true;
+        }
         return false;
     }
 

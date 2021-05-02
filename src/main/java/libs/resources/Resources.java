@@ -37,7 +37,6 @@ public class Resources {
     public static String readFile(String path) {
         try {
             String read = Files.readString(Resources.getFile(path).toPath());
-//            System.out.println(read);
             return read;
         } catch (IOException e) {
             e.printStackTrace();

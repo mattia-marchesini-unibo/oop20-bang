@@ -48,7 +48,6 @@ public class PlayCardState implements State {
     ));
 
     public PlayCardState(Card playedCard) {
-        System.out.println("PlayCardState!");
         this.playedCard = playedCard;
     }
 
@@ -60,14 +59,12 @@ public class PlayCardState implements State {
         
         Message msg = table.getMessage();
         table.setMessage(null);
-        System.out.println(playedCard.getColor());
         if(playedCard.getColor().equals(Color.BLUE) && !playedCard.getRealName().equals("jail")) {
             table.getCurrentPlayer().addActiveCard(playedCard);
         }
         if(this.tableMsgMap.containsKey(msg)) {
             var pair = this.tableMsgMap.get(msg);
             pair.getX().run();
-            System.out.println(pair.getY());
             table.getCurrentPlayer().removeCard(playedCard);
             gsMachine.setMessage(pair.getY());
         }

@@ -13,7 +13,7 @@ public class Indians implements Effect {
     public void useEffect(Table table) {
         List<Player> others = new ArrayList<>(table.getPlayers());
         others.remove(table.getCurrentPlayer());
-        
+
         others.forEach(p -> {
             List<Card> bangs = p.getCardsByName("bang");
             if(bangs.isEmpty()) {
@@ -23,8 +23,5 @@ public class Indians implements Effect {
                 p.removeCard(bangs.get(0));
             }
         });
-        
-        others.forEach(p -> System.out.println(p.getLifePoints()));
     }
-
 }
