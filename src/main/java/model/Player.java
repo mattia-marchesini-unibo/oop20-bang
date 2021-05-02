@@ -5,6 +5,12 @@ import java.util.Set;
 
 import model.card.Card;
 
+/**
+ * An interface implementing a player.
+ * 
+ * @author Ryan Perrina
+ *
+ */
 public interface Player {
     
     /**

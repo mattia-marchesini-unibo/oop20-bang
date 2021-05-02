@@ -8,7 +8,7 @@ import libs.observe.ObservableElement;
  * 
  * @author Mattia Marchesini
  *
- * @param <E>   the type of the observable element 
+ * @param <E> the type of the observable element 
  */
 public class TurnObservable<E> extends ObservableElement<E> {
 

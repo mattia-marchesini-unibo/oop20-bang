@@ -8,6 +8,12 @@ import java.io.InputStreamReader;
 
 import javax.imageio.ImageIO;
 
+/**
+ * A utility class to read text files and image files.
+ * 
+ * @author Mattia Marchesini
+ *
+ */
 public class Resources {
 
     /**

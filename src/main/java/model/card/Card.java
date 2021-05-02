@@ -7,6 +7,12 @@ import java.util.Map;
 
 import model.effects.*;
 
+/**
+ * A class implementing a card.
+ * 
+ * @author Ryan Perrina
+ *
+ */
 public class Card {
 
     private static Map<String, Effect> cardEffectsMap = new HashMap<>(Map.ofEntries(

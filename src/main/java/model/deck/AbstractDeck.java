@@ -6,6 +6,12 @@ import java.util.List;
 
 import model.card.Card;
 
+/**
+ * An abstract class implementing a deck of cards for the game. 
+ * 
+ * @author Mattia Marchesini
+ *
+ */
 abstract class AbstractDeck implements Deck {
 
     protected DeckReader reader;

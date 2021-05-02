@@ -10,6 +10,12 @@ import libs.CircularList;
 import model.card.Card;
 import model.deck.Deck;
 
+/**
+ * A class implementing a game table.
+ * 
+ * @author Davide Merli
+ *
+ */
 public class SimpleTable implements Table{
     private static final List<Role> totalRoles = List.of(
         Role.SHERIFF,Role.RENEGADE,Role.OUTLAW,Role.OUTLAW,Role.DEPUTY,Role.OUTLAW,Role.OUTLAW);

@@ -3,7 +3,7 @@ package model.card;
 /**
  * An enum defining the color of cards.
  * 
- * @author Davide Merli
+ * @author Ryan Perrina
  *
  */
 public enum Color {

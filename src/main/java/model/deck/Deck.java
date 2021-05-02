@@ -4,6 +4,12 @@ import java.util.List;
 
 import model.card.Card;
 
+/**
+ * An interface implementing a deck of cards for the game.
+ * 
+ * @author Mattia Marchesini
+ *
+ */
 public interface Deck {
 
     /**

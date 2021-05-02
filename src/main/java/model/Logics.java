@@ -3,6 +3,12 @@ package model;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * A utility class containing a function to get the possible targets of an action.
+ * 
+ * @author Ryan Perrina
+ *
+ */
 public class Logics {
 
     private Table table;

@@ -8,6 +8,13 @@ import libs.CircularList;
 import model.card.Card;
 import model.deck.Deck;
 
+/**
+ * An interface implementing a game table.
+ * The interface contains function to handle the players and the deck. 
+ * 
+ * @author Davide Merli
+ *
+ */
 public interface Table {
 
     enum Message {

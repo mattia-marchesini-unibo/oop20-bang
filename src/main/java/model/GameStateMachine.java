@@ -3,6 +3,12 @@ package model;
 import libs.observe.ObservableElement;
 import model.states.State;
 
+/**
+ * A class which handles the changes of states of the game.
+ * 
+ * @author Davide Merli
+ *
+ */
 public class GameStateMachine {
 
     private State currentState;

@@ -10,6 +10,12 @@ import java.util.stream.Collectors;
 import model.card.Card;
 import model.card.Color;
 
+/**
+ * A class implementing a player.
+ * 
+ * @author Ryan Perrina
+ *
+ */
 public class SimplePlayer implements Player {
 
     private static final int BASIC_SIGHT = 1;

@@ -9,6 +9,12 @@ import com.google.gson.reflect.TypeToken;
 import libs.resources.Resources;
 import model.card.Card;
 
+/**
+ * A class to create a deck from a json file.
+ * 
+ * @author Mattia Marchesini
+ *
+ */
 class JSONDeckReader implements DeckReader {
 
     private List<Card> cards = null;
