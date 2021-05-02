@@ -41,39 +41,14 @@ public class TestState {
 		            gsMachine.go();
 		        }), entry("choosePlayer", () -> {
 		            Table table = this.gsMachine.getTable();
-		          //  List<String> l = table.getChosenPlayerList().stream().map(p -> getPlayerName(p)).collect(Collectors.toList());
-		            //this.gameObs.getTargets().set(l);
 		        }), entry("playedCard", () -> {
-		            //drawTable();
-		        }), entry("startTurn", () -> {
-		            //drawTable();
+		        }), entry("startTurn", () ->{
 		        }), entry("endTurn", () -> {
-		            //drawTable();
 		        }), entry("discardCard", () -> {
 		            Player current = gsMachine.getTable().getCurrentPlayer();
-		            //Card card = current.getCardsByName(gameObs.getChosenCard()).get(0);
 		            current.removeCard(card);
-		            //drawTable();
 		        }), entry("end", () -> {
-//		            this.winners.addAll(
-//		                gsMachine.getTable().getPlayers().stream().map(p -> getPlayerName(p)).collect(Collectors.toList()));
-//		            changeSceneObs.set("end");
 		        })));
-
-	@Test
-	public void testChooseActionState() {
-		var obs = this.gsMachine.getMessageObservable();
-		obs.addObserver(() -> {
-			if(this.gsMachineMessages.containsKey(obs.get())) {
-				this.gsMachineMessages.get(obs.get()).run();
-			}
-		});
-		this.gsMachine.setCurrentState(new ChooseActionState("playCard"));
-		this.gsMachine.go();
-		this.gsMachine.getTable().getChoosePlayerObservable().set(new SimplePlayer(Role.DEPUTY, "p"));
-		
-		assertEquals(this.gsMachine.getCurrentState().getClass(), new ChoosePlayerCardState().getClass());
-	}
 
 	@Test
 	public void testCheckDeadPlayersState() {
@@ -131,24 +106,6 @@ public class TestState {
 		assertEquals(newCur.getCards().size(), newCur.getLifePoints() + 2);
 		}
 
-	private class SetTrue {
-		public boolean b = false;
-		public void setTrue() {
-			this.b = true;
-		}
-	}
-	@Test
-	public void testPlayCardState() {
-		this.gsMachine.setCurrentState(new PlayCardState(card));
-		var hasCard = new SetTrue();
-		System.out.println("ciao"+hasCard.b);
-		gsMachine.getTable().getChoosePlayerObservable().addObserver(() -> {
-			hasCard.setTrue();
-			
-		});
-		this.gsMachine.go();
-		assertTrue(hasCard.b);
-	}
 
 	@Test
 	public void testEndGameState() {

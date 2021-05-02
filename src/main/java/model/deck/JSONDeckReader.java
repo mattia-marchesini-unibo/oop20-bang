@@ -7,7 +7,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import libs.resources.Resources;
-import model.card.Color;
 import model.card.Card;
 
 class JSONDeckReader implements IDeckReader {
@@ -18,13 +17,14 @@ class JSONDeckReader implements IDeckReader {
     private class JSONCard {
         String localName;
         String realName;
-        Color color;
+        String color;
         int howMany;
         
+        @SuppressWarnings("unused")
         public JSONCard(String localName, String realName, String color, int howMany) {
             this.localName = localName;
             this.realName = realName;
-            this.color = Color.valueOf(color.toUpperCase());
+            this.color = color;
             this.howMany = howMany;
         }
     }
@@ -35,7 +35,7 @@ class JSONDeckReader implements IDeckReader {
             this.cards = new ArrayList<>();
             String json = Resources.readFile(DECK_FILE);
             Gson gson = new Gson();
-            List<JSONCard> c = gson.fromJson(json, new TypeToken<List<Card>>() {}.getType());
+            List<JSONCard> c = gson.fromJson(json, new TypeToken<List<JSONCard>>() {}.getType());
             c.forEach(crd -> {
                 for(int i = 0; i < crd.howMany; i++) {
                     this.cards.add(new Card(

@@ -1,25 +1,17 @@
 package model;
 
 import java.util.List;
+import java.util.Set;
 
 import model.card.Card;
 
 public interface Player {
     
-	/**
-	 * 
-	 * @return useBang
-	 */
-	public boolean getUSeBang();
-	/**
-	 * @param b
-	 */
-	public void setUseBang(boolean b); 
-     /**
-      ** @return player name
-      */
-     public String getName();
-
+    /**
+     ** @return player name
+     */
+    public String getName();    
+    
     /**
      * this method set the sight of the sight of the player
      * @param sight
@@ -56,7 +48,7 @@ public interface Player {
     /**
      * @return a list containing the active cards of the player
      */
-    public List<Card> getActiveCards();
+    public Set<Card> getActiveCards();
         
     /**
      * Adds a card to the active cards
@@ -98,4 +90,12 @@ public interface Player {
     void removeProtection();
 
     boolean hasProtection();
+    
+    boolean hasPrison();
+    
+    void setPrison(boolean hasPrison);
+    
+    void addWeapon(String card);
+    
+    void removeWeapon();
 }

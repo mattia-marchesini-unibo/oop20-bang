@@ -3,23 +3,24 @@ package controller;
 import static java.util.Map.entry;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import libs.observe.IObservable;
 import libs.observe.ObservableElement;
-import libs.observe.SimpleObservable;
 import model.GameStateMachine;
 import model.Player;
-import model.SimplePlayer;
-import model.Role;
 import model.SimpleTable;
+import model.Table;
+import model.card.Card;
 import model.deck.Deck;
+import model.states.ChooseActionState;
+import model.states.PlayCardState;
 import model.states.StartTurnState;
+import view.CurrentPlayerInfo;
 import view.GameViewObservables;
+import view.PlayerInfo;
 import view.View;
 import view.ViewFactory;
 
@@ -31,63 +32,85 @@ public class GameController {
     private GameViewObservables gameObs;
     private List<Player> allPlayers;
 
-    private static final List<Role> totalRoles = List.of(Role.SHERIFF, Role.RENEGADE, Role.OUTLAW, Role.OUTLAW,
-        Role.DEPUTY, Role.OUTLAW, Role.OUTLAW);
     private Map<String, Runnable> gsMachineMessages = new HashMap<String, Runnable>(
         Map.ofEntries(entry("playCard", () -> {
-        }), entry("startTurn", () -> {
-        }), entry("endTurn", () -> {
-            // this.gameObs.getCharacter().set(null);
-            List<Player> others = new ArrayList<>(this.gsMachine.getTable().getPlayers());
-            this.gameObs.getOtherPlayers()
-                .set(others.subList(1, others.size()).stream().map(p -> getPlayerName(p)).collect(Collectors.toList()));
-        }), entry("chooseCards", () -> {
+            Card card = gsMachine.getTable().getCurrentPlayer().getCardsByName(this.gameObs.getChosenCard()).get(0);
+            gsMachine.setCurrentState(new PlayCardState(card));
+            gsMachine.go();
+            drawTable();
+        }), entry("choosePlayer", () -> {
+            Table table = this.gsMachine.getTable();
+            List<String> l = table.getChosenPlayerList().stream().map(p -> p.getName()).collect(Collectors.toList());
+            this.gameObs.getTargets().set(l);
+        }), entry("drawTable", () -> {
+            drawTable();
+        }), entry("discardCard", () -> {
+            Player current = gsMachine.getTable().getCurrentPlayer();
+            Card card = current.getCardsByName(gameObs.getChosenCard()).get(0);
+            current.removeCard(card);
+            drawTable();
         }), entry("end", () -> {
             this.winners.addAll(
-                gsMachine.getTable().getPlayers().stream().map(p -> getPlayerName(p)).collect(Collectors.toList()));
+                gsMachine.getTable().getPlayers().stream().map(p -> p.getName()).collect(Collectors.toList()));
             changeSceneObs.set("end");
         })));
 
-    public GameController(int numberOfPlayers, ObservableElement<String> changeSceneObs, List<String> winners) {
-        this.changeSceneObs = changeSceneObs;
+    public GameController(int numberOfPlayers, List<String> winners) {
         winners.clear();
         this.winners = winners;
 
-        List<Role> roles = new ArrayList<>(totalRoles.subList(0, numberOfPlayers));
-        Collections.shuffle(roles);
-        this.allPlayers = roles.stream().map(r -> new SimplePlayer(r, "player " + Integer.toString(roles.indexOf(r))))
-            .collect(Collectors.toList());
-
-        this.gsMachine = new GameStateMachine(new SimpleTable(new Deck(), allPlayers));
+        this.gsMachine = new GameStateMachine(new SimpleTable(new Deck(), numberOfPlayers));
         var obs = this.gsMachine.getMessageObservable();
-        obs.addObserver(() -> this.gsMachineMessages.get(obs.get()).run());
+        obs.addObserver(() -> {
+            if (this.gsMachineMessages.containsKey(obs.get())) {
+                this.gsMachineMessages.get(obs.get()).run();
+            }
+        });
 
-        Player first = this.allPlayers.get(0);
-        this.gameObs = new GameViewObservables(new ObservableElement<String>(getPlayerName(first)),
-            new ObservableElement<String>(first.getRole().toString()),
-            new ObservableElement<Integer>(first.getLifePoints()), new ObservableElement<List<String>>(),
-            new ObservableElement<>(),
-            new ObservableElement<List<String>>(allPlayers.subList(1, numberOfPlayers).stream()
-                .map(p -> getPlayerName(p)).collect(Collectors.toList())),
-            new ObservableElement<List<Integer>>(allPlayers.subList(1, numberOfPlayers).stream()
-                .map(p -> p.getLifePoints()).collect(Collectors.toList())),
-            new ObservableElement<List<List<String>>>(), new ObservableElement<String>());
+        this.allPlayers = new ArrayList<>(this.gsMachine.getTable().getPlayers());
+        this.gameObs = new GameViewObservables();
 
         this.gameObs.getAction().addObserver(() -> {
-            this.gsMachine.setMessage(this.gameObs.getAction().get());
+            this.gsMachine.setCurrentState(new ChooseActionState(this.gameObs.getAction().get()));
+            this.gsMachine.go();
+        });
+
+        this.gameObs.getChosenPlayer().addObserver(() -> {
+            Player plr = allPlayers.stream().filter(p -> p.getName().equals(this.gameObs.getChosenPlayer().get())).findFirst().get();
+            gsMachine.getTable().getChoosePlayerObservable().set(plr);
         });
     }
 
     public void setup(ViewFactory factory) {
+        this.changeSceneObs = factory.getChangeSceneObservable();
         View view = factory.getGameView(this.gameObs);
-        // var obs = view.getChangeScreenObservable();
-        // obs.addObserver(() -> this.changeSceneObs.set(obs.get()));
 
         this.gsMachine.setCurrentState(new StartTurnState());
         view.show();
+        this.gsMachine.go();
     }
 
-    private String getPlayerName(Player player) {
-        return "player " + Integer.toString(allPlayers.indexOf(player));
+    private List<Player> getOthers() {
+        Table table = this.gsMachine.getTable();
+        Player current = table.getCurrentPlayer();
+        List<Player> others = new ArrayList<>(table.getPlayers());
+        others.remove(current);
+        return others;
+    }
+
+    private void drawTable() {
+        Player current = this.gsMachine.getTable().getCurrentPlayer();
+        var others = getOthers();
+
+        this.gameObs.setCurrentPlayer(
+            new CurrentPlayerInfo(current.getName(), current.getLifePoints(), current.getRole().toString(),
+                current.getActiveCards().stream().map(c -> c.getRealName()).collect(Collectors.toList())));
+        this.gameObs.getCurrentPlayer().get().getHand()
+            .set(current.getCards().stream().map(c -> c.getRealName()).collect(Collectors.toList()));
+        List<PlayerInfo> otherPlayers = new ArrayList<>();
+        others.forEach(
+            p -> otherPlayers.add(new PlayerInfo(p.getName(), p.getLifePoints(), p.getRole().toString(),
+                p.getActiveCards().stream().map(c -> c.getRealName()).collect(Collectors.toList()))));
+        this.gameObs.setOtherPlayers(otherPlayers);
     }
 }

@@ -1,13 +1,12 @@
 package model.effects;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 import model.Player;
 import model.Table;
-import model.TurnObservable;
 import model.card.Card;
 
 public class CatBalou implements Effect {
@@ -15,15 +14,18 @@ public class CatBalou implements Effect {
     @Override
     public void useEffect(Table table) {
         List<Player> others = new ArrayList<>(table.getPlayers());
-        others.remove(0);
-        Player opponent = others.get((int)(Math.random() * others.size()));
+        others.remove(table.getCurrentPlayer());
 
-        TurnObservable<Map<Card, Player>> cardOb = table.getChooseCardsObservable();
-        cardOb.addObserver(() -> {
-            Card card = cardOb.get().keySet().iterator().next();
-            opponent.removeCard(card);
+        var plObs = table.getChoosePlayerObservable();
+        plObs.addObserver(() -> {
+            Player opponent = plObs.get();
+            Random r = new Random();
+            if(opponent.getCards().size() > 0) {
+                Card card = opponent.getCards().get(r.nextInt(opponent.getCards().size()));
+                opponent.removeCard(card);
+            }
         });
 
-        table.chooseCards(opponent.getCards(), Arrays.asList(table.getCurrentPlayer()), 1);
+        table.choosePlayer(others.stream().collect(Collectors.toSet()));
     }
 }

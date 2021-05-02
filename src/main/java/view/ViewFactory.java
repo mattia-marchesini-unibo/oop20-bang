@@ -9,7 +9,7 @@ public interface ViewFactory {
     /**
      * @return a view containing the main menu of the game
      */
-    View getMenuView(final ObservableElement<Integer> obs);
+    View getMenuView(final ObservableElement<Integer> numberOfPlayers);
     
     /**
      * @return a view containing the game rules
@@ -31,7 +31,7 @@ public interface ViewFactory {
     /**
      * @return an {@link} @ObservableElement
      */
-    ObservableElement<String> getChangeScreenObservable();
+    ObservableElement<String> getChangeSceneObservable();
     
     /**
      * Shows the specified view

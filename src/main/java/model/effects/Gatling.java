@@ -11,7 +11,7 @@ public class Gatling implements Effect {
     @Override
     public void useEffect(Table table) {
         List<Player> others = new ArrayList<>(table.getPlayers());
-        others.remove(0);
+        others.remove(table.getCurrentPlayer());
         
         others.forEach(p -> {
             if(p.hasProtection()) {

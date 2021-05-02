@@ -7,7 +7,6 @@ import static java.util.Map.entry;
 
 import java.util.ArrayList;
 
-import libs.observe.IObserver;
 import libs.observe.ObservableElement;
 import view.View;
 import view.ViewFactory;
@@ -27,7 +26,7 @@ public class Controller {
             View v = fct.getRulesView();
             v.show();
         }), entry("game", (fct) -> {
-            GameController gmc = new GameController(numberOfPlayers.get(), changeSceneObs, winners);
+            GameController gmc = new GameController(numberOfPlayers.get(), winners);
             gmc.setup(fct);
         }), entry("end", (fct) -> {
             View v = fct.getEndGameView(winners);
@@ -35,7 +34,7 @@ public class Controller {
         })));
 
     public Controller(ViewFactory factory) {
-        this.changeSceneObs = factory.getChangeScreenObservable();
+        this.changeSceneObs = factory.getChangeSceneObservable();
         this.changeSceneObs.addObserver(() -> {
             controllers.get(changeSceneObs.get()).setup(this.factory);
         });

@@ -1,8 +1,8 @@
 package model.effects;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 import model.Player;
 import model.Table;
@@ -13,22 +13,23 @@ public class Panic implements Effect {
 
     @Override
     public void useEffect(Table table) {
-        TurnObservable<List<Player>> opponentOb = table.getChoosePlayersObservable();
+        TurnObservable<Player> opponentOb = table.getChoosePlayerObservable();
         Player current = table.getCurrentPlayer();
 
-        TurnObservable<Map<Card, Player>> cardOb = table.getChooseCardsObservable();
-
         opponentOb.addObserver(() -> {
-            Player opponent = opponentOb.get().get(0);
-            cardOb.addObserver(() -> {
-                Map<Card, Player> map = cardOb.get();
-                opponent.removeCard(map.keySet().iterator().next());
-            });
-
-            table.chooseCards(opponent.getCards(), Arrays.asList(current), 1);
+            Player opponent = opponentOb.get();
+            var cardList = opponent.getCards();
+            if(cardList.size() > 0) {
+                Card c = cardList.get(new Random().nextInt(cardList.size()));
+                opponent.removeCard(c);
+                current.addCard(c);
+            }
         });
 
-        table.choosePlayers(1, 1);
+        Set<Player> s = new HashSet<>();
+        s.add(table.getPlayers().getNextOf(current));
+        s.add(table.getPlayers().getPrevOf(current));
+        table.choosePlayer(s);
     }
 
 }

@@ -1,7 +1,10 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import model.card.Card;
@@ -15,12 +18,13 @@ public class SimplePlayer implements Player {
     private String name;
     private int retreat = 0;
     private Role role;
-    private List<Card> hand;
+    private List<Card> hand = new ArrayList<>();
+    private Set<Card> activeCards = new HashSet<>();
     private int maxLifePoints;
     private int lifePoints;
     private int protections = 0;
-    private boolean useBang = false;
-    private List<Card> activeCards = new ArrayList<>();
+    private boolean hasPrison = false;
+    private Optional<Card> weapon = Optional.empty();
 
     public SimplePlayer(Role role, String name) {
         this.name = name;
@@ -64,6 +68,11 @@ public class SimplePlayer implements Player {
     }
 
     @Override
+    public List<Card> getActiveCardsByName(String name) {
+        return this.activeCards.stream().filter(c -> c.getRealName().equals(name)).collect(Collectors.toList());
+    }
+
+    @Override
     public void addCard(Card card) {
         this.hand.add(card);
     }
@@ -72,20 +81,31 @@ public class SimplePlayer implements Player {
     public void playCard(String name, Table table) {
         Card card = this.getCardsByName(name).get(0);
 
-        if (card.getColor() == Color.BROWN) {
-            this.removeCard(card);
+        if (card.getColor() == Color.BLUE) {
+            this.addActiveCard(card);
         }
-
+        this.removeCard(card);
         card.getEffect().useEffect(table);
     }
 
     @Override
     public void removeCard(Card card) {
-        this.hand.forEach(i -> {
-            if (i.equals(card)) {
-                this.hand.remove(i);
-            }
-        });
+        this.hand.remove(card);
+    }
+
+    @Override
+    public Set<Card> getActiveCards() {
+        return this.activeCards;
+    }
+
+    @Override
+    public void addActiveCard(final Card card) {
+        this.activeCards.add(card);
+    }
+
+    @Override
+    public void removeActiveCard(final Card card) {
+        this.activeCards.remove(card);
     }
 
     @Override
@@ -145,34 +165,28 @@ public class SimplePlayer implements Player {
     }
 
     @Override
-    public boolean getUSeBang() {
-        return this.useBang;
+    public boolean hasPrison() {
+        return this.hasPrison;
     }
 
     @Override
-    public void setUseBang(boolean b) {
-        this.useBang = b;
+    public void setPrison(boolean hasPrison) {
+        this.hasPrison = hasPrison;
     }
 
     @Override
-    public List<Card> getActiveCards() {
-        return this.activeCards;
-    }
-
-    @Override
-    public void addActiveCard(final Card card) {
-        if (!this.activeCards.contains(card)) {
-            this.activeCards.add(card);
+    public void addWeapon(String card) {
+        if(this.weapon.isPresent()) {
+            this.removeActiveCard(this.weapon.get());
         }
+        this.weapon = Optional.of(this.getCardsByName(card).get(0));
+        this.addActiveCard(this.getCardsByName(card).get(0));
     }
 
     @Override
-    public void removeActiveCard(final Card card) {
-        this.activeCards.remove(card);
+    public void removeWeapon() {
+        this.removeActiveCard(this.weapon.get());
+        this.weapon = Optional.empty();
     }
 
-    @Override
-    public List<Card> getActiveCardsByName(String name) {
-        return this.activeCards.stream().filter(c -> c.getRealName().equals(name)).collect(Collectors.toList());
-    }
 }

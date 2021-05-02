@@ -17,7 +17,7 @@ abstract class AbstractDeck implements IDeck {
 
     @Override
     public void newGame() {
-        this.cards = this.reader.readCards();
+        this.cards = new ArrayList<>(reader.readCards());
         this.shuffleDeck();
     }
     
@@ -28,7 +28,7 @@ abstract class AbstractDeck implements IDeck {
     
     @Override
     public Card nextCard() {
-        if(this.cards == null) {
+        if(this.cards == null || this.remainigCards() <= 5) {
             this.newGame();
         }
         return this.cards.remove(0);
@@ -36,10 +36,6 @@ abstract class AbstractDeck implements IDeck {
 
     @Override
     public List<Card> nextCards(int step) {
-        if(this.cards == null) {
-            this.newGame();
-        }
-
         List<Card> removed = new ArrayList<>();
         for(int i = 0; i < step; i++) {
             removed.add(this.nextCard());
