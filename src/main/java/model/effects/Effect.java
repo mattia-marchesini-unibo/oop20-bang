@@ -4,5 +4,10 @@ import model.Table;
 
 public interface Effect {
 
-    void useEffect(Table table);
+    /**
+     * Uses the effect of the card.
+     * 
+     * @param table
+     */
+    void useEffect(final Table table);
 }

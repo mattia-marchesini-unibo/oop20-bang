@@ -6,12 +6,12 @@ import java.util.List;
 
 import model.card.Card;
 
-abstract class AbstractDeck implements IDeck {
+abstract class AbstractDeck implements Deck {
 
-    protected IDeckReader reader;
+    protected DeckReader reader;
     protected List<Card> cards = null;
 
-    public AbstractDeck(IDeckReader reader) {
+    public AbstractDeck(DeckReader reader) {
         this.reader = reader;
     }
 

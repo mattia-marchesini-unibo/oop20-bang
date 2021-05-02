@@ -28,6 +28,12 @@ import javax.swing.ScrollPaneConstants;
 import libs.observe.ObservableElement;
 import libs.resources.Resources;
 
+/**
+ * A class implementing a factory of views for the "Swing" graphic library.
+ * 
+ * @author Davide Merli
+ *
+ */
 public class SwingViewFactory implements ViewFactory {
     
     private JFrame frame = new JFrame("BANG!");
@@ -35,7 +41,7 @@ public class SwingViewFactory implements ViewFactory {
     
     @Override
     public View getMenuView(final ObservableElement<Integer> numberOfPlayers) {
-        return new AbstractView(frame) {
+        return new AbstractSwingView(frame) {
             
             private static final int LABEL_FONT_SIZE = 50;
             private static final int BUTTON_FONT_SIZE = 30;
@@ -84,7 +90,7 @@ public class SwingViewFactory implements ViewFactory {
 
     @Override
     public View getRulesView() {
-        return new AbstractView(frame) {
+        return new AbstractSwingView(frame) {
             
             private static final String ROLES_FILENAME = "files/Rules_Roles.txt";
             private static final String BROWN_FILENAME = "files/Rules_BrownCards.txt";
@@ -136,7 +142,7 @@ public class SwingViewFactory implements ViewFactory {
 
     @Override
     public View getGameView(final GameViewObservables observables) {
-        return new AbstractView(frame) {
+        return new AbstractSwingView(frame) {
             
             private static final int ERROR_VALUE = -1;
             private JPanel playersPanel;
@@ -308,7 +314,7 @@ public class SwingViewFactory implements ViewFactory {
 
     @Override
     public View getEndGameView(final List<String> winners) {
-        return new AbstractView(frame) {
+        return new AbstractSwingView(frame) {
 
             private static final int GAMEOVER_LABEL_FONT_SIZE = 50;
             private static final int FONT_SIZE = 30;

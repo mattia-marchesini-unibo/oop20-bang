@@ -11,6 +11,14 @@ import libs.observe.ObservableElement;
 import view.View;
 import view.ViewFactory;
 
+/**
+ * 
+ * A class implementing the controller for the game.
+ * The controller communicates with the model and the view to handle the game changes.
+ * 
+ * @author Mattia Marchesini
+ *
+ */
 public class Controller {
 
     private ViewFactory factory;
@@ -18,7 +26,7 @@ public class Controller {
     private ObservableElement<String> changeSceneObs;
     private List<String> winners = new ArrayList<>();
 
-    private Map<String, IViewController> controllers = new HashMap<String, IViewController>(
+    private Map<String, ViewController> controllers = new HashMap<String, ViewController>(
         Map.ofEntries(entry("start", (fct) -> {
             View v = fct.getMenuView(numberOfPlayers);
             v.show();
@@ -42,6 +50,9 @@ public class Controller {
         this.factory = factory;
     }
 
+    /**
+     * Starts view
+     */
     public void start() {
         controllers.get("start").setup(factory);
     }

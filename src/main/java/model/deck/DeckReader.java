@@ -4,7 +4,7 @@ import java.util.List;
 
 import model.card.Card;
 
-interface IDeckReader {
+interface DeckReader {
 
     List<Card> readCards();
 }

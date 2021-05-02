@@ -4,6 +4,13 @@ import java.util.List;
 
 import libs.observe.*;
 
+/**
+ * A class containing useful observers to allow the view to
+ * exchange information with the controller.
+ * 
+ * @author Ryan Perrina
+ *
+ */
 public class GameViewObservables {
 
     private ObservableElement<CurrentPlayerInfo> currentPlayer = new ObservableElement<>();

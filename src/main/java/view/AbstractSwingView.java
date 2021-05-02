@@ -6,14 +6,20 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public abstract class AbstractView implements View {
+/**
+ * An abstract class implementing a view for the "Swing" graphic library.
+ * 
+ * @author Davide Merli
+ *
+ */
+public abstract class AbstractSwingView implements View {
     
     private static final double PROPORTION = 1.5;
     
     private JFrame frame;
     protected JPanel panel = new JPanel();
     
-    public AbstractView(final JFrame frame) {
+    public AbstractSwingView(final JFrame frame) {
         this.frame = frame;
         if(!frame.isVisible()) {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

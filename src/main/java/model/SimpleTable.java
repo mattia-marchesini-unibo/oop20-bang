@@ -8,13 +8,13 @@ import java.util.Set;
 
 import libs.CircularList;
 import model.card.Card;
-import model.deck.IDeck;
+import model.deck.Deck;
 
 public class SimpleTable implements Table{
     private static final List<Role> totalRoles = List.of(
         Role.SHERIFF,Role.RENEGADE,Role.OUTLAW,Role.OUTLAW,Role.DEPUTY,Role.OUTLAW,Role.OUTLAW);
     
-    private IDeck deck;
+    private Deck deck;
     private List<Card> discardPile = new ArrayList<>();
     private CircularList<Player> players;
     private Player currentPlayer;
@@ -22,14 +22,10 @@ public class SimpleTable implements Table{
     
     private TurnObservable<Player> choosePlayerObservable = new TurnObservable<>();
     private TurnObservable<Map<Card, Player>> chooseCardsObservable = new TurnObservable<>();
-	private int howMany;
-	private Message message = null;
-	private Set<Player> chosenPlayerSet;
-	private List<Card> cardsToChoose;
-	private List<Player> choosers;
-	private int howManyPerPlayer;
+    private Message message = null;
+    private Set<Player> chosenPlayerSet;
     
-    public SimpleTable(final IDeck deck, final int numberOfPlayers) {
+    public SimpleTable(final Deck deck, final int numberOfPlayers) {
         this.deck = deck;
         this.players = getPlayersFromNumber(numberOfPlayers);
         this.getFirstCards();
@@ -56,7 +52,7 @@ public class SimpleTable implements Table{
     }
     
     @Override
-    public IDeck getDeck() {
+    public Deck getDeck() {
         return this.deck;
     }
     
@@ -107,20 +103,6 @@ public class SimpleTable implements Table{
     }
 
     @Override
-    public void choosePlayer(Set<Player> chosenPlayerSet) {
-    	this.message = Message.CHOOSE_PLAYER;
-    	this.chosenPlayerSet = chosenPlayerSet;
-    }
-
-    @Override
-    public void chooseCards(List<Card> cardsToChoose, List<Player> choosers, int howManyPerPlayer) {
-    	this.cardsToChoose = cardsToChoose;
-    	this.choosers = choosers;
-    	this.howManyPerPlayer = howManyPerPlayer;
-    	this.message = Message.CHOOSE_CARD;
-    }
-
-    @Override
     public void playerUsedCard(String cardName) {
         this.usedCards.add(cardName);
     }
@@ -144,24 +126,10 @@ public class SimpleTable implements Table{
     public Set<Player> getChosenPlayerList() {
         return this.chosenPlayerSet;
     }
-
+    
     @Override
-    public int getHowMany() {
-        return howMany;
-    }
-
-    @Override
-    public List<Card> getCardsToChoose() {
-        return cardsToChoose;
-    }
-
-    @Override
-    public List<Player> getChoosers() {
-        return choosers;
-    }
-
-    @Override
-    public int getHowManyPerPlayer() {
-        return howManyPerPlayer;
+    public void choosePlayer(Set<Player> chosenPlayerSet) {
+        this.message = Message.CHOOSE_PLAYER;
+        this.chosenPlayerSet = chosenPlayerSet;
     }
 }

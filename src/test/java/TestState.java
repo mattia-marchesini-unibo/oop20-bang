@@ -1,7 +1,5 @@
 import org.junit.Test;
 
-import controller.GameController;
-import libs.CircularList;
 import model.GameStateMachine;
 import model.Player;
 import model.Role;
@@ -10,37 +8,31 @@ import model.SimpleTable;
 import model.Table;
 import model.card.Card;
 import model.card.Color;
-import model.deck.Deck;
+import model.deck.SimpleDeck;
 import model.states.CheckDeadPlayersState;
 import model.states.CheckGameOverState;
 import model.states.ChooseActionState;
-import model.states.ChoosePlayerCardState;
 import model.states.EndGameState;
-import model.states.EndTurnState;
 import model.states.PlayCardState;
 import model.states.StartTurnState;
 
 import static java.util.Map.entry;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class TestState {
-	private final Table table = new SimpleTable(new Deck(), 4);
+	private final Table table = new SimpleTable(new SimpleDeck(), 4);
 	private final GameStateMachine gsMachine = new GameStateMachine(table);
 	private final Card card = new Card("17827",Color.BLUE.name(), "bang", "bang");
-	private final List<Player> winners = null;
 
 	 private Map<String, Runnable> gsMachineMessages = new HashMap<String, Runnable>(
 		        Map.ofEntries(entry("playCard", () -> {
 		            gsMachine.setCurrentState(new PlayCardState(card));
 		            gsMachine.go();
 		        }), entry("choosePlayer", () -> {
-		            Table table = this.gsMachine.getTable();
 		        }), entry("playedCard", () -> {
 		        }), entry("startTurn", () ->{
 		        }), entry("endTurn", () -> {

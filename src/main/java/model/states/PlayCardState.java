@@ -13,7 +13,7 @@ import model.Table;
 import model.Table.Message;
 import model.card.Card;
 import model.card.Color;
-import model.card.Weapon;
+import model.effects.Weapon;
 
 public class PlayCardState implements State {
 

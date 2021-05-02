@@ -14,7 +14,7 @@ import model.Player;
 import model.SimpleTable;
 import model.Table;
 import model.card.Card;
-import model.deck.Deck;
+import model.deck.SimpleDeck;
 import model.states.ChooseActionState;
 import model.states.PlayCardState;
 import model.states.StartTurnState;
@@ -59,7 +59,7 @@ public class GameController {
         winners.clear();
         this.winners = winners;
 
-        this.gsMachine = new GameStateMachine(new SimpleTable(new Deck(), numberOfPlayers));
+        this.gsMachine = new GameStateMachine(new SimpleTable(new SimpleDeck(), numberOfPlayers));
         var obs = this.gsMachine.getMessageObservable();
         obs.addObserver(() -> {
             if (this.gsMachineMessages.containsKey(obs.get())) {

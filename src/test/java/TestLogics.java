@@ -8,13 +8,13 @@ import libs.CircularList;
 import model.Logics;
 import model.Player;
 import model.SimpleTable;
-import model.deck.Deck;
+import model.deck.SimpleDeck;
 
 public class TestLogics {
         
          @Test
          public void testGetTarget() {
-        	 var table = new SimpleTable(new Deck(),4);
+        	 var table = new SimpleTable(new SimpleDeck(),4);
              CircularList<Player> list = table.getPlayers();
              Logics l = new Logics(table);
              var p = table.getCurrentPlayer();

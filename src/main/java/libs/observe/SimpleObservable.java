@@ -3,6 +3,12 @@ package libs.observe;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class implementing an observable element.
+ * 
+ * @author Mattia Marchesini
+ *
+ */
 public class SimpleObservable implements Observable {
 
     List<Observer> observers = new ArrayList<>();

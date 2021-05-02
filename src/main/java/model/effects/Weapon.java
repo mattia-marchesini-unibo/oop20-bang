@@ -1,7 +1,6 @@
-package model.card;
+package model.effects;
 
 import model.Table;
-import model.effects.Effect;
 
 public class Weapon implements Effect {
 

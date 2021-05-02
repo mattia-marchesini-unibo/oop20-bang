@@ -2,6 +2,12 @@ package view;
 
 import java.util.List;
 
+/**
+ * A class containing the information about a player.
+ * 
+ * @author Davide Merli
+ *
+ */
 public class PlayerInfo {
     protected String name;
     protected int lifePoints;

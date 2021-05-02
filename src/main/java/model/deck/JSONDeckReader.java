@@ -9,7 +9,7 @@ import com.google.gson.reflect.TypeToken;
 import libs.resources.Resources;
 import model.card.Card;
 
-class JSONDeckReader implements IDeckReader {
+class JSONDeckReader implements DeckReader {
 
     private List<Card> cards = null;
     private final static String DECK_FILE = "deck.json";

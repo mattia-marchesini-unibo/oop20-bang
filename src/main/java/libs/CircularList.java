@@ -3,6 +3,15 @@ package libs;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A utility class that implements a circular list.
+ * The contains information about a current element, and has methods which
+ * allow the user to get the next and previous element in the list.
+ * 
+ * @author Davide Merli
+ *
+ * @param <X> the type of elements of the list
+ */
 public class CircularList<X> extends ArrayList<X> {
     
     private static final long serialVersionUID = 7770028322718010907L;

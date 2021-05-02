@@ -23,7 +23,6 @@ public class Card {
             entry("panic", new Panic()),
             entry("beer", new ModifyLifePoints(1)),
             entry("indians", new Indians()),
-            entry("duel", new Duel()),
             entry("dodge", new Dodge()),
             entry("wells fargo", new DrawCardsFromDeck(3)),
             entry("stagecoach", new DrawCardsFromDeck(2)),
@@ -47,22 +46,47 @@ public class Card {
         this.effect = cardEffectsMap.get(realName);
     }
 
+    /**
+     * Returns card id.
+     * 
+     * @return
+     */
     public String getId() {
         return this.cardId;
     }
 
+    /**
+     * Returns card effect.
+     * 
+     * @return
+     */
     public Effect getEffect() {
         return this.effect;
     }
 
+    /**
+     * Returns card color.
+     * 
+     * @return
+     */
     public Color getColor() {
         return this.color;
     }
 
+    /**
+     * Returns card real name.
+     * 
+     * @return
+     */
     public String getRealName() {
         return this.realName;
     }
 
+    /**
+     * Returns card local name.
+     * 
+     * @return
+     */
     public String getLocalName() {
         return this.localName;
     }

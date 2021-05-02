@@ -4,6 +4,12 @@ import java.util.List;
 
 import libs.observe.ObservableElement;
 
+/**
+ * A class containing the information about a the current player.
+ * 
+ * @author Davide Merli
+ *
+ */
 public class CurrentPlayerInfo extends PlayerInfo {
     
     private ObservableElement<List<String>> hand = new ObservableElement<>();

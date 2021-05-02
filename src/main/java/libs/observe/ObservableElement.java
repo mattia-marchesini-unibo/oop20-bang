@@ -3,6 +3,13 @@ package libs.observe;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class implementing an element that can be observed by an Observer.
+ * 
+ * @author Mattia Marchesini
+ *
+ * @param <E> the type of the observable element
+ */
 public class ObservableElement<E> implements Observable {
 
     private E element = null;

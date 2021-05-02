@@ -6,7 +6,7 @@ import java.util.Set;
 
 import libs.CircularList;
 import model.card.Card;
-import model.deck.IDeck;
+import model.deck.Deck;
 
 public interface Table {
 
@@ -19,7 +19,7 @@ public interface Table {
      * 
      * @return deck
      */
-    IDeck getDeck();
+    Deck getDeck();
 
     /**
      * Returns a list containing all discarded cards.
@@ -76,31 +76,51 @@ public interface Table {
     TurnObservable<Player> getChoosePlayerObservable();
 
     /**
-     * Returns a turnObservable containing 
+     * Returns a turnObservable containing a card and the player who chose it.
      * 
      * @return
      */
     TurnObservable<Map<Card, Player>> getChooseCardsObservable();
 
-    void choosePlayer(Set<Player> chosenPlayerList);
+    /**
+     * Adds a card to the list of used cards in current turn.
+     * 
+     * @param cardName
+     */
+    void playerUsedCard(final String cardName);
 
-    void chooseCards(List<Card> cardsToChoose, List<Player> choosers, int howManyPerPlayer);
-
-    void playerUsedCard(String cardName);
-
+    /**
+     * Returns the list of cards played in the current turn.
+     * 
+     * @return
+     */
     List<String> getPlayerUsedCards();
 
+    /**
+     * Returns a message.
+     * 
+     * @return message
+     */
     Message getMessage();
 
+    /**
+     * Sets a message.
+     * 
+     * @param message
+     */
     void setMessage(Message message);
 
-    int getHowMany();
-
-    List<Card> getCardsToChoose();
-
-    List<Player> getChoosers();
-
-    int getHowManyPerPlayer();
-
+    /**
+     * Returns a set of possible targets.
+     * 
+     * @return
+     */
     Set<Player> getChosenPlayerList();
+    
+    /**
+     * Sets the possible targets of an action.
+     * 
+     * @param chosenPlayerList
+     */
+    void choosePlayer(final Set<Player> chosenPlayerList);
 }

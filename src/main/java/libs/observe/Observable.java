@@ -1,5 +1,11 @@
 package libs.observe;
 
+/**
+ * An interface implementing an element that can be observed by an Observer.
+ * 
+ * @author Mattia Marchesini
+ *
+ */
 public interface Observable {
     
     /**

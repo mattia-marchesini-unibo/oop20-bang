@@ -4,6 +4,12 @@ import java.util.List;
 
 import libs.observe.ObservableElement;
 
+/**
+ * An interface implementing a factory of views.
+ * 
+ * @author Davide Merli
+ *
+ */
 public interface ViewFactory {
     
     /**
