@@ -42,18 +42,12 @@ public class GameController {
             Table table = this.gsMachine.getTable();
             List<String> l = table.getChosenPlayerList().stream().map(p -> p.getName()).collect(Collectors.toList());
             this.gameObs.getTargets().set(l);
-        }), entry("playedCard", () -> {
-            drawTable();
-        }), entry("startTurn", () -> {
-            drawTable();
-        }), entry("endTurn", () -> {
+        }), entry("drawTable", () -> {
             drawTable();
         }), entry("discardCard", () -> {
             Player current = gsMachine.getTable().getCurrentPlayer();
             Card card = current.getCardsByName(gameObs.getChosenCard()).get(0);
             current.removeCard(card);
-            drawTable();
-        }), entry("checkDead", () -> {
             drawTable();
         }), entry("end", () -> {
             this.winners.addAll(
@@ -85,7 +79,6 @@ public class GameController {
             Player plr = allPlayers.stream().filter(p -> p.getName().equals(this.gameObs.getChosenPlayer().get())).findFirst().get();
             gsMachine.getTable().getChoosePlayerObservable().set(plr);
         });
-        // drawTable();
     }
 
     public void setup(ViewFactory factory) {
@@ -96,8 +89,6 @@ public class GameController {
         view.show();
         this.gsMachine.go();
     }
-
-    
 
     private List<Player> getOthers() {
         Table table = this.gsMachine.getTable();
