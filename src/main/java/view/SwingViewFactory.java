@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 
@@ -282,7 +281,7 @@ public class SwingViewFactory implements ViewFactory {
             private void getSound(String c) {
                 try {
                     // Open an audio input stream.
-                    InputStream str= ClassLoader.getSystemResourceAsStream("sound/" + c + ".wav");
+                    InputStream str = ClassLoader.getSystemResourceAsStream("sound/" + c + ".wav");
                     AudioInputStream audioIn = AudioSystem.getAudioInputStream(str);
                     // Get a sound clip resource.
                     Clip clip = AudioSystem.getClip();
