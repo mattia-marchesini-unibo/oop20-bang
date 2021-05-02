@@ -56,7 +56,7 @@ public class CircularList<X> extends ArrayList<X> {
      * @return the new current element
      */
     public X getNext() {
-        if(this.currentIndex == this.size() - 1) {
+        if(this.currentIndex >= this.size() - 1) {
             currentIndex = 0;
         } else {
             currentIndex++;
@@ -72,7 +72,7 @@ public class CircularList<X> extends ArrayList<X> {
      */
     public X getNextOf(final X element) {
         int index;
-        if(indexOf((X) element) == this.size() - 1) {
+        if(indexOf((X) element) >= this.size() - 1) {
             index = 0;
         } else {
             index = indexOf(element) + 1;
@@ -86,7 +86,7 @@ public class CircularList<X> extends ArrayList<X> {
      * @return the new current element
      */
     public X getPrev() {
-        if(this.currentIndex == 0) {
+        if(this.currentIndex <= 0) {
             currentIndex = this.size() - 1;
         } else {
             currentIndex--;
@@ -102,7 +102,7 @@ public class CircularList<X> extends ArrayList<X> {
      */
     public X getPrevOf(final X element) {
         int index;
-        if(indexOf((X) element) == 0) {
+        if(indexOf((X) element) <= 0) {
             index = this.size() - 1;
         } else {
             index = indexOf(element) - 1;

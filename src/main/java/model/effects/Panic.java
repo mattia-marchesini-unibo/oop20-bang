@@ -3,6 +3,7 @@ package model.effects;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import model.Player;
@@ -17,16 +18,14 @@ public class Panic implements Effect {
         TurnObservable<Player> opponentOb = table.getChoosePlayerObservable();
         Player current = table.getCurrentPlayer();
 
-        TurnObservable<Map<Card, Player>> cardOb = table.getChooseCardsObservable();
-
         opponentOb.addObserver(() -> {
             Player opponent = opponentOb.get();
-            cardOb.addObserver(() -> {
-                Map<Card, Player> map = cardOb.get();
-                opponent.removeCard(map.keySet().iterator().next());
-            });
-
-            table.chooseCards(opponent.getCards(), Arrays.asList(current), 1);
+            var cardList = opponent.getCards();
+            if(cardList.size() > 0) {
+                Card c = cardList.get(new Random().nextInt(cardList.size()));
+                opponent.removeCard(c);
+                current.addCard(c);
+            }
         });
 
         Set<Player> s = new HashSet<>();
