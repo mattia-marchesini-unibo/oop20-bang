@@ -1,14 +1,11 @@
 package model.states;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
 import libs.Pair;
-
-import java.util.HashMap;
-import java.util.List;
-
 import model.GameStateMachine;
 import model.Player;
 import model.Table;
@@ -58,7 +55,7 @@ public class PlayCardState implements State {
         //if card is blue and is not prison
         if (playedCard.getColor().equals(Color.BLUE) && !playedCard.getRealName().equals("jail")) {
             //if card is not already in blue active cards
-            if (active.stream().filter(c -> c.getEffect().getClass().equals(playedCard.getClass())).findFirst()
+            if (active.stream().filter(c -> c.getEffect().getClass().equals(playedCard.getEffect().getClass())).findFirst()
                 .isEmpty()) {
                 //if there's already a weapon then remove it
                 if (playedCard.getClass().equals(Weapon.class)) {
