@@ -1,0 +1,12 @@
+
+BLUE CARDS STAY IN PLAY ONCE YOU PLAY THEM.
+
+SCOPE: you view other at distance -1.
+MUSTANG: others view you at distance +1.
+HIDEOUT: others view you at distance +1.
+JAIL: discard the JAIL, then skip your turn.
+VOLCANIC: your view becomes 1 and you can play as many BANG! as you want during your turn.
+SHOFIELD: your view becomes 2.
+REMINGTON: your view becomes 3.
+REV. CARABINE: your view becomes 4.
+WINCHESTER: your view becomes 5.

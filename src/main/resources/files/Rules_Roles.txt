@@ -1,9 +1,0 @@
-
-EACH PLAYER HAS A ROLE, WHICH DETERMINES WHAT YOU HAVE TO DO TO WIN.
-
-SHERIFF: kill the outlaws and the renegade.
-DEPUTY: help the sheriff, kill the outlaws and the renegade.
-OUTLAW: kill the sheriff.
-RENEGADE: kill everyone and be the last one standing.
-
-The game ends when either the SHERIFF or the RENEGADE and the OUTLAWS are dead.
