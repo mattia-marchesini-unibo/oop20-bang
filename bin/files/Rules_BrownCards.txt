@@ -1,0 +1,14 @@
+
+BROWN CARDS ARE DISCARDED ONCE THEIR EFFECT HAS BEEN APPLIED.
+
+BANG!: shoot a player in sight. You can only play one BANG! card during your turn.
+MISSED: play this card when someone plays a bang against you, or you'll lose 1 HP.
+DODGE: plays a MISSED, and you draw a card.
+BEER: recover 1 HP. You can't have more than you max HP.
+SALOON: each player recovers 1 HP.
+GATLING: each opponent must play a MISSED card or lose 1 HP.
+INDIANS: each opponent must play a BANG! card or lose 1 HP.
+CAT BALOU: discard a random card from an opponent.
+PANIC: draw a card from an opponent at distance 1.
+STAGECOACH: draw 2 cards.
+WELLS FARGO: draw 3 cards.
