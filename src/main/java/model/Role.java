@@ -1,7 +1,7 @@
 package model;
 
 /**
- * An enum difning the role of a player.
+ * An enum defining the role of a player.
  * 
  * @author Davide Merli
  *
